@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>USDC Migration Tracker</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: operations console. Summary strip, one dense per-chain ledger, action list, gap register. Two-series palette: amber = USDC.n (legacy), Circle blue = USDC.inj (target). */
+:root {
+  --bg: #f6f7f9; --surface: #ffffff; --surface-2: #eef1f5; --line: #d9dee6; --line-strong: #b9c2cf;
+  --fg: #16202c; --fg-2: #4a5768; --fg-3: #7b8696;
+  --n: #c27a2c; --n-soft: #f4e7d6; --inj: #2775ca; --inj-soft: #dbe8f8;
+  --good: #1f7a4d; --good-soft: #dcefe4; --warn: #9a6700; --warn-soft: #fbefc8; --bad: #b4232c; --bad-soft: #f8dcde;
+  --focus: #2775ca;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f1419; --surface: #171d25; --surface-2: #1f2730; --line: #2b3542; --line-strong: #3c4857;
+  --fg: #e7ecf2; --fg-2: #a9b4c2; --fg-3: #7c8794;
+  --n: #be8840; --n-soft: #3a2d18; --inj: #4e8fdc; --inj-soft: #16304d;
+  --good: #4fbf85; --good-soft: #163626; --warn: #e0b23d; --warn-soft: #3a2f10; --bad: #ef6b73; --bad-soft: #43181c;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0f1419; --surface: #171d25; --surface-2: #1f2730; --line: #2b3542; --line-strong: #3c4857;
+  --fg: #e7ecf2; --fg-2: #a9b4c2; --fg-3: #7c8794;
+  --n: #be8840; --n-soft: #3a2d18; --inj: #4e8fdc; --inj-soft: #16304d;
+  --good: #4fbf85; --good-soft: #163626; --warn: #e0b23d; --warn-soft: #3a2f10; --bad: #ef6b73; --bad-soft: #43181c;
+  color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 14px; line-height: 1.45; margin: 0; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-block: 20px 56px; padding-inline: 16px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; font-weight: 600; letter-spacing: -0.01em; }
+h1 { font-size: 22px; }
+h2 { font-size: 15px; }
+a { color: var(--inj); }
+button { font: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--fg-2); }
+.faint { color: var(--fg-3); }
+.eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--fg-3); font-weight: 500; }
+
+/* header */
+.top { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-end; justify-content: space-between; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.top p { margin: 4px 0 0; color: var(--fg-2); max-width: 70ch; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: 6px; overflow: hidden; }
+.seg button { background: var(--surface); color: var(--fg-2); border: 0; padding: 6px 12px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--line-strong); }
+.seg button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+.btn { background: var(--surface); color: var(--fg); border: 1px solid var(--line-strong); border-radius: 6px; padding: 6px 12px; cursor: pointer; }
+.btn:disabled { opacity: 0.55; cursor: progress; }
+.status { font-size: 12px; color: var(--fg-2); min-width: 14ch; }
+.bar { height: 3px; background: var(--surface-2); border-radius: 2px; overflow: hidden; margin-top: 10px; }
+.bar i { display: block; height: 100%; width: 0; background: var(--inj); transition: width .3s; }
+
+/* kpis */
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-top: 18px; }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; display: grid; gap: 4px; align-content: start; }
+.kpi .v { font-size: 24px; font-weight: 500; line-height: 1.1; }
+.kpi .d { font-size: 12px; }
+.kpi .s { font-size: 12px; color: var(--fg-3); }
+.d.down { color: var(--good); } .d.up { color: var(--bad); } .d.flat { color: var(--fg-3); }
+.d.up.want { color: var(--good); } .d.down.want { color: var(--bad); }
+.kpi.n { border-top: 3px solid var(--n); } .kpi.inj { border-top: 3px solid var(--inj); }
+.twocol { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; margin-top: 12px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; min-width: 0; }
+.panel h2 { font-size: 14px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.panel h2 .faint { font-size: 11.5px; font-weight: 400; }
+.stack { display: flex; height: 14px; border-radius: 4px; overflow: hidden; margin: 10px 0 8px; background: var(--surface-2); gap: 2px; }
+.stack i { display: block; height: 100%; min-width: 2px; }
+.rows { display: grid; grid-template-columns: 12px 1fr auto auto; gap: 4px 10px; font-size: 12.5px; align-items: center; }
+.rows .sw { width: 10px; height: 10px; border-radius: 2px; }
+.rows .r { text-align: right; }
+.rows .pct { color: var(--fg-3); min-width: 5ch; text-align: right; }
+.pool-share { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; margin-top: 8px; font-size: 12px; }
+.sub-note { font-size: 12px; color: var(--fg-3); margin-top: 8px; }
+
+/* sections */
+section { margin-top: 26px; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 10px; }
+.sec-head p { margin: 0; color: var(--fg-2); font-size: 13px; }
+.legend { display: flex; gap: 14px; font-size: 12px; color: var(--fg-2); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: -1px; margin-right: 5px; }
+
+/* ledger table */
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 900px; }
+th, td { padding: 8px 10px; text-align: left; vertical-align: middle; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--fg-3); font-weight: 500; background: var(--surface-2); position: sticky; top: 0; }
+th.r, td.r { text-align: right; }
+tbody tr.row { cursor: pointer; }
+tbody tr.row:hover { background: var(--surface-2); }
+tbody tr.row[aria-expanded="true"] { background: var(--surface-2); }
+tr.detail td { white-space: normal; background: var(--surface-2); border-bottom: 1px solid var(--line-strong); padding: 10px 14px 14px; }
+td .sub { display: block; font-size: 11px; color: var(--fg-3); }
+.share { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; min-width: 150px; }
+.share .track { height: 8px; background: var(--n-soft); border-radius: 4px; overflow: hidden; display: flex; }
+.share .track b { display: block; height: 100%; background: var(--inj); border-radius: 4px 0 0 4px; }
+.share .track b.full { border-radius: 4px; }
+.share .pct { font-size: 12px; min-width: 4ch; text-align: right; }
+.pill { display: inline-flex; align-items: center; gap: 5px; border-radius: 999px; padding: 2px 8px; font-size: 11.5px; font-weight: 500; white-space: nowrap; }
+.pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.pill.good { background: var(--good-soft); color: var(--good); }
+.pill.warn { background: var(--warn-soft); color: var(--warn); }
+.pill.bad { background: var(--bad-soft); color: var(--bad); }
+.pill.gray { background: var(--surface-2); color: var(--fg-2); border: 1px solid var(--line); }
+.chev { display: inline-block; width: 1em; color: var(--fg-3); transition: transform .15s; }
+tr[aria-expanded="true"] .chev { transform: rotate(90deg); }
+.flagdot { color: var(--warn); font-weight: 600; margin-left: 4px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* detail */
+.dgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px 24px; }
+.dgrid h4 { margin: 0 0 6px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--fg-3); font-weight: 500; }
+.kv { display: grid; grid-template-columns: 11ch 1fr; gap: 2px 10px; font-size: 12.5px; }
+.kv dt { color: var(--fg-3); }
+.kv dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.kv dd.num { font-size: 12px; }
+.gaps-list { margin: 0; padding-left: 18px; font-size: 12.5px; }
+.gaps-list li { margin: 3px 0; }
+.hist { display: grid; grid-template-columns: auto repeat(5, minmax(8ch, 1fr)); gap: 2px 12px; font-size: 12px; margin-top: 10px; overflow-x: auto; padding-bottom: 2px; }
+.hist span { white-space: nowrap; }
+.hist .h { color: var(--fg-3); }
+.hist .lbl { color: var(--fg-2); }
+
+/* cards */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 12px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; }
+.card h3 { font-size: 14px; display: flex; align-items: center; gap: 8px; justify-content: space-between; }
+.card p { margin: 6px 0 0; font-size: 13px; color: var(--fg-2); }
+.card.bad { border-left: 3px solid var(--bad); }
+.card.warn { border-left: 3px solid var(--warn); }
+.card ul { margin: 6px 0 0; padding-left: 18px; font-size: 12.5px; color: var(--fg-2); }
+.gapreg { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+.gapreg details { border-bottom: 1px solid var(--line); }
+.gapreg details:last-child { border-bottom: 0; }
+.gapreg summary { cursor: pointer; padding: 10px 14px; font-weight: 500; display: flex; justify-content: space-between; gap: 10px; }
+.gapreg summary .faint { font-weight: 400; }
+.gapreg .body { padding: 0 14px 12px; font-size: 13px; color: var(--fg-2); }
+.gapreg ul { margin: 0; padding-left: 18px; }
+.gapreg li { margin: 4px 0; }
+.method { font-size: 13px; color: var(--fg-2); max-width: 78ch; }
+.method p { margin: 8px 0; }
+code { font-family: var(--mono); font-size: 12px; background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
+.sparkwrap { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; }
+svg text { fill: var(--fg-2); font-family: var(--mono); font-size: 11px; }
+.empty { color: var(--fg-3); font-size: 13px; padding: 14px; }
+tr.retired td { background: color-mix(in srgb, var(--bad-soft) 35%, var(--surface)); }
+@media (max-width: 640px) { h1 { font-size: 19px; } .kpi .v { font-size: 20px; } }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Cosmos ecosystem · Noble USDC to Injective USDC</div>
+      <h1>USDC Migration Tracker</h1>
+      <p>Per-chain balances of USDC.n (Noble-issued, winding down January 12, 2027) against USDC.inj (Injective-issued) on every Noble IBC counterparty holding more than 25,000 USDC.n, with Injective connection status and open data gaps.</p>
+    </div>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Change window">
+        <button type="button" data-win="24h" aria-pressed="true">24h</button>
+        <button type="button" data-win="7d" aria-pressed="false">7d</button>
+        <button type="button" data-win="30d" aria-pressed="false">30d</button>
+        <button type="button" data-win="sep1" aria-pressed="false">Since Sept 1</button>
+      </div>
+      <button type="button" class="btn" id="refresh">Refresh</button>
+      <span class="status" id="status">Loading</span>
+    </div>
+  </header>
+  <div class="bar" aria-hidden="true"><i id="prog"></i></div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section class="twocol">
+    <div class="panel" id="where"></div>
+    <div class="panel" id="pool"></div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div><h2>Chains above the 25,000 USDC.n threshold</h2><p id="ledger-sub">Sorted by USDC.n held. Click a row for denoms, channels, escrow history and endpoint notes.</p></div>
+      <div class="legend"><span><i style="background:var(--n)"></i>USDC.n</span><span><i style="background:var(--inj)"></i>USDC.inj</span></div>
+    </div>
+    <div class="tablewrap"><table id="ledger">
+      <thead><tr>
+        <th></th><th>Chain</th>
+        <th class="r">USDC.n on chain</th><th class="r">Share</th><th class="r" data-wl>Δ 24h</th>
+        <th class="r">USDC.inj on chain</th><th class="r" data-wl>Δ 24h</th>
+        <th>Migrated share</th><th>Injective IBC</th><th>Notes</th>
+      </tr></thead>
+      <tbody id="ledger-body"><tr><td colspan="10" class="empty">Querying chain endpoints…</td></tr></tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><div><h2>Action list: chains without a working Injective route</h2><p>Chains above threshold where the chain registry has no Injective transfer channel, or the channel is not OPEN on both ends.</p></div></div>
+    <div class="cards" id="actions"><div class="empty">Waiting for channel checks…</div></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><div><h2>Aggregate trend</h2><p>Noble total USDC escrowed across all IBC channels (all USDC.n outside Noble) and USDC.inj supply on Injective, from archive heights plus the snapshot store.</p></div></div>
+    <div class="sparkwrap" id="trend"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><div><h2>Data gaps</h2><p>Where a number on this page is missing, estimated, or sourced differently from the rest. Every item names the cause.</p></div></div>
+    <div class="gapreg" id="gaps"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><div><h2>Retired chains and all other Noble counterparties</h2><p>Retired chains are listed first: their USDC.n is shown for completeness but excluded from the tracked set, the action list and the recoverable total. The rest are below threshold or not measurable. Noble-side escrow is the fallback measure when a chain's own endpoints do not answer.</p></div></div>
+    <div class="tablewrap"><table id="others">
+      <thead><tr><th>Chain</th><th class="r">USDC.n on chain</th><th class="r">Noble escrow (USDC)</th><th>Injective IBC in registry</th><th>Note</th></tr></thead>
+      <tbody id="others-body"><tr><td colspan="5" class="empty">Loading…</td></tr></tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><div><h2>Method</h2></div></div>
+    <div class="method">
+      <p><strong>Counterparties</strong> come from the Cosmos chain registry <code>_IBC/*noble*.json</code> files (63 at build time), plus XPLA, which routes USDC through the Cosmos Hub rather than a direct Noble channel. <strong>USDC.n on chain</strong> is the bank supply of <code>ibc/sha256("transfer/&lt;channel&gt;/uusdc")</code> on that chain's own REST endpoint, direct one-hop from Noble only. <strong>USDC.inj on chain</strong> is the same for <code>erc20:0xa00C…235a</code> sent from Injective (XPLA: two hops via the Hub).</p>
+      <p><strong>Changes over time</strong> use the IBC escrow accounts: the uusdc balance of Noble's escrow for each counterparty channel equals the USDC.n outstanding through that channel, and Noble's public archive nodes answer height-pinned queries back past September 1. Injective's public nodes keep roughly one week of state, so USDC.inj changes beyond 7 days come from this page's own daily snapshot store. Escrow counts tokens forwarded onward through the counterparty, so it can exceed the on-chain supply; the detail view shows both.</p>
+      <p><strong>Injective IBC status</strong> is OPEN only when the registry lists a transfer channel and both ends report <code>STATE_OPEN</code>. The threshold uses the larger of on-chain supply and Noble escrow, so a chain whose endpoints are down is not silently dropped. Current figures are fetched live in your browser from public endpoints; daily history is committed to <code>data/snapshots.json</code> by a scheduled GitHub Action, so every visitor sees the same series. Built against chain registry commit <code id="regcommit"></code>.</p>
+    </div>
+  </section>
+</div>
+
+<script>
+let CONFIG = {"generated_at":"2026-10-05T17:11:24+00:00","registry_commit":"d122637209f3332f175182f2b28841145768abd2","inj_usdc_base":"erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","hub_channel_to_injective":"channel-220","hub_channel_to_noble":"channel-536","retired":{"kujira":"Shut down. The chain is no longer operating, so USDC.n locked here is not part of the eligible recovery set.","sei":"IBC deprecated. Sei no longer supports IBC transfers, so USDC.n on Sei cannot be routed to Injective and is excluded from the eligible recovery set."},"noble_rest":["https://rest.cosmos.directory/noble","https://noble-api.polkachu.com","https://rest.lavenderfive.com:443/noble","https://noble-rest.owallet.io"],"injective_rest":["https://public.stakewolle.com/cosmos/injective/rest","https://rest.cosmos.directory/injective","https://injective-api.polkachu.com","https://injective-api.highstakes.ch","https://rest.lavenderfive.com:443/injective","https://injective-rest.publicnode.com"],"chains":[{"name":"agoric","pretty":"Agoric","chain_id":"agoric-3","status":"live","rest":["https://rest.cosmos.directory/agoric","https://main.api.agoric.net:443","https://agoric-api.polkachu.com","https://agoric.api.kjnodes.com","https://agoric-mainnet-lcd.autostake.com:443","https://api-agoric-01.stakeflow.io","https://agoric-rest.0base.dev","https://agoric-api.w3coins.io"],"explorer":"https://agoric.explorers.guru","route":"direct","noble_channel":"channel-21","chain_channel_to_noble":"channel-62","usdc_n_denom":"ibc/FE98AAD68F02F03565E9FA39A5E627946699B2B07115889ED812D8BA639576A9","usdc_n_path":"transfer/channel-62/uusdc","noble_escrow":"noble16knm868dfqlvxhpdsv5w6n2an6rgsn3shzldlm","injective_registry_file":"agoric-injective.json","injective_channel":"channel-454","chain_channel_to_injective":"channel-492","usdc_inj_denom":"ibc/A7BE5E1F50DE0393383EC287BDD0FDAA9B546736F7511F8E494ECB05533DAAE8","usdc_inj_path":"transfer/channel-492/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1uezukgfh6adngjk53hg6l7ugvuh9xvcsy3l6w4","gaps":[],"usdc_inj_listed":true},{"name":"amitis","pretty":"Amitis Network","chain_id":"amitis-network","status":"live","rest":["https://rest.cosmos.directory/amitis","https://rest.amitis.network"],"explorer":"https://app.amitis.network/explorer","route":"direct","noble_channel":"channel-635","chain_channel_to_noble":"channel-4","usdc_n_denom":"ibc/BFF0D3805B50D93E2FA5C0B2DDF7E0B30A631076CD80BC12A48C0E95404B4A41","usdc_n_path":"transfer/channel-4/uusdc","noble_escrow":"noble1ntfpgy7f2g0k0uravl2mdwep6z8awz7d6yxg2m","gaps":[],"usdc_inj_listed":false},{"name":"archway","pretty":"Archway","chain_id":"archway-1","status":"live","rest":["https://rest.cosmos.directory/archway","https://api.mainnet.archway.io","https://archway-api.w3coins.io","https://m-archway.api.utsa.tech","https://api-1.archway.nodes.guru","https://archway.api.silknodes.io","https://archway.api.kjnodes.com","https://api-archway.cryptech.com.ua"],"explorer":"https://archway.explorers.guru/","route":"direct","noble_channel":"channel-12","chain_channel_to_noble":"channel-29","usdc_n_denom":"ibc/43897B9739BD63E3A08A88191999C632E052724AB96BD4C74AE31375C991F48D","usdc_n_path":"transfer/channel-29/uusdc","noble_escrow":"noble1004rr9e45qpm2ylvxymphm8sryvxq3a2kcyjgw","gaps":[],"usdc_inj_listed":false},{"name":"aura","pretty":"Aura Network","chain_id":"aura_6322-2","status":"live","rest":["https://rest.cosmos.directory/aura","https://lcd.aura.network","https://m-aura.api.utsa.tech","https://aura.api.m.stavr.tech","https://aura-api.ramuchi.tech","https://aura.api.kjnodes.com","https://mainnet-aura-api.konsortech.xyz","https://rest.lavenderfive.com:443/aura"],"explorer":"https://aurascan.io","route":"direct","noble_channel":"channel-41","chain_channel_to_noble":"channel-9","usdc_n_denom":"ibc/295548A78785A1007F232DE286149A6FF512F180AF5657780FC89C009E2C348F","usdc_n_path":"transfer/channel-9/uusdc","noble_escrow":"noble1mpz8zu684jk24f5dz7jqvtvfhgd4l977aalvkz","gaps":[],"usdc_inj_listed":false},{"name":"babylon","pretty":"Babylon Genesis","chain_id":"bbn-1","status":"live","rest":["https://rest.cosmos.directory/babylon","https://babylon.nodes.guru/api","https://babylon-api.polkachu.com","https://babylon-rest.publicnode.com","https://babylon-mainnet-lcd.autostake.com:443","https://api.babylon.validatus.com"],"explorer":"https://www.mintscan.io/babylon","route":"direct","noble_channel":"channel-132","chain_channel_to_noble":"channel-1","usdc_n_denom":"ibc/65D0BEC6DAD96C7F5043D1E54E54B6BB5D5B3AEC3FF6CEBB75B9E059F3580EA3","usdc_n_path":"transfer/channel-1/uusdc","noble_escrow":"noble17nrp0hwgtjfh8ucs695gxxp7jv0asyu6ucdpf0","gaps":[],"usdc_inj_listed":false},{"name":"beezee","pretty":"BeeZee","chain_id":"beezee-1","status":"live","rest":["https://rest.cosmos.directory/beezee","https://rest.getbze.com","https://rest-1.getbze.com","https://rest-2.getbze.com","https://beezee_mainnet_api.chain.whenmoonwhenlambo.money"],"explorer":"https://ping.pub/beezee","route":"direct","noble_channel":"channel-95","chain_channel_to_noble":"channel-3","usdc_n_denom":"ibc/6490A7EAB61059BFC1CDDEB05917DD70BDF3A611654162A1A47DB930D40D8AF4","usdc_n_path":"transfer/channel-3/uusdc","noble_escrow":"noble1akfrf46rjl52wqrfkm79dyr6vv32fcs6g3y33f","injective_registry_file":"beezee-injective.json","injective_channel":"channel-496","chain_channel_to_injective":"channel-13","usdc_inj_denom":"ibc/81DA528F4C5546208D1D50F84C2D0B388B45D37AA36FCA622A3CB2D8EF014838","usdc_inj_path":"transfer/channel-13/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1h6pl6nckgmtzecr0zpt0d7q550737ays359q22","gaps":[],"usdc_inj_listed":true},{"name":"bitbadges","pretty":"BitBadges","chain_id":"bitbadges-1","status":"live","rest":["https://rest.cosmos.directory/bitbadges","https://lcd.bitbadges.io","https://bitbadges_mainnet_api.chain.whenmoonwhenlambo.money","https://bitbadges-api.polkachu.com"],"explorer":"https://www.mintscan.io/bitbadges","route":"direct","noble_channel":"channel-158","chain_channel_to_noble":"channel-2","usdc_n_denom":"ibc/F082B65C88E4B6D5EF1DB243CDA1D331D002759E938A0F5CD3FFDC5D53B3E349","usdc_n_path":"transfer/channel-2/uusdc","noble_escrow":"noble1e3egq0nnze4gwrnuyh6mgcv4mrq9p5y3q239sy","injective_registry_file":"bitbadges-injective.json","injective_channel":"channel-464","chain_channel_to_injective":"channel-40","usdc_inj_denom":"ibc/E1116484B327AEE59CDC3DA73D319834781A13DB2A7DFC1F38A30CD45ABF58B8","usdc_inj_path":"transfer/channel-40/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1q6x73qusu72zkrdnf4kfgf8dsgekem09kghrtz","gaps":["USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"bitway","pretty":"Bitway","chain_id":"bitway-1","status":"live","rest":["https://rest.cosmos.directory/bitway","https://rest.bitway.com","https://api.bitway.nodestake.org","https://bitway-api.synergynodes.com","https://bitway-rest.publicnode.com","https://bitway.api.kjnodes.com","https://bitway-mainnet-api.itrocket.net","https://bitway.api.m.stavr.tech"],"explorer":"https://explorer.nodestake.org/bitway","route":"direct","noble_channel":"channel-172","chain_channel_to_noble":"channel-13","usdc_n_denom":"ibc/B9E4FD154C92D3A23BEA029906C4C5FF2FE74CB7E3A058290B77197A263CF88B","usdc_n_path":"transfer/channel-13/uusdc","noble_escrow":"noble13ld5zp5060gjzcxhl9n2sj469f2pwj8cx2t4y9","gaps":[],"usdc_inj_listed":false},{"name":"coreum","pretty":"TX","chain_id":"coreum-mainnet-1","status":"live","rest":["https://rest.cosmos.directory/coreum","https://rest-01.mainnet-1.tx.org","https://rest-02.mainnet-1.tx.org","https://archive.rest.mainnet-1.tx.org","https://rest-coreum.ecostake.com","https://coreum.api.silknodes.io","https://coreum-rest.publicnode.com","https://api.m.core.solonation.io"],"explorer":"https://explorer.tx.org/tx","route":"direct","noble_channel":"channel-49","chain_channel_to_noble":"channel-19","usdc_n_denom":"ibc/E1E3674A0E4E1EF9C69646F9AF8D9497173821826074622D831BAB73CCB99A2D","usdc_n_path":"transfer/channel-19/uusdc","noble_escrow":"noble1u929fykjps0qny9enq0rgdsavau7amszl7dj9y","gaps":[],"usdc_inj_listed":false},{"name":"cosmoshub","pretty":"Cosmos Hub","chain_id":"cosmoshub-4","status":"live","rest":["https://rest.cosmos.directory/cosmoshub","https://cosmos.rpc.uquad.org:443","https://rest.cosmoshub-main.ccvalidators.com:443","https://cosmoshub.lava.build:443","https://cosmos-lcd.quickapi.com:443","https://rest.cosmoshub.goldenratiostaking.net","https://rest.lavenderfive.com:443/cosmoshub","https://cosmos-rest.staketab.org"],"explorer":"https://www.mintscan.io/cosmos","route":"direct","noble_channel":"channel-4","chain_channel_to_noble":"channel-536","usdc_n_denom":"ibc/F663521BF1836B00F5F177680F74BFB9A8B5654A694D0D2BC249E03CF2509013","usdc_n_path":"transfer/channel-536/uusdc","noble_escrow":"noble17sael2kcmm8npe2pmkxj3un90xfg60vvuk39mn","injective_registry_file":"cosmoshub-injective.json","injective_channel":"channel-1","chain_channel_to_injective":"channel-220","usdc_inj_denom":"ibc/E107DB3E8AABB49C87CB737A1ABBFDBA9803ECAE05E295D8D7A0B1A7FE83706C","usdc_inj_path":"transfer/channel-220/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68zvjmfv","gaps":[],"usdc_inj_listed":true},{"name":"crescent","pretty":"Crescent","chain_id":"crescent-1","status":"live","rest":["https://rest.cosmos.directory/crescent","https://mainnet.crescent.network:1317","https://api-crescent.pupmos.network","https://crescent-api.polkachu.com","https://crescent.rest.stakin-nodes.com","https://crescent-mainnet-lcd.autostake.com:443","https://api-crescent-01.stakeflow.io","https://crescent-api.w3coins.io"],"explorer":"https://ezstaking.app/crescent","route":"direct","noble_channel":"channel-0","chain_channel_to_noble":"channel-38","usdc_n_denom":"ibc/F47D6F6C38DC1B5B72FFB71CC4D8A12FC4C57A5A79BAFA65286723D56B85197D","usdc_n_path":"transfer/channel-38/uusdc","noble_escrow":"noble1a53udazy8ayufvy0s434pfwjcedzqv3470hdnq","injective_registry_file":"crescent-injective.json","injective_channel":"channel-90","chain_channel_to_injective":"channel-23","usdc_inj_denom":"ibc/E9EC8D5BE32168BBDE3D8E1BC1110A11D08B993A3F76400C0A859EB21FA496E6","usdc_inj_path":"transfer/channel-23/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj18jcus0p7mn27tcyxfwcsa97zz3wpglv06yj7yh","gaps":["USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"doravota","pretty":"Dora Vota","chain_id":"vota-ash","status":"live","rest":["https://rest.cosmos.directory/doravota","https://vota-rest.dorafactory.org","https://m-dora.api.utsa.tech","https://dora-rest.publicnode.com","https://doravota-mainnet-api.itrocket.net","https://m-dora-api.ruangnode.com","https://api.dora.roomit.xyz:443","https://dora-api.polkachu.com"],"explorer":"https://vota-explorer.dorafactory.org","route":"direct","noble_channel":"channel-94","chain_channel_to_noble":"channel-14","usdc_n_denom":"ibc/8AF69BC1E1D72B447738B50C28B382F62F2AF65DE303021E45C0B7C851B4B2E1","usdc_n_path":"transfer/channel-14/uusdc","noble_escrow":"noble1wt4dazr6urxsvxpxvqavajp8khnyudmemeh4va","injective_registry_file":"doravota-injective.json","injective_channel":"channel-182","chain_channel_to_injective":"channel-5","usdc_inj_denom":"ibc/E1F2CA2C6F68108A7232528A2E25126061BAF02B0A1E8956471EC84276C9C5E1","usdc_inj_path":"transfer/channel-5/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj152jwu84jeupz2m3mpw42acd8g0haewg6gv9t9x","gaps":["USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"dungeon","pretty":"Dungeon Chain","chain_id":"dungeon-1","status":"live","rest":["https://rest.cosmos.directory/dungeon","https://api.dungeongames.io","https://api.dungeon.chaintools.tech"],"explorer":"https://explorer.whenmoonwhenlambo.money/dungeon","route":"direct","noble_channel":"channel-150","chain_channel_to_noble":"channel-5307","usdc_n_denom":"ibc/489C406A3029B50486F991E468CB8A7D5F039757327A40B0684C530BFF96C543","usdc_n_path":"transfer/channel-5307/uusdc","noble_escrow":"noble1s2uker5zq8d3ttxk35ze68fa4qn2xn66jpg05l","injective_registry_file":"dungeon-injective.json","injective_channel":"channel-490","chain_channel_to_injective":"channel-5320","usdc_inj_denom":"ibc/873B9E8BAA6E423691F506F6F9AC3151AA390F67D2B655A02EF406175F04FC4F","usdc_inj_path":"transfer/channel-5320/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj12hh59zaykd9s986l2rz33np67p2fv3vvgzrc8v","gaps":[],"usdc_inj_listed":true},{"name":"dydx","pretty":"dYdX Protocol","chain_id":"dydx-mainnet-1","status":"live","rest":["https://rest.cosmos.directory/dydx","https://dydx-rest.kingnodes.com:443","https://rest.lavenderfive.com:443/dydx","https://dydx-mainnet-lcd.autostake.com:443","https://dydx-rest.publicnode.com","https://dydx-lcd.enigma-validator.com","https://dydx-api.noders.services","https://dydx.rpc.uquad.org:443"],"explorer":"https://www.mintscan.io/dydx","route":"direct","noble_channel":"channel-33","chain_channel_to_noble":"channel-0","usdc_n_denom":"ibc/8E27BA2D5493AF5636760E354E46004562C46AB7EC0CC4C1CA14E9E20E2545B5","usdc_n_path":"transfer/channel-0/uusdc","noble_escrow":"noble1ukv0qhw3zszzyjty32cck2j229ekpmr6g806yp","injective_registry_file":"dydx-injective.json","injective_channel":"channel-258","chain_channel_to_injective":"channel-62","usdc_inj_denom":"ibc/BDC8EC8C66D3D784B2DC7E8F7DAE93A49961AE747CEEBBC7DC4BAFF564E40BD3","usdc_inj_path":"transfer/channel-62/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1ggfgtzhwaz5f766v08567cwscvxla05vzk5sqc","gaps":[],"usdc_inj_listed":true},{"name":"dymension","pretty":"Dymension Hub","chain_id":"dymension_1100-1","status":"live","rest":["https://rest.cosmos.directory/dymension","https://dym-m-api.agoranodes.com","https://api.dymension.nodestake.org","http://dymension.mainnet.api.noders.team:42317","https://dymension-mainnet-lcd.autostake.com:443","https://rest.lavenderfive.com:443/dymension","https://dymension-api.kynraze.com","https://m-dymension.api.utsa.tech"],"explorer":"https://www.mintscan.io/dymension","route":"direct","noble_channel":"channel-62","chain_channel_to_noble":"channel-6","usdc_n_denom":"ibc/B3504E092456BA618CC28AC671A71FB08C6CA0FD0BE7C8A5B5A3E2DD933CC9E4","usdc_n_path":"transfer/channel-6/uusdc","noble_escrow":"noble1pzfmutu359puk2sy096c9v76k3sr29vpqxjplk","gaps":[],"usdc_inj_listed":false},{"name":"elys","pretty":"Elys Network","chain_id":"elys-1","status":"killed","rest":["https://rest.cosmos.directory/elys","https://api.elys.network","https://elys-api.polkachu.com","https://elys-rest.publicnode.com","https://elys-mainnet-api.itrocket.net","https://elys-api.stake-town.com:443","https://elys.ibs.team:443/api","https://elys_mainnet_api.chain.whenmoonwhenlambo.money"],"explorer":"https://explorer.nodestake.org/elys","route":"direct","noble_channel":"channel-117","chain_channel_to_noble":"channel-2","usdc_n_denom":"ibc/F082B65C88E4B6D5EF1DB243CDA1D331D002759E938A0F5CD3FFDC5D53B3E349","usdc_n_path":"transfer/channel-2/uusdc","noble_escrow":"noble1pqfg6dxled596k4k9g0vmn76q4p2cuvfvh2ypw","gaps":[],"usdc_inj_listed":false},{"name":"evmos","pretty":"Evmos","chain_id":"evmos_9001-2","status":"killed","rest":["https://rest.cosmos.directory/evmos","https://rest.bd.evmos.org:1317","https://rest.lavenderfive.com:443/evmos","https://evmos-api.polkachu.com","https://api.evmos.silentvalidator.com","https://evmos.rest.stakin-nodes.com","https://rest-evmos.architectnodes.com","https://evmos-api.validatrium.club"],"explorer":"https://ezstaking.app/evmos","route":"direct","noble_channel":"channel-7","chain_channel_to_noble":"channel-64","usdc_n_denom":"ibc/35357FE55D81D88054E135529BB2AEB1BB20D207292775A19BD82D83F27BE9B4","usdc_n_path":"transfer/channel-64/uusdc","noble_escrow":"noble1r726yra3euctv92qqfxh45xztewgp2qju8wj0t","injective_registry_file":"evmos-injective.json","injective_channel":"channel-83","chain_channel_to_injective":"channel-10","usdc_inj_denom":"ibc/24F639F76057134982B7E7CB9AC6A2094AA36D9DF48FDD8673A27694C49B41A5","usdc_inj_path":"transfer/channel-10/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1eywj3pv7cylrwd4cs6phctc049hf0xy763suzn","gaps":["USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"furya","pretty":"furya","chain_id":"furya-1","status":"live","rest":["https://rest.cosmos.directory/furya","https://furya.api.nodeshub.online"],"explorer":"https://explorer.furya.network/furya-1/","route":"direct","noble_channel":"channel-42","chain_channel_to_noble":"channel-4","usdc_n_denom":"ibc/BFF0D3805B50D93E2FA5C0B2DDF7E0B30A631076CD80BC12A48C0E95404B4A41","usdc_n_path":"transfer/channel-4/uusdc","noble_escrow":"noble1uf085y7mpup6hl5cactwgnt5dfuysh5z6f3dy5","gaps":[],"usdc_inj_listed":false},{"name":"gateway","pretty":"Wormhole Gateway","chain_id":"wormchain","status":"live","rest":["https://rest.cosmos.directory/gateway","http://wormchain-mainnet-1-full-rest.tm.p2p.org","https://wormchain-lcd.quickapi.com","https://wormchain-api.polkachu.com"],"explorer":"https://bigdipper.live/wormhole","route":"direct","injective_registry_file":"gateway-injective.json","injective_channel":"channel-183","chain_channel_to_injective":"channel-13","usdc_inj_denom":"ibc/81DA528F4C5546208D1D50F84C2D0B388B45D37AA36FCA622A3CB2D8EF014838","usdc_inj_path":"transfer/channel-13/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1d74yhy3wzghchvda8vm7zljcylv3gkwm5dpg9p","gaps":["Registry IBC file with Noble has no transfer channel entry.","USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"haqq","pretty":"Haqq Network","chain_id":"haqq_11235-1","status":"live","rest":["https://rest.cosmos.directory/haqq","https://rest.cosmos.haqq.network","https://sdk.haqq.sh","https://api.haqq.nodestake.org","https://haqq-rest.publicnode.com","https://rest.lavenderfive.com:443/haqq","https://mainnet-haqq-api.konsortech.xyz","https://api-haqq.sr20de.xyz"],"explorer":"https://ping.pub/haqq","route":"direct","noble_channel":"channel-32","chain_channel_to_noble":"channel-4","usdc_n_denom":"ibc/BFF0D3805B50D93E2FA5C0B2DDF7E0B30A631076CD80BC12A48C0E95404B4A41","usdc_n_path":"transfer/channel-4/uusdc","noble_escrow":"noble1y376tnlmyu23jaxdjj3xdpsf2crxfgpaly3ynx","gaps":[],"usdc_inj_listed":false},{"name":"hyve","pretty":"HyveChain","chain_id":"hyve_7847-1","status":"live","rest":["https://rest.cosmos.directory/hyve","https://api.hyvechain.com"],"explorer":"https://explorer.hyvechain.com","route":"direct","noble_channel":"channel-610","chain_channel_to_noble":"channel-11","usdc_n_denom":"ibc/75F84596DDE9EE93010620701FFED959F3FFA1D0979F6773DE994FFEEA7D32F3","usdc_n_path":"transfer/channel-11/uusdc","noble_escrow":"noble1xt0rxwh3j6ynuz8nsanwq4g0fr2nc8hce0xdax","gaps":[],"usdc_inj_listed":false},{"name":"impacthub","pretty":"Impact Hub","chain_id":"ixo-5","status":"live","rest":["https://rest.cosmos.directory/impacthub","https://proxies.sifchain.finance/api/impacthub-3/rest","https://impacthub.ixo.world/rest","https://ixo.api.m.stavr.tech","https://rest.lavenderfive.com:443/impacthub","https://ixo.ibs.team/api","https://ixo-api.bluestake.net","https://impacthub_mainnet_api.chain.whenmoonwhenlambo.money"],"explorer":"https://staking-explorer.com/explorer/impacthub","route":"direct","noble_channel":"channel-15","chain_channel_to_noble":"channel-26","usdc_n_denom":"ibc/6BBE9BD4246F8E04948D5A4EEE7164B2630263B9EBB5E7DC5F0A46C62A2FF97B","usdc_n_path":"transfer/channel-26/uusdc","noble_escrow":"noble186mpcj53q3hgfnzdu9wkteczs236vdclxm264k","gaps":[],"usdc_inj_listed":false},{"name":"injective","pretty":"Injective","chain_id":"injective-1","status":"live","rest":["https://rest.cosmos.directory/injective","https://injective-api.highstakes.ch","https://injective-api.polkachu.com","https://rest.lavenderfive.com:443/injective","https://injective-rest.publicnode.com","https://public.stakewolle.com/cosmos/injective/rest","https://injective.rpc.uquad.org:443"],"explorer":"https://ezstaking.app/injective","route":"direct","noble_channel":"channel-31","chain_channel_to_noble":"channel-148","usdc_n_denom":"ibc/2CBC2EA121AE42563B08028466F37B600F2D7D4282342DE938283CC3FB2BC00E","usdc_n_path":"transfer/channel-148/uusdc","noble_escrow":"noble1vn26uz7pxhz5aqd4s4q8kuar84ev9emhhgxuc2","gaps":[],"usdc_inj_listed":false},{"name":"int3face","pretty":"Int3face","chain_id":"int3face-1","status":"live","rest":["https://rest.cosmos.directory/int3face","https://api.mainnet.int3face.zone"],"explorer":"https://explorer.int3face.zone","route":"direct","noble_channel":"channel-165","chain_channel_to_noble":"channel-2","usdc_n_denom":"ibc/F082B65C88E4B6D5EF1DB243CDA1D331D002759E938A0F5CD3FFDC5D53B3E349","usdc_n_path":"transfer/channel-2/uusdc","noble_escrow":"noble15tqk34fkuhzyhsfmwftrcuw5hahec8wwcv80k4","gaps":[],"usdc_inj_listed":false},{"name":"joltify","pretty":"Joltify","chain_id":"joltify_1729-1","status":"live","rest":["https://rest.cosmos.directory/joltify","https://lcd.joltify.io","https://joltify_mainnet_api.chain.whenmoonwhenlambo.money"],"explorer":"https://explorer.joltify.io/joltify","route":"direct","noble_channel":"channel-81","chain_channel_to_noble":"channel-1","usdc_n_denom":"ibc/65D0BEC6DAD96C7F5043D1E54E54B6BB5D5B3AEC3FF6CEBB75B9E059F3580EA3","usdc_n_path":"transfer/channel-1/uusdc","noble_escrow":"noble1jw6dhnkvrwh53wpj0a9eh0r5ljnxjereznky8d","gaps":[],"usdc_inj_listed":false},{"name":"juno","pretty":"Juno","chain_id":"juno-1","status":"live","rest":["https://rest.cosmos.directory/juno","https://rest.lavenderfive.com:443/juno","https://juno.api.m.stavr.tech","https://juno-api.polkachu.com","https://juno-api.kleomedes.network","https://juno-api.stakeandrelax.net","https://juno-rest.publicnode.com","https://juno-api.stake-town.com"],"explorer":"https://ezstaking.app/juno","route":"direct","noble_channel":"channel-3","chain_channel_to_noble":"channel-224","usdc_n_denom":"ibc/4A482FA914A4B9B05801ED81C33713899F322B24F76A06F4B8FE872485EA22FF","usdc_n_path":"transfer/channel-224/uusdc","noble_escrow":"noble1krtrt5dvhnw5j46ljgah7q5f9pm3vvaktq572d","gaps":[],"usdc_inj_listed":false},{"name":"kava","pretty":"Kava","chain_id":"kava_2222-10","status":"live","rest":["https://rest.cosmos.directory/kava","https://api.data.kava.io","https://kava-api.polkachu.com","https://kava-mainnet-lcd.autostake.com:443","https://kava-rest.publicnode.com","https://api.kava.nodestake.org","https://kava.api.pocket.network","https://rpc.jjozzietech.com.au:9443/kava/rest"],"explorer":"https://www.mintscan.io/kava","route":"direct","noble_channel":"channel-88","chain_channel_to_noble":"channel-151","usdc_n_denom":"ibc/8198819CC2F25B16991D6391826B6BFA50F03AB6B5688C3399BB6A7BD5CCA53C","usdc_n_path":"transfer/channel-151/uusdc","noble_escrow":"noble188npdeccnax34adzf404csdezl8ulv6ax5vvp8","injective_registry_file":"injective-kava.json","injective_channel":"channel-143","chain_channel_to_injective":"channel-122","usdc_inj_denom":"ibc/794C7D7F3B857713878A3A1927251FA6AC1EEE520424C1F6FAFE9BA26D476138","usdc_inj_path":"transfer/channel-122/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1e7wq2m6tvfvzp09f0yt5g8xvpkv5gmv5yszyty","gaps":["USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"kopi","pretty":"Kopi","chain_id":"luwak-1","status":"live","rest":["https://rest.cosmos.directory/kopi","https://rest.kopi.money","https://api.kopi.chaintools.tech","https://kopi-rest.cosmoscan.com","https://kopi-rest.stakerhouse.com","https://kopi-api.moonbridge.org","https://api-kopid.vinjan.xyz","https://kopi-mainnet-api.bonynode.online"],"explorer":"https://explorer.kopi.money/","route":"direct","noble_channel":"channel-122","chain_channel_to_noble":"channel-9","usdc_n_denom":"ibc/295548A78785A1007F232DE286149A6FF512F180AF5657780FC89C009E2C348F","usdc_n_path":"transfer/channel-9/uusdc","noble_escrow":"noble1yngyqraflvkw78aw3alxnx83ns0wsavgcaz7xs","injective_registry_file":"injective-kopi.json","injective_channel":"channel-376","chain_channel_to_injective":"channel-1","usdc_inj_denom":"ibc/ED4C195406CEFBAC6CF3AA64BBF84292910D27B51C78D81374101F9424BC1EC1","usdc_inj_path":"transfer/channel-1/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1ma7urmk3mnu4xky9zhvua97xt3s6lyakz3v8sc","gaps":["USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"kujira","pretty":"Kujira","chain_id":"kaiyo-1","status":"live","rest":["https://rest.cosmos.directory/kujira","https://lcd.kaiyo.kujira.setten.io","https://rest.lavenderfive.com:443/kujira","https://kujira-lcd.wildsage.io","https://kujira.ibs.team:443/api","https://api-kujira.starsquid.io","https://kujira.api.kjnodes.com","https://kuji-api.kleomedes.network"],"explorer":"https://finder.kujira.app","route":"direct","noble_channel":"channel-2","chain_channel_to_noble":"channel-62","usdc_n_denom":"ibc/FE98AAD68F02F03565E9FA39A5E627946699B2B07115889ED812D8BA639576A9","usdc_n_path":"transfer/channel-62/uusdc","noble_escrow":"noble12k2pyuylm9t7ugdvz67h9pg4gmmvhn5vh9s6f6","injective_registry_file":"injective-kujira.json","injective_channel":"channel-98","chain_channel_to_injective":"channel-54","usdc_inj_denom":"ibc/E65CA78C47C74BDE20C47B051A8725EAFBB680ADE4FDC1D2856782FFA2627BFA","usdc_inj_path":"transfer/channel-54/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1gjgxy0wzpw4k2dp6pkwzrh4jxndn5hvnr8x6m3","gaps":["USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"lava","pretty":"Lava","chain_id":"lava-mainnet-1","status":"live","rest":["https://rest.cosmos.directory/lava","https://lava-api.finteh.org:443","https://lava.rest.lava.build","https://lava-api.w3coins.io:443","https://lava-api.ibs.team:443","https://api.lava-mainnet-1.lava.aviaone.com","https://api-lava.r93axnodes.cloud:443","https://lava-rest.publicnode.com"],"explorer":"https://explorer.finteh.org/lava","route":"direct","noble_channel":"channel-105","chain_channel_to_noble":"channel-9","usdc_n_denom":"ibc/295548A78785A1007F232DE286149A6FF512F180AF5657780FC89C009E2C348F","usdc_n_path":"transfer/channel-9/uusdc","noble_escrow":"noble1cxufxa3gryv5mqn306m9ycaj3jg7g9s9s8jjts","gaps":[],"usdc_inj_listed":false},{"name":"mantrachain","pretty":"MANTRA","chain_id":"mantra-1","status":"live","rest":["https://rest.cosmos.directory/mantrachain","https://api.mantrachain.io","https://mantra-mainnet-api.itrocket.net","https://mantra.api.m.stavr.tech","https://mantra-api.polkachu.com"],"explorer":"https://www.mintscan.io/mantra","route":"direct","noble_channel":"channel-101","chain_channel_to_noble":"channel-1","usdc_n_denom":"ibc/65D0BEC6DAD96C7F5043D1E54E54B6BB5D5B3AEC3FF6CEBB75B9E059F3580EA3","usdc_n_path":"transfer/channel-1/uusdc","noble_escrow":"noble1j3mmq2dsfws0pv5fut3ce2252w0ere8g8r9amg","injective_registry_file":"injective-mantrachain.json","injective_channel":"channel-363","chain_channel_to_injective":"channel-2","usdc_inj_denom":"ibc/1E180C085A3A2688CDF2A781E5990BE8AA92CE69CB62A8CC6BB9F5EE17DD5C38","usdc_inj_path":"transfer/channel-2/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1w77tga8kumdwh4xwne3gnmll2spuhcpv52verg","gaps":["USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"migaloo","pretty":"Migaloo","chain_id":"migaloo-1","status":"live","rest":["https://rest.cosmos.directory/migaloo","https://migaloo-api.polkachu.com:443","https://migaloo-api.kleomedes.network:443","https://migaloo-rest.publicnode.com"],"explorer":"https://migaloo.explorers.guru","route":"direct","noble_channel":"channel-14","chain_channel_to_noble":"channel-60","usdc_n_denom":"ibc/BC5C0BAFD19A5E4133FDA0F3E04AE1FBEE75A4A226554B2CBB021089FF2E1F8A","usdc_n_path":"transfer/channel-60/uusdc","noble_escrow":"noble13wcjkgl60r8fv5s9r6yq8m33vshnkndk8s260c","injective_registry_file":"injective-migaloo.json","injective_channel":"channel-102","chain_channel_to_injective":"channel-3","usdc_inj_denom":"ibc/E105AF59352E7E4D0DA821053AE56AF4E153F6074A3A636D40C2F2B5C0C6EA34","usdc_inj_path":"transfer/channel-3/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1xawrc0jf0qt249dlx4n3ckdgc942qzenzy68fs","gaps":["USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"namada","pretty":"namada","rest":[],"route":"direct","noble_channel":"channel-136","chain_channel_to_noble":"channel-5","usdc_n_denom":"ibc/BFAAB7870A9AAABF64A7366DAAA0B8E5065EAA1FCE762F45677DC24BE796EF65","usdc_n_path":"transfer/channel-5/uusdc","noble_escrow":"noble15srw5yjv53fp42aghxt50k78lfndccu80hdhv2","gaps":["No chain.json in the chain registry (not a Cosmos SDK REST chain); balances cannot be queried this way."],"usdc_inj_listed":false},{"name":"neutron","pretty":"Neutron","chain_id":"neutron-1","status":"live","rest":["https://rest.cosmos.directory/neutron","https://rest.neutron.solva.solutions:443","https://rest-archive.neutron.solva.solutions:443","https://rest-lb.neutron.org","https://rest-solara.neutron-1.neutron.org","https://rest-vertexa.neutron-1.neutron.org","https://rest-voidara.neutron-1.neutron.org","https://rest-pulsarix.neutron-1.neutron.org"],"explorer":"https://www.mintscan.io/neutron","route":"direct","noble_channel":"channel-18","chain_channel_to_noble":"channel-30","usdc_n_denom":"ibc/B559A80D62249C8AA07A380E2A2BEA6E5CA9A6F079C912C3A9E9B494105E4F81","usdc_n_path":"transfer/channel-30/uusdc","noble_escrow":"noble1gw2v3j8jxpmnq73rmu3vjz5egle5eep4xvvjtu","injective_registry_file":"injective-neutron.json","injective_channel":"channel-177","chain_channel_to_injective":"channel-60","usdc_inj_denom":"ibc/02BCFF6F786C7CBCDFE1AAFD8CFAC70D2AA9D57CF63AC0915048B666C650D8C5","usdc_inj_path":"transfer/channel-60/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj16y09wstcfajvnspua3xtpmxjg7cfj6avxqxfk0","gaps":[],"usdc_inj_listed":true},{"name":"nibiru","pretty":"Nibiru","chain_id":"cataclysm-1","status":"live","rest":["https://rest.cosmos.directory/nibiru","https://lcd.nibiru.fi","https://nibiru.api.kjnodes.com","https://api.nibiru.nodestake.org","https://api.nibiru.silentvalidator.com","https://rest.lavenderfive.com:443/nibiru","https://nibiru.api.liveraven.net","https://nibiru-api.cogwheel.zone"],"explorer":"https://nibiru.explorers.guru/","route":"direct","noble_channel":"channel-67","chain_channel_to_noble":"channel-2","usdc_n_denom":"ibc/F082B65C88E4B6D5EF1DB243CDA1D331D002759E938A0F5CD3FFDC5D53B3E349","usdc_n_path":"transfer/channel-2/uusdc","noble_escrow":"noble1yy0yvsehqw8f3ue9flnn2m40qx3y7efd58xdcq","gaps":[],"usdc_inj_listed":false},{"name":"omniflixhub","pretty":"OmniFlix","chain_id":"omniflixhub-1","status":"killed","rest":["https://rest.cosmos.directory/omniflixhub","https://api.omniflix.nodestake.org","https://rest.lavenderfive.com:443/omniflixhub","https://api.omniflix.silentvalidator.com","https://omniflix-rest.kingnodes.com","https://omniflixhub-mainnet-lcd.autostake.com:443","https://rest-omniflix.architectnodes.com","https://omniflix-rest.staketab.org"],"explorer":"https://www.mintscan.io/omniflix","route":"direct","noble_channel":"channel-44","chain_channel_to_noble":"channel-38","usdc_n_denom":"ibc/F47D6F6C38DC1B5B72FFB71CC4D8A12FC4C57A5A79BAFA65286723D56B85197D","usdc_n_path":"transfer/channel-38/uusdc","noble_escrow":"noble1hcea3h0ykw4jqyjhj3tnydsk22s06adhadpw4a","gaps":[],"usdc_inj_listed":false},{"name":"onex","pretty":"ONEX","chain_id":"onex-mainnet-1","status":"killed","rest":["https://rest.cosmos.directory/onex","https://rest.mainnet.onex.onomy.io"],"explorer":"https://dexplorer.cakralabs.site","route":"direct","noble_channel":"channel-78","chain_channel_to_noble":"channel-5","usdc_n_denom":"ibc/BFAAB7870A9AAABF64A7366DAAA0B8E5065EAA1FCE762F45677DC24BE796EF65","usdc_n_path":"transfer/channel-5/uusdc","noble_escrow":"noble1jghnsdy7cfe3ulpm3fs6elsf9sp0dp5vfw469g","gaps":[],"usdc_inj_listed":false},{"name":"oraichain","pretty":"Oraichain","chain_id":"Oraichain","status":"live","rest":["https://rest.cosmos.directory/oraichain","http://lcd.orai.io","https://oraichain-mainnet-lcd.autostake.com:443","https://api-oraichain.mms.team","https://api-orai.blockval.io","https://mainnet-orai-api.konsortech.xyz","https://orai.api.m.stavr.tech","https://oraichain-rest.publicnode.com"],"explorer":"https://scan.orai.io","route":"direct","injective_registry_file":"injective-oraichain.json","injective_channel":"channel-147","chain_channel_to_injective":"channel-146","usdc_inj_denom":"ibc/AFED983A7621EAEC39102A0E974FAB16E97FA6200420B611C13E7B94339F9B0C","usdc_inj_path":"transfer/channel-146/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1r0l0augkcfj7lzmxen08jcp7y0nem7c5f8nd37","gaps":["Registry IBC file with Noble has no transfer channel entry.","USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"osmosis","pretty":"Osmosis","chain_id":"osmosis-1","status":"live","rest":["https://rest.cosmos.directory/osmosis","https://lcd.osmosis.zone","https://rest.osmosis.goldenratiostaking.net","https://rest.lavenderfive.com:443/osmosis","https://rest-osmosis.ecostake.com","https://osmosis-api.polkachu.com","https://osmosis.rest.stakin-nodes.com","https://osmosis-rest.publicnode.com"],"explorer":"https://ezstaking.app/osmosis","route":"direct","noble_channel":"channel-1","chain_channel_to_noble":"channel-750","usdc_n_denom":"ibc/498A0751C798A0D9A389AA3691123DADA57DAA4FE165D5C75894505B876BA6E4","usdc_n_path":"transfer/channel-750/uusdc","noble_escrow":"noble1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68qxshr6","injective_registry_file":"injective-osmosis.json","injective_channel":"channel-8","chain_channel_to_injective":"channel-122","usdc_inj_denom":"ibc/794C7D7F3B857713878A3A1927251FA6AC1EEE520424C1F6FAFE9BA26D476138","usdc_inj_path":"transfer/channel-122/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj187dz9zlxc3zrltzx5756tu7zew6yu3v0tc4a3w","gaps":[],"usdc_inj_listed":true},{"name":"paxi","pretty":"Paxi","chain_id":"paxi-mainnet","status":"live","rest":["https://rest.cosmos.directory/paxi","https://mainnet-lcd.paxinet.io","https://api.paxi.indonode.net"],"explorer":"https://explorer.paxinet.io","route":"direct","noble_channel":"channel-205","chain_channel_to_noble":"channel-2","usdc_n_denom":"ibc/F082B65C88E4B6D5EF1DB243CDA1D331D002759E938A0F5CD3FFDC5D53B3E349","usdc_n_path":"transfer/channel-2/uusdc","noble_escrow":"noble1ngq9k9n468xsffyl7fgpz9yd7gvhad0et7hakn","gaps":[],"usdc_inj_listed":false},{"name":"persistence","pretty":"Persistence","chain_id":"core-1","status":"live","rest":["https://rest.cosmos.directory/persistence","https://rest.core.persistence.one","https://persistence.api.m.stavr.tech","https://persistence-api.polkachu.com","https://persistence-api.kleomedes.network","https://rest-persistence.architectnodes.com","https://persistence-mainnet-lcd.autostake.com:443","https://persistence-mainnet-rest.cosmonautstakes.com"],"explorer":"https://www.mintscan.io/persistence","route":"direct","noble_channel":"channel-36","chain_channel_to_noble":"channel-132","usdc_n_denom":"ibc/B3792E4A62DF4A934EF2DF5968556DB56F5776ED25BDE11188A4F58A7DD406F0","usdc_n_path":"transfer/channel-132/uusdc","noble_escrow":"noble1nf0nykcz465c97n6pdnsnsm0uu40nyzq2cm4m6","injective_registry_file":"injective-persistence.json","injective_channel":"channel-82","chain_channel_to_injective":"channel-41","usdc_inj_denom":"ibc/340550CCD5D4CE68C4CD8EF9575E6478271F5F14077697F3662F8D6AC794D732","usdc_inj_path":"transfer/channel-41/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1x5y6jtaprx53w68gc5cqg8ttekn4xupxekxrua","gaps":["USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"planq","pretty":"Planq","chain_id":"planq_7070-2","status":"live","rest":["https://rest.cosmos.directory/planq","https://rest.planq.network","https://planq.api.m.stavr.tech","https://api.planq.nodestake.org","https://planq-api.kynraze.com","https://api.planq.indonode.net","https://api.planq.roomit.xyz","https://planq.api.skynodejs.net"],"explorer":"https://explorer.planq.network","route":"direct","noble_channel":"channel-82","chain_channel_to_noble":"channel-63","usdc_n_denom":"ibc/3A885CF4256997A923DBE557E916E63651FE080F9E030BC2E622968E2EE81598","usdc_n_path":"transfer/channel-63/uusdc","noble_escrow":"noble1x5y6jtaprx53w68gc5cqg8ttekn4xupxmuy0kt","gaps":[],"usdc_inj_listed":false},{"name":"provenance","pretty":"Provenance","chain_id":"pio-mainnet-1","status":"live","rest":["https://rest.cosmos.directory/provenance","https://api-provenance.takeshi.team","https://provenance-mainnet-lcd.autostake.com:443","https://api.provenance.io","https://provenance.api.m.stavr.tech","https://provenance.ibs.team:443/api","https://provenance-api.highstakes.ch","https://provenance-api.panthea.eu"],"explorer":"https://explorer.provenance.io","route":"direct","noble_channel":"channel-20","chain_channel_to_noble":"channel-10","usdc_n_denom":"ibc/616E26A85AD20A3DDEAEBDDE7262E3BA9356C557BC15CACEA86768D7D51FA703","usdc_n_path":"transfer/channel-10/uusdc","noble_escrow":"noble1cyuncdl3tjth4ycsvat0xrpsmjvhvfwxkdste9","gaps":[],"usdc_inj_listed":false},{"name":"pryzm","pretty":"Pryzm","chain_id":"pryzm-1","status":"killed","rest":["https://rest.cosmos.directory/pryzm","https://api.pryzm.zone","https://rest.lavenderfive.com:443/pryzm","https://pryzm-mainnet-lcd.autostake.com:443","https://pryzm-api.chainroot.io"],"explorer":"https://chainsco.pe/pryzm","route":"direct","noble_channel":"channel-79","chain_channel_to_noble":"channel-5","usdc_n_denom":"ibc/BFAAB7870A9AAABF64A7366DAAA0B8E5065EAA1FCE762F45677DC24BE796EF65","usdc_n_path":"transfer/channel-5/uusdc","noble_escrow":"noble1tyynuguwmuc560cughc9965elwzpfmv2xs487e","injective_registry_file":"injective-pryzm.json","injective_channel":"channel-284","chain_channel_to_injective":"channel-1","usdc_inj_denom":"ibc/ED4C195406CEFBAC6CF3AA64BBF84292910D27B51C78D81374101F9424BC1EC1","usdc_inj_path":"transfer/channel-1/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1asefsw99mfepata74zm6t0dfuaqevql2jec4wt","gaps":["USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"regen","pretty":"Regen","chain_id":"regen-1","status":"live","rest":["https://rest.cosmos.directory/regen","http://public-rpc.regen.vitwit.com:1317","https://regen.stakesystems.io","https://regen.api.m.stavr.tech","https://regen-mainnet-lcd.autostake.com:443","https://rest-regen.ecostake.com","https://regen-lcd.easy2stake.com","https://regen-api.theamsolutions.info"],"explorer":"https://ezstaking.app/regen","route":"direct","noble_channel":"channel-83","chain_channel_to_noble":"channel-165","usdc_n_denom":"ibc/8D95B9CD9E644EAC43E5E9E9338ED88FE232C0EEE74AB0D01CE87F1D677FEDA5","usdc_n_path":"transfer/channel-165/uusdc","noble_escrow":"noble1eywj3pv7cylrwd4cs6phctc049hf0xy7cmjsg9","gaps":[],"usdc_inj_listed":false},{"name":"ritbit","pretty":"Rubin","chain_id":"ritbit-mainnet","status":"live","rest":["https://rest.cosmos.directory/ritbit","https://rest.mainnet.rubin.trade"],"explorer":"https://explorer.rubin.trade/ritbit-mainnet","route":"direct","noble_channel":"channel-607","chain_channel_to_noble":"channel-0","usdc_n_denom":"ibc/8E27BA2D5493AF5636760E354E46004562C46AB7EC0CC4C1CA14E9E20E2545B5","usdc_n_path":"transfer/channel-0/uusdc","noble_escrow":"noble1a6zgrwnq720pd5mwh8qprrprxa688kvuqtp0t4","gaps":[],"usdc_inj_listed":false},{"name":"routerchain","pretty":"Router Protocol","chain_id":"router_9600-1","status":"killed","rest":["https://rest.cosmos.directory/routerchain","https://sentry.lcd.routerprotocol.com","https://router-mainnet-lcd.autostake.com:443","https://routerchain_mainnet_api.chain.whenmoonwhenlambo.money","https://api.router.nodestake.org"],"explorer":"https://routerscan.io/","route":"direct","noble_channel":"channel-119","chain_channel_to_noble":"channel-13","usdc_n_denom":"ibc/B9E4FD154C92D3A23BEA029906C4C5FF2FE74CB7E3A058290B77197A263CF88B","usdc_n_path":"transfer/channel-13/uusdc","noble_escrow":"noble17q5av7jldcecm5ta73k8nympx6gru3zh8433x2","gaps":[],"usdc_inj_listed":false},{"name":"safrochain","pretty":"Safrochain","chain_id":"safrochain-1","status":"live","rest":["https://rest.cosmos.directory/safrochain","https://api.safrochain.network","https://api1.safrochain.network","https://api2.safrochain.network"],"explorer":"https://explorer.safrochain.com/","route":"direct","noble_channel":"channel-581","chain_channel_to_noble":"channel-0","usdc_n_denom":"ibc/8E27BA2D5493AF5636760E354E46004562C46AB7EC0CC4C1CA14E9E20E2545B5","usdc_n_path":"transfer/channel-0/uusdc","noble_escrow":"noble10yt68w4mls4zhr5gsdjkz9lc5jqyh50pepfhqz","injective_registry_file":"injective-safrochain.json","injective_channel":"channel-495","chain_channel_to_injective":"channel-2","usdc_inj_denom":"ibc/1E180C085A3A2688CDF2A781E5990BE8AA92CE69CB62A8CC6BB9F5EE17DD5C38","usdc_inj_path":"transfer/channel-2/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1m76n7nr2s3xzdcevztft34cu8akppjxva0u9ll","gaps":["USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"saga","pretty":"Saga","chain_id":"ssc-1","status":"live","rest":["https://rest.cosmos.directory/saga","https://saga-mainnet-lcd.autostake.com:443","https://saga-rest.publicnode.com","https://rest.saga.goldenratiostaking.net","https://api.saga.nodestake.org","https://saga.api.kjnodes.com","https://lcd.saga.bronbro.io:443","https://rest.lavenderfive.com:443/saga"],"explorer":"https://www.mintscan.io/saga","route":"direct","noble_channel":"channel-169","chain_channel_to_noble":"channel-37","usdc_n_denom":"ibc/B90825FF57A70109217065F9BB1F61D4C7B2520708304DF356FB7E41E4944EAD","usdc_n_path":"transfer/channel-37/uusdc","noble_escrow":"noble19yn5n9tmx7wd2jupnh89ke5cuuv362ldtx9xfu","gaps":[],"usdc_inj_listed":false},{"name":"secretnetwork","pretty":"Secret Network","chain_id":"secret-4","status":"live","rest":["https://rest.cosmos.directory/secretnetwork","https://rest.lavenderfive.com:443/secretnetwork","http://secretnetwork-mainnet-lcd.autostake.com:1317","https://1rpc.io/scrt-lcd","https://lcd.mainnet.secretsaturn.net","https://rest-secret.01node.com","https://public.stakewolle.com/cosmos/secretnetwork/rest"],"explorer":"https://ezstaking.app/secretnetwork","route":"direct","noble_channel":"channel-17","chain_channel_to_noble":"channel-88","usdc_n_denom":"ibc/9162FF8AC138FFAB8723606E1FD726A95A2A153831ED6786396C374004AC28F8","usdc_n_path":"transfer/channel-88/uusdc","noble_escrow":"noble17nsujlwvwf4xrgawwgxqphdak2anflw5e0j8cj","injective_registry_file":"injective-secretnetwork.json","injective_channel":"channel-88","chain_channel_to_injective":"channel-23","usdc_inj_denom":"ibc/E9EC8D5BE32168BBDE3D8E1BC1110A11D08B993A3F76400C0A859EB21FA496E6","usdc_inj_path":"transfer/channel-23/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj188npdeccnax34adzf404csdezl8ulv6ay7wqt3","gaps":["USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"sei","pretty":"Sei","chain_id":"pacific-1","status":"live","rest":["https://rest.cosmos.directory/sei","https://rest.sei-apis.com","https://rest.lavenderfive.com:443/sei","https://sei-api.polkachu.com","https://api-sei.stingray.plus","https://lcd-sei.whispernode.com:443","https://sei.api.kjnodes.com","https://sei-rest.publicnode.com"],"explorer":"https://seitrace.com","route":"direct","noble_channel":"channel-39","chain_channel_to_noble":"channel-45","usdc_n_denom":"ibc/CA6FBFAF399474A06263E10D0CE5AEBBE15189D6D4B2DD9ADE61007E68EB9DB0","usdc_n_path":"transfer/channel-45/uusdc","noble_escrow":"noble13wzn2fc0an2yvw4gsycxpgaj2rugvraql6prge","gaps":[],"usdc_inj_listed":false},{"name":"shido","pretty":"Shido","chain_id":"shido_9008-1","status":"live","rest":["https://rest.cosmos.directory/shido","https://swagger.shidoscan.com","https://shidochain_mainnet_api.chain.whenmoonwhenlambo.money","https://api-shido.onenov.xyz","https://rest.shido.256x25.tech:443","https://api.shido.indonode.net","https://rest.mavnode.io","https://api.kenseishido.com"],"explorer":"https://shidoscan.com","route":"direct","noble_channel":"channel-87","chain_channel_to_noble":"channel-5","usdc_n_denom":"ibc/BFAAB7870A9AAABF64A7366DAAA0B8E5065EAA1FCE762F45677DC24BE796EF65","usdc_n_path":"transfer/channel-5/uusdc","noble_escrow":"noble18wamg37s5v9fgnny7qh33h9twjfskf3sv32ryj","gaps":[],"usdc_inj_listed":false},{"name":"sidechain","pretty":"Side Chain","chain_id":"sidechain-1","status":"live","rest":["https://rest.cosmos.directory/sidechain","https://rest.side.one","https://api.side.nodestake.org","https://side-api.synergynodes.com","https://side-rest.publicnode.com","https://side.api.kjnodes.com","https://side-mainnet-api.itrocket.net","https://api.side.bh.rocks"],"explorer":"https://ping.pub/side","route":"direct","noble_channel":"channel-123","chain_channel_to_noble":"channel-1","usdc_n_denom":"ibc/65D0BEC6DAD96C7F5043D1E54E54B6BB5D5B3AEC3FF6CEBB75B9E059F3580EA3","usdc_n_path":"transfer/channel-1/uusdc","noble_escrow":"noble1nd0rqaxs6qwh860a6xm2e7v68jzgz39s9960al","injective_registry_file":"injective-sidechain.json","injective_channel":"channel-431","chain_channel_to_injective":"channel-9","usdc_inj_denom":"ibc/B00C1AAE099C9E106FFC1917157278E9932A8B56743B3157F3CE462B944A5634","usdc_inj_path":"transfer/channel-9/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1wnt0kmmhe96xmjvg4qws3tc8az9rwcx3aa9u4m","gaps":["USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"stargaze","pretty":"Stargaze","chain_id":"stargaze-1","status":"killed","rest":["https://rest.cosmos.directory/stargaze","https://rest.stargaze-apis.com","https://api-stargaze.pupmos.network","https://api-stargaze.ezstaking.dev","https://stargaze.c29r3.xyz:443/api","https://stargaze-api.polkachu.com","https://stargaze.ibs.team:443/api","https://api-stargaze.d-stake.xyz"],"explorer":"https://ezstaking.app/stargaze","route":"direct","noble_channel":"channel-11","chain_channel_to_noble":"channel-204","usdc_n_denom":"ibc/4A1C18CA7F50544760CF306189B810CE4C1CB156C7FC870143D401FE7280E591","usdc_n_path":"transfer/channel-204/uusdc","noble_escrow":"noble1kx2k3mpugtwtajd4zsykx90cn8xawe54whp926","gaps":[],"usdc_inj_listed":false},{"name":"sunrise","pretty":"Sunrise","chain_id":"sunrise-1","status":"live","rest":["https://rest.cosmos.directory/sunrise","https://a.consensus.sunrise-1.sunriselayer.io:1318","https://sunrise-api.noders.services","https://sunrise-mainnet-api.mekonglabs.tech","https://api-sunrise.nodeist.net","https://rest.sunrise.tcnetwork.io","https://api.sunrise.nodestake.org","https://sunrise-api.krews.xyz"],"explorer":"https://explorer.tcnetwork.io/sunrise","route":"direct","noble_channel":"channel-168","chain_channel_to_noble":"channel-0","usdc_n_denom":"ibc/8E27BA2D5493AF5636760E354E46004562C46AB7EC0CC4C1CA14E9E20E2545B5","usdc_n_path":"transfer/channel-0/uusdc","noble_escrow":"noble1v3vl6shzsazlpqzrxrqc2smc9pcsxqhz72av86","gaps":[],"usdc_inj_listed":false},{"name":"teritori","pretty":"Teritori","chain_id":"teritori-1","status":"live","rest":["https://rest.cosmos.directory/teritori","https://teritori-api.polkachu.com","https://teritori.api.m.stavr.tech","https://api.teritori.silentvalidator.com","https://teritori.api.kjnodes.com","https://api.tori.bh.rocks","https://teritori-api.kleomedes.network","https://m-teritori.api.utsa.tech"],"explorer":"https://ezstaking.app/teritori","route":"direct","noble_channel":"channel-54","chain_channel_to_noble":"channel-62","usdc_n_denom":"ibc/FE98AAD68F02F03565E9FA39A5E627946699B2B07115889ED812D8BA639576A9","usdc_n_path":"transfer/channel-62/uusdc","noble_escrow":"noble1emsrn2pynkc7mpt5uma3jkptkpnzgz5ggeeekz","gaps":[],"usdc_inj_listed":false},{"name":"terra","pretty":"Terra Classic","chain_id":"columbus-5","status":"live","rest":["https://rest.cosmos.directory/terra","https://terra-classic-lcd.publicnode.com","https://lcd.terra-classic.hexxagon.io","https://terraclassic-mainnet-lcd.autostake.com:443","https://api-lunc-lcd.binodes.com"],"explorer":"https://finder.terra-classic.hexxagon.io/","route":"direct","noble_channel":"channel-149","chain_channel_to_noble":"channel-113","usdc_n_denom":"ibc/0BB9D8513E8E8E9AE6A9D211D9136E6DA42288DDE6CFAA453A150A4566054DC5","usdc_n_path":"transfer/channel-113/uusdc","noble_escrow":"noble1plk6au939l5zk6zu0cz0s2e5v8sw94tsjp74y6","injective_registry_file":"injective-terra.json","injective_channel":"channel-497","chain_channel_to_injective":"channel-143","usdc_inj_denom":"ibc/F52112392095A6D6D1B17EF1FE19BE0B39B2A79B8A2B2F55CD721FC7DBF5081F","usdc_inj_path":"transfer/channel-143/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1fe6xqwwhkwnat2xxfpwgsuge4mz6zkg337y5x9","gaps":[],"usdc_inj_listed":true},{"name":"terra2","pretty":"Terra","chain_id":"phoenix-1","status":"live","rest":["https://rest.cosmos.directory/terra2","https://phoenix-lcd.terra.dev:443","https://terra-rest.publicnode.com","https://api-terra-01.stakeflow.io","https://terra2.tdrsys.com","https://terra-api.cosmosrescue.dev:8443","https://terra-api.chainroot.io","https://terra2-api.meshrpc.com"],"explorer":"https://www.mintscan.io/terra","route":"direct","noble_channel":"channel-30","chain_channel_to_noble":"channel-253","usdc_n_denom":"ibc/2C962DAB9F57FE0921435426AE75196009FAA1981BF86991203C8411F8980FDB","usdc_n_path":"transfer/channel-253/uusdc","noble_escrow":"noble12vssh8spx53qzg532xpj22sa7e85ts4x76e5rm","injective_registry_file":"injective-terra2.json","injective_channel":"channel-151","chain_channel_to_injective":"channel-255","usdc_inj_denom":"ibc/E8481AD838C31D4FC12A504B10F9B4E2F830F8818D2735C2FFC707579B5FA60B","usdc_inj_path":"transfer/channel-255/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1v09crew3znwjjyff6d35c9rsmz4d49u98vegw3","gaps":[],"usdc_inj_listed":true},{"name":"titan","pretty":"Titan","chain_id":"titan_18888-1","status":"live","rest":["https://rest.cosmos.directory/titan","https://titan-lcd.titanlab.io:443","https://titan-lcd-tokyo.titanlab.io:443","https://titan-lcd-seoul.titanlab.io:443","https://titan-lcd-hongkong.titanlab.io:443"],"explorer":"https://tkxscan.io","route":"direct","noble_channel":"channel-99","chain_channel_to_noble":"channel-0","usdc_n_denom":"ibc/8E27BA2D5493AF5636760E354E46004562C46AB7EC0CC4C1CA14E9E20E2545B5","usdc_n_path":"transfer/channel-0/uusdc","noble_escrow":"noble1ct775c6tye5lr73lfsa9sxncvu87gx3024kgdk","gaps":[],"usdc_inj_listed":false},{"name":"umee","pretty":"UX Chain","chain_id":"umee-1","status":"killed","rest":["https://rest.cosmos.directory/umee","https://umee.api.m.stavr.tech","https://umee-mainnet-lcd.autostake.com:443","https://umee-api.polkachu.com","https://api-umee-01.stakeflow.io","https://umee-rest.staketab.org","https://umee-api.theamsolutions.info","https://umee.api.kjnodes.com"],"explorer":"https://explorer.stavr.tech/umee","route":"direct","noble_channel":"channel-51","chain_channel_to_noble":"channel-120","usdc_n_denom":"ibc/92BC8E5C50E6664B4DA748B62C1FFBE321967E1F8868EE03B005977F9AA7C0B8","usdc_n_path":"transfer/channel-120/uusdc","noble_escrow":"noble19g3j63gysl7ntknvzlrdvfq4fqa9sp07z5qd0q","injective_registry_file":"injective-umee.json","injective_channel":"channel-159","chain_channel_to_injective":"channel-116","usdc_inj_denom":"ibc/0612FAD8BCA3867E5902CA4A7E7C888BA601001DA241194AFF3DFF1D82271FE6","usdc_inj_path":"transfer/channel-116/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1f4awtvg5skm2ccmu7djrz69yh9s33807ypsehx","gaps":["USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"xion","pretty":"Verona","chain_id":"xion-mainnet-1","status":"live","rest":["https://rest.cosmos.directory/xion","https://api.xion-mainnet-1.burnt.com","https://xion-api.lavenderfive.com","https://lcd-burnt.imperator.co","https://xion-mainnet-lcd.autostake.com","https://api.xion.nodestake.org","https://xion-rest.kingnodes.com","https://verona-api.polkachu.com"],"explorer":"https://www.mintscan.io/xion","route":"direct","noble_channel":"channel-113","chain_channel_to_noble":"channel-2","usdc_n_denom":"ibc/F082B65C88E4B6D5EF1DB243CDA1D331D002759E938A0F5CD3FFDC5D53B3E349","usdc_n_path":"transfer/channel-2/uusdc","noble_escrow":"noble10zfpsus4h27eqgrjar7yj2mwer3q84zkwmsgml","injective_registry_file":"injective-xion.json","injective_channel":"channel-387","chain_channel_to_injective":"channel-4","usdc_inj_denom":"ibc/E1A157DD49A3C0B6E4961AEFE463982F3E3382CC0A26E79DE761E5ED3B56EF43","usdc_inj_path":"transfer/channel-4/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1jdmsc0j6afy33krenn32ddu83klt87w79r48p8","gaps":["USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"xrplevm","pretty":"XRPL EVM","chain_id":"xrplevm_1440000-1","status":"live","rest":["https://rest.cosmos.directory/xrplevm","https://cosmos-api.xrplevm.org","https://api.xrpl.cumulo.org.es","https://xrp-api.polkachu.com"],"explorer":"https://explorer.xrplevm.org","route":"direct","noble_channel":"channel-152","chain_channel_to_noble":"channel-4","usdc_n_denom":"ibc/BFF0D3805B50D93E2FA5C0B2DDF7E0B30A631076CD80BC12A48C0E95404B4A41","usdc_n_path":"transfer/channel-4/uusdc","noble_escrow":"noble19grztmrfep4slux2jgfymc48demtn6qxz6g4nc","injective_registry_file":"injective-xrplevm.json","injective_channel":"channel-436","chain_channel_to_injective":"channel-0","usdc_inj_denom":"ibc/14769705A983F0CFD52C8574DC283FAA69626BD371C18CCD0F60F1714B1790B8","usdc_inj_path":"transfer/channel-0/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1klzkahwtnxpdnch7gmp0wyyw634wlksww4f8j6","gaps":["USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."],"usdc_inj_listed":false},{"name":"zigchain","pretty":"ZIGChain","chain_id":"zigchain-1","status":"live","rest":["https://rest.cosmos.directory/zigchain","https://public-zigchain-lcd.numia.xyz","https://api.zigchain.com","https://zigchain-api.polkachu.com","https://api.zigchain.nodestake.org","https://zigchain-api.stakeandrelax.net"],"explorer":"https://app.range.org/address/zigchain/zigchain","route":"direct","noble_channel":"channel-175","chain_channel_to_noble":"channel-3","usdc_n_denom":"ibc/6490A7EAB61059BFC1CDDEB05917DD70BDF3A611654162A1A47DB930D40D8AF4","usdc_n_path":"transfer/channel-3/uusdc","noble_escrow":"noble1e4quceq0nhvfalpkct2yecpu56ss3erltz8yku","injective_registry_file":"injective-zigchain.json","injective_channel":"channel-456","chain_channel_to_injective":"channel-12","usdc_inj_denom":"ibc/6C6F5A015608CF3951DFE6A117390210AB825BF0CC1AD33B2B100B05529A9B6B","usdc_inj_path":"transfer/channel-12/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","injective_escrow":"inj1h88uztevss8ys8k9pqq73s590d27xunxntsggk","gaps":[],"usdc_inj_listed":true},{"name":"xpla","pretty":"XPLA","chain_id":"dimension_37-1","status":"live","rest":["https://rest.cosmos.directory/xpla","https://dimension-lcd.xpla.io","https://dimension-lcd.xpla.dev","https://xpla.api.m.stavr.tech","https://rest.lavenderfive.com:443/xpla","https://xpla-rest.publicnode.com","https://xpla-api.polkachu.com"],"explorer":"https://explorer.xpla.io/mainnet","route":"via-cosmoshub","usdc_n_denom":"ibc/796D21B8CE8A0C0A0A726CC364335B2D802D8F4C936ED2F3147E969BD702A293","usdc_n_path":"transfer/channel-6/transfer/channel-536/uusdc","injective_registry_file":"injective-xpla.json","usdc_inj_denom":"ibc/AF463B6FC78E0E6068C37DF909C6B5859067BFEDA858A14218A5397794EACF48","usdc_inj_path":"transfer/channel-6/transfer/channel-220/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a","gaps":["XPLA has no direct Noble channel; USDC.n and USDC.inj are measured on the multi-hop path through the Cosmos Hub. No per-chain escrow history exists for a multi-hop route, so 24h/7d/since-Sept-1 come from the snapshot store only."],"injective_channel_direct":"channel-137","chain_channel_to_injective_direct":"channel-7","usdc_inj_denom_direct":"ibc/81551F4CC9540DD670964FFF993111242B23264ADB503B53EE489D1B543502D3","usdc_inj_listed":true}]};
+const BASELINE = {"date":"2026-10-05","at":"2026-10-05T14:08:15+00:00","source":"seed","heights":{"noble":{"24h":60789349,"7d":60322506,"sep1":58251973},"injective":{"24h":185826420,"7d":184959027,"sep1":null}},"totals":{"noble_total_escrow":87085293041708,"noble_usdc_supply":97552242258615,"injective_usdc_supply":10092924908437,"injective_total_escrow":3214608670343,"noble_total_escrow_24h":87343205642443,"injective_usdc_supply_24h":9483542538471,"noble_total_escrow_7d":91513964976895,"injective_usdc_supply_7d":null,"noble_total_escrow_sep1":98404949971037},"chains":{"agoric":{"usdc_n":23498642015,"usdc_inj":23919753,"noble_escrow":{"now":87284868598,"24h":87184882490,"7d":87186882490,"sep1":88910780269},"injective_escrow":{"now":23919753,"24h":23919753,"7d":0},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"amitis":{"usdc_n":1000000,"noble_escrow":{"now":1000000,"24h":1000000,"7d":1000000,"sep1":0}},"archway":{"usdc_n":33651688931,"noble_escrow":{"now":33649998018,"24h":33649998018,"7d":33657389991,"sep1":35748785541}},"aura":{"usdc_n":5856492,"noble_escrow":{"now":5856492,"24h":5856492,"7d":5856492,"sep1":5856492}},"babylon":{"usdc_n":510223983916,"noble_escrow":{"now":510223983916,"24h":510223970486,"7d":510537822163,"sep1":512267428288}},"beezee":{"usdc_n":3441737212,"usdc_inj":80403,"noble_escrow":{"now":3441737212,"24h":3434780080,"7d":3676724077,"sep1":4179920572},"injective_escrow":{"now":80403,"24h":80403,"7d":1},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"bitbadges":{"usdc_n":94186139,"usdc_inj":33305,"noble_escrow":{"now":94184293,"24h":94184293,"7d":94184293,"sep1":94184293},"injective_escrow":{"now":33305,"24h":33305,"7d":33305},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"bitway":{"usdc_n":229157316,"noble_escrow":{"now":229157316,"24h":229157316,"7d":229157316,"sep1":229157316}},"coreum":{"usdc_n":55952708112,"noble_escrow":{"now":55952708112,"24h":55947830356,"7d":56563292735,"sep1":56012932883}},"cosmoshub":{"usdc_n":1792987934073,"usdc_inj":529151549856,"noble_escrow":{"now":1792924411760,"24h":1794427991541,"7d":1801097556778,"sep1":2312826975976},"injective_escrow":{"now":529151549856,"24h":529053575401,"7d":null},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"crescent":{"noble_escrow":{"now":216051639,"24h":216051639,"7d":216051639,"sep1":216051639},"injective_escrow":{"now":0,"24h":0,"7d":null},"inj_channel_state_injective_side":"STATE_OPEN"},"doravota":{"usdc_n":507428155,"usdc_inj":0,"noble_escrow":{"now":507428155,"24h":507428155,"7d":507428155,"sep1":507428155},"injective_escrow":{"now":0,"24h":0,"7d":0},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"dungeon":{"usdc_n":626644184,"usdc_inj":14397210328,"noble_escrow":{"now":626644184,"24h":626644184,"7d":711930048,"sep1":19947691017},"injective_escrow":{"now":14397210328,"24h":14584232033,"7d":13926057251},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"dydx":{"usdc_n":69618014411825,"usdc_inj":12792129734,"noble_escrow":{"now":69617956222913,"24h":69747982581262,"7d":72956783586587,"sep1":73583894954695},"injective_escrow":{"now":12792129734,"24h":11686708056,"7d":2607054579},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"dymension":{"usdc_n":296255198656,"noble_escrow":{"now":296255198656,"24h":294785504796,"7d":311491752297,"sep1":322799871942}},"elys":{"usdc_n":0,"noble_escrow":{"now":1064862133,"24h":1064862133,"7d":1064862133,"sep1":1064862133}},"evmos":{"noble_escrow":{"now":527550,"24h":527550,"7d":527550,"sep1":527550},"injective_escrow":{"now":0,"24h":0,"7d":0},"inj_channel_state_injective_side":"STATE_OPEN"},"furya":{"noble_escrow":{"now":370929822,"24h":370929822,"7d":370929822,"sep1":370929822}},"gateway":{"usdc_inj":0,"injective_escrow":{"now":0,"24h":0,"7d":0},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"haqq":{"usdc_n":68769508250,"noble_escrow":{"now":68769508250,"24h":68769508250,"7d":68769508250,"sep1":68769508250}},"hyve":{"usdc_n":6978038,"noble_escrow":{"now":6700000,"24h":6700000,"7d":7700000,"sep1":1000000}},"impacthub":{"usdc_n":93556495549,"noble_escrow":{"now":93556495549,"24h":98447215549,"7d":45918921202,"sep1":15875985091}},"injective":{"usdc_n":235993081394,"noble_escrow":{"now":235985848086,"24h":239498077088,"7d":237671869338,"sep1":947151169553}},"int3face":{"noble_escrow":{"now":0,"24h":0,"7d":0,"sep1":0}},"joltify":{"noble_escrow":{"now":8502824291,"24h":8502824291,"7d":8502824291,"sep1":8502824291}},"juno":{"usdc_n":13581839031,"noble_escrow":{"now":13609420269,"24h":13609420269,"7d":13609420269,"sep1":13609420269}},"kava":{"usdc_n":225785082,"usdc_inj":0,"noble_escrow":{"now":225785082,"24h":225785082,"7d":225785082,"sep1":225785082},"injective_escrow":{"now":0,"24h":0,"7d":0},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"kopi":{"usdc_n":528562432,"usdc_inj":0,"noble_escrow":{"now":528562468,"24h":528562468,"7d":528562468,"sep1":528562468},"injective_escrow":{"now":0,"24h":0,"7d":0},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"kujira":{"noble_escrow":{"now":291733868978,"24h":291733868978,"7d":291733868978,"sep1":291733868978},"injective_escrow":{"now":0,"24h":0,"7d":0},"inj_channel_state_injective_side":"STATE_OPEN"},"lava":{"usdc_n":17623806227,"noble_escrow":{"now":17623806227,"24h":17623812163,"7d":17625187728,"sep1":17648989245}},"mantrachain":{"usdc_n":59610621647,"usdc_inj":0,"noble_escrow":{"now":59694891647,"24h":59694891647,"7d":59750593107,"sep1":64936540366},"injective_escrow":{"now":0,"24h":0,"7d":0},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"migaloo":{"noble_escrow":{"now":37476241,"24h":37476241,"7d":37476241,"sep1":37476241},"injective_escrow":{"now":0,"24h":0,"7d":0},"inj_channel_state_injective_side":"STATE_OPEN"},"namada":{"noble_escrow":{"now":226609835,"24h":226609835,"7d":226609835,"sep1":226609835}},"neutron":{"usdc_n":2084667688235,"usdc_inj":1298578880,"noble_escrow":{"now":2085628058083,"24h":2085590859220,"7d":2142798963513,"sep1":3423104342275},"injective_escrow":{"now":1298578880,"24h":1291449617,"7d":20883427},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"nibiru":{"usdc_n":5478236017,"noble_escrow":{"now":5478236017,"24h":5478236017,"7d":5478236017,"sep1":5478236017}},"omniflixhub":{"noble_escrow":{"now":2161747315,"24h":2161747315,"7d":2161747315,"sep1":2161747315}},"onex":{"noble_escrow":{"now":0,"24h":0,"7d":0,"sep1":0}},"oraichain":{"usdc_inj":0,"injective_escrow":{"now":0,"24h":0,"7d":0},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"osmosis":{"usdc_n":9015268678576,"usdc_inj":1437041836205,"noble_escrow":{"now":9015178900813,"24h":8967391187085,"7d":9706021167184,"sep1":12828632594869},"injective_escrow":{"now":1437041836205,"24h":1500689063038,"7d":981093416845},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"paxi":{"usdc_n":629361761,"noble_escrow":{"now":629361761,"24h":629361761,"7d":629361761,"sep1":629361761}},"persistence":{"usdc_n":2222326619,"usdc_inj":0,"noble_escrow":{"now":2222317034,"24h":2261110042,"7d":2485587237,"sep1":2199666806},"injective_escrow":{"now":0,"24h":0,"7d":0},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"planq":{"noble_escrow":{"now":524163045,"24h":524163045,"7d":524163045,"sep1":524163045}},"provenance":{"usdc_n":79191512,"noble_escrow":{"now":79191512,"24h":79191512,"7d":79191512,"sep1":79191512}},"pryzm":{"noble_escrow":{"now":0,"24h":0,"7d":0,"sep1":0},"injective_escrow":{"now":0,"24h":0,"7d":0},"inj_channel_state_injective_side":"STATE_OPEN"},"regen":{"usdc_n":1,"noble_escrow":{"now":1,"24h":1,"7d":1,"sep1":1}},"ritbit":{"usdc_n":10000,"noble_escrow":{"now":10000,"24h":10000,"7d":10000,"sep1":10000}},"routerchain":{"noble_escrow":{"now":667332213,"24h":667332213,"7d":667332213,"sep1":667332213}},"safrochain":{"usdc_n":163051000,"usdc_inj":49971273,"noble_escrow":{"now":163051000,"24h":163051000,"7d":190051000,"sep1":402051000},"injective_escrow":{"now":49971273,"24h":47971273,"7d":760},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"saga":{"usdc_n":2300003,"noble_escrow":{"now":2300003,"24h":2300003,"7d":2300003,"sep1":2300003}},"secretnetwork":{"usdc_n":111554395339,"usdc_inj":0,"noble_escrow":{"now":111554395339,"24h":111530073315,"7d":110528916177,"sep1":113476516047},"injective_escrow":{"now":0,"24h":0,"7d":null},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"sei":{"usdc_n":343545833424,"noble_escrow":{"now":343604833424,"24h":343604833424,"7d":343604833424,"sep1":343545833424}},"shido":{"usdc_n":3281445981,"noble_escrow":{"now":3281445981,"24h":3281445981,"7d":3281445981,"sep1":3281445981}},"sidechain":{"noble_escrow":{"now":29329320,"24h":29329320,"7d":29329320,"sep1":29329320},"injective_escrow":{"now":0,"24h":0,"7d":0},"inj_channel_state_injective_side":"STATE_OPEN"},"stargaze":{"noble_escrow":{"now":15947871798,"24h":15947871798,"7d":15947871798,"sep1":15947871798}},"sunrise":{"usdc_n":0,"noble_escrow":{"now":992097,"24h":12737624128,"7d":12948131846,"sep1":13865453484}},"teritori":{"usdc_n":283927,"noble_escrow":{"now":283927,"24h":283927,"7d":283927,"sep1":283927}},"terra":{"usdc_n":82819093818,"usdc_inj":32063123042,"noble_escrow":{"now":83450835426,"24h":84122391183,"7d":106607861180,"sep1":118389684861},"injective_escrow":{"now":32063123042,"24h":32019244303,"7d":9652806918},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"terra2":{"usdc_n":872604476671,"usdc_inj":1168413007420,"noble_escrow":{"now":873603997592,"24h":1041802841463,"7d":1215793961632,"sep1":1839130784167},"injective_escrow":{"now":1168413007420,"24h":990616255065,"7d":908044904646},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"titan":{"noble_escrow":{"now":812128589,"24h":812128589,"7d":812128589,"sep1":812128589}},"umee":{"noble_escrow":{"now":2316641292,"24h":2316641292,"7d":2316641292,"sep1":2316641292},"injective_escrow":{"now":0,"24h":0,"7d":0},"inj_channel_state_injective_side":"STATE_OPEN"},"xion":{"usdc_n":66847213078,"usdc_inj":0,"noble_escrow":{"now":66847213078,"24h":66880251078,"7d":67118640617,"sep1":68268366381},"injective_escrow":{"now":0,"24h":0,"7d":0},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"xrplevm":{"usdc_n":28101109,"usdc_inj":0,"noble_escrow":{"now":54761941,"24h":54761941,"7d":54761941,"sep1":54761941},"injective_escrow":{"now":0,"24h":0,"7d":0},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"zigchain":{"usdc_n":286228001868,"usdc_inj":636921139,"noble_escrow":{"now":286228001868,"24h":276211055347,"7d":362992374823,"sep1":309191057304},"injective_escrow":{"now":636921139,"24h":633062260,"7d":6911981},"inj_channel_state_chain_side":"STATE_OPEN","inj_channel_state_injective_side":"STATE_OPEN"},"xpla":{"usdc_n":0,"usdc_inj":27096293795}}};
+const DATA_URL = 'data/snapshots.json', CONFIG_URL = 'data/config.json';
+const SEP1 = new Date('2026-09-01T00:00:00Z');
+const THRESHOLD = 25000;
+const DEADLINE = new Date('2027-01-12T00:00:00Z');
+const POOL = { id: '3497', lcd: ['https://lcd.osmosis.zone', 'https://rest.cosmos.directory/osmosis', 'https://osmosis-rest.publicnode.com'], refreshMs: 5 * 60 * 1000, botUrl: 'https://usdc-rebalancer-bot.fly.dev/', axlusdc: 'ibc/D189335C6E4A68B513C10AB227BF1C1D38C746766278BA3EEB4FB14124F1D858' };
+const skipLink = c => c.usdc_n_denom && c.chain_id ? `https://go.skip.build/?src_chain=${encodeURIComponent(c.chain_id)}&src_asset=${encodeURIComponent(c.usdc_n_denom)}&dest_chain=injective-1&dest_asset=${encodeURIComponent(INJ)}` : null;
+const isRetired = c => !!(CONFIG.retired && CONFIG.retired[c.name]);
+const retiredNote = c => (CONFIG.retired || {})[c.name] || '';
+const INJ = CONFIG.inj_usdc_base;
+const $ = (s, el=document) => el.querySelector(s);
+const fmt = (v, d) => v == null ? '–' : (Math.abs(v) >= 1000 || d === 0 ? Math.round(v).toLocaleString('en-US') : v.toLocaleString('en-US', {maximumFractionDigits: d ?? 2}));
+const usd = raw => raw == null ? null : raw / 1e6;
+const pct = (a, b) => (b && b > 0) ? (a / b) : null;
+
+// ---------- state ----------
+const S = { win: '24h', data: {}, totals: {}, heights: {}, snapshots: {}, gaps: [], db: null, done: false, errors: [] };
+
+// ---------- fetch helpers ----------
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+async function getJSON(url, { height, timeout = 12000 } = {}) {
+  const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), timeout);
+  try {
+    const headers = { Accept: 'application/json' };
+    if (height) headers['x-cosmos-block-height'] = String(height);
+    const r = await fetch(url, { headers, signal: ctl.signal, mode: 'cors' });
+    if (!r.ok) { const e = new Error('HTTP ' + r.status); e.status = r.status; throw e; }
+    return await r.json();
+  } finally { clearTimeout(t); }
+}
+// try endpoints in order; 429 gets one backoff retry on the same endpoint
+async function first(eps, path, opts = {}, want = d => d) {
+  const errs = [];
+  for (const ep of eps) {
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const d = await getJSON(ep + path, opts);
+        const v = want(d);
+        if (v == null) { errs.push(ep + ': unexpected body'); break; }
+        return { v, ep };
+      } catch (e) {
+        errs.push(ep + ': ' + (e.message || e));
+        if (e.status === 429) { await sleep(600 + Math.random() * 600); continue; }
+        break;
+      }
+    }
+  }
+  return { v: null, ep: null, errs };
+}
+function pool(n, tasks) {
+  let i = 0, done = 0; const total = tasks.length;
+  const next = async () => { while (i < tasks.length) { const t = tasks[i++]; try { await t(); } catch (e) {} done++; setProg(done / total); } };
+  return Promise.all(Array.from({ length: n }, next));
+}
+const setProg = f => { $('#prog').style.width = Math.round(f * 100) + '%'; };
+const setStatus = s => { $('#status').textContent = s; };
+const enc = s => encodeURIComponent(s);
+
+const q = {
+  supply: (eps, denom) => first(eps, `/cosmos/bank/v1beta1/supply/by_denom?denom=${enc(denom)}`, {}, d => d.amount?.amount != null ? Number(d.amount.amount) : null)
+    .then(async r => r.v != null ? r : first(eps, '/cosmos/bank/v1beta1/supply?pagination.limit=5000', {}, d => d.supply ? Number((d.supply.find(s => s.denom === denom) || { amount: '0' }).amount) : null).then(r2 => ({ ...r2, ep: r2.ep && r2.ep + ' (full supply list)', errs: (r.errs || []).concat(r2.errs || []) }))),
+  balance: (eps, addr, denom, height) => first(eps, `/cosmos/bank/v1beta1/balances/${addr}/by_denom?denom=${enc(denom)}`, { height }, d => d.balance?.amount != null ? Number(d.balance.amount) : null),
+  channel: (eps, ch) => first(eps, `/ibc/core/channel/v1/channels/${ch}/ports/transfer`, {}, d => d.channel || null),
+  header: (eps, h) => first(eps, h ? `/cosmos/base/tendermint/v1beta1/blocks/${h}` : '/cosmos/base/tendermint/v1beta1/blocks/latest', {}, d => d.block?.header ? { height: Number(d.block.header.height), time: new Date(d.block.header.time) } : null),
+  totalEscrow: (eps, denom, height) => first(eps, `/ibc/apps/transfer/v1/denoms/${enc(denom)}/total_escrow`, { height }, d => d.amount?.amount != null ? Number(d.amount.amount) : null),
+};
+
+// Find the block height at a target time using an archive node. Returns null when headers are pruned.
+async function heightAt(eps, target, anchor) {
+  const latest = (await q.header(eps)).v; if (!latest) return null;
+  if (target >= latest.time) return latest.height;
+  let bt = anchor?.bt || 1.5, guess = latest.height - Math.round((latest.time - target) / 1000 / bt), h = null;
+  for (let i = 0; i < 8; i++) {
+    guess = Math.max(1, guess);
+    const r = (await q.header(eps, guess)).v; if (!r) return null;
+    h = r; const diff = (r.time - target) / 1000;
+    if (Math.abs(diff) < 90) return r.height;
+    // refine block time from the two points we now have
+    bt = Math.max(0.2, (latest.time - r.time) / 1000 / Math.max(1, latest.height - r.height));
+    guess = r.height - Math.round(diff / bt);
+  }
+  return h ? h.height : null;
+}
+
+// ---------- snapshot store: data/snapshots.json, written daily by the repo's GitHub Action ----------
+async function loadStore() {
+  const snaps = { [BASELINE.date]: BASELINE };
+  try {
+    const r = await fetch(DATA_URL + '?t=' + Date.now(), { cache: 'no-store' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    Object.assign(snaps, j.snapshots || {});
+    S.storeInfo = `${Object.keys(j.snapshots || {}).length} daily snapshots from ${DATA_URL}` + (j.updated_at ? `, last written ${j.updated_at.slice(0, 16).replace('T', ' ')} UTC` : '');
+  } catch (e) {
+    S.storeInfo = `${DATA_URL} not reachable (${e.message || e}); using the snapshot embedded in this file only.`;
+    S.errors.push('Snapshot store: ' + S.storeInfo + ' When opened from disk this is expected; on GitHub Pages it means the daily Action has not committed yet.');
+  }
+  S.snapshots = snaps;
+}
+async function loadConfig() {
+  try {
+    const r = await fetch(CONFIG_URL + '?t=' + Date.now(), { cache: 'no-store' });
+    if (r.ok) { const j = await r.json(); if (j && Array.isArray(j.chains) && j.chains.length) CONFIG = j; }
+  } catch (e) {}
+}
+// earliest snapshot at or after a target date, used when archive data is missing
+function snapshotAt(targetDate) {
+  const key = targetDate.toISOString().slice(0, 10);
+  const dates = Object.keys(S.snapshots).sort();
+  const exact = dates.find(d => d === key); if (exact) return S.snapshots[exact];
+  const after = dates.find(d => d > key); return after ? S.snapshots[after] : null;
+}
+
+// ---------- main pipeline ----------
+async function run() {
+  S.done = false; S.gaps = []; S.errors = []; S.data = {}; S.totals = {}; S.heights = {};
+  $('#refresh').disabled = true; setProg(0); setStatus('Resolving heights');
+  const now = new Date();
+  const targets = { '24h': new Date(now - 864e5), '7d': new Date(now - 7 * 864e5), '30d': new Date(now - 30 * 864e5), 'sep1': SEP1 };
+  const noble = CONFIG.noble_rest, inj = CONFIG.injective_rest;
+  await Promise.all([loadStore(), loadConfig()]);
+
+  // 1. heights on Noble and Injective
+  const anchors = { noble: { bt: 1.2 }, injective: { bt: 0.6 } };
+  S.heights = { noble: {}, injective: {} };
+  await Promise.all(Object.entries(targets).map(async ([k, t]) => {
+    S.heights.noble[k] = await heightAt(noble, t, anchors.noble).catch(() => null);
+  }));
+  await Promise.all(Object.entries(targets).map(async ([k, t]) => {
+    S.heights.injective[k] = await heightAt(inj, t, anchors.injective).catch(() => null);
+  }));
+  for (const [chain, hs] of Object.entries(S.heights)) for (const [k, h] of Object.entries(hs)) if (!h) S.gaps.push({ scope: 'global', chain, text: `${chain === 'noble' ? 'Noble' : 'Injective'}: no public archive endpoint answered for the block height ${k === 'sep1' ? 'at September 1' : k + ' ago'}; that window falls back to the snapshot store.` });
+
+  // 2. aggregate totals
+  setStatus('Aggregates');
+  S.totals.nobleEscrow = {}; S.totals.injSupply = {}; S.totals.injEscrow = {};
+  const tTasks = [];
+  for (const k of ['now', ...Object.keys(targets)]) {
+    const hn = k === 'now' ? undefined : S.heights.noble[k], hi = k === 'now' ? undefined : S.heights.injective[k];
+    tTasks.push(async () => { if (k === 'now' || hn) S.totals.nobleEscrow[k] = (await q.totalEscrow(noble, 'uusdc', hn)).v; });
+    tTasks.push(async () => { if (k === 'now' || hi) S.totals.injSupply[k] = (await first(inj, `/cosmos/bank/v1beta1/supply/by_denom?denom=${enc(INJ)}`, { height: hi }, d => d.amount?.amount != null ? Number(d.amount.amount) : null)).v; });
+    tTasks.push(async () => { if (k === 'now' || hi) S.totals.injEscrow[k] = (await q.totalEscrow(inj, INJ, hi)).v; });
+  }
+  S.totals.nobleSupplyAt = {};
+  tTasks.push(async () => { S.totals.nobleSupply = (await first(noble, '/cosmos/bank/v1beta1/supply/by_denom?denom=uusdc', {}, d => d.amount?.amount != null ? Number(d.amount.amount) : null)).v; S.totals.nobleSupplyAt.now = S.totals.nobleSupply; });
+  for (const k of Object.keys(targets)) { const hn = S.heights.noble[k]; if (hn) tTasks.push(async () => { S.totals.nobleSupplyAt[k] = (await first(noble, '/cosmos/bank/v1beta1/supply/by_denom?denom=uusdc', { height: hn }, d => d.amount?.amount != null ? Number(d.amount.amount) : null)).v; }); }
+  await pool(4, tTasks);
+
+  // 3. current Noble escrow for every counterparty (one chain, fast), then per-chain supply for candidates
+  setStatus('Noble escrow balances');
+  const chains = CONFIG.chains;
+  for (const c of chains) S.data[c.name] = { nEsc: {}, iEsc: {}, gaps: [...(c.gaps || [])], src: {} };
+  await pool(6, chains.filter(c => c.noble_escrow).map(c => async () => {
+    const r = await q.balance(noble, c.noble_escrow, 'uusdc'); S.data[c.name].nEsc.now = r.v; if (r.v == null) S.data[c.name].gaps.push('Noble escrow balance query failed: ' + (r.errs || []).slice(0, 2).join('; '));
+  }));
+
+  setStatus('Chain balances');
+  // On-chain USDC.n for everyone with endpoints (cheap, and it is the headline measure)
+  await pool(8, chains.filter(c => c.usdc_n_denom && c.rest?.length).map(c => async () => {
+    const d = S.data[c.name];
+    const r = await q.supply(c.rest, c.usdc_n_denom); d.n = r.v; d.src.n = r.ep;
+    if (r.v == null) d.gaps.push(`USDC.n supply could not be read from any of ${c.rest.length} registry REST endpoints (${(r.errs || []).slice(0, 2).join('; ')}). Showing Noble-side escrow instead.`);
+  }));
+
+  // candidates: above threshold by either measure, plus XPLA
+  const measureN = c => Math.max(usd(S.data[c.name].n) ?? -1, usd(S.data[c.name].nEsc.now) ?? -1);
+  const cands = chains.filter(c => !isRetired(c) && (c.name === 'xpla' || (c.name !== 'injective' && measureN(c) > THRESHOLD)));
+  S.cands = cands;
+
+  setStatus('USDC.inj and channels');
+  const tasks = [];
+  for (const c of cands) {
+    const d = S.data[c.name];
+    if (c.usdc_inj_denom && c.rest?.length) tasks.push(async () => { const r = await q.supply(c.rest, c.usdc_inj_denom); d.inj = r.v; d.src.inj = r.ep; if (r.v == null) d.gaps.push('USDC.inj supply could not be read from this chain\'s endpoints; Injective-side escrow is shown instead where available.'); });
+    if (c.chain_channel_to_injective && c.rest?.length) tasks.push(async () => { const r = await q.channel(c.rest, c.chain_channel_to_injective); d.chState = r.v?.state || null; d.chCp = r.v?.counterparty?.channel_id; if (!r.v) d.gaps.push('Could not read the Injective channel state from this chain\'s endpoints.'); });
+    if (c.injective_channel) tasks.push(async () => { const r = await q.channel(inj, c.injective_channel); d.injState = r.v?.state || null; if (!r.v) d.gaps.push('Could not read the channel state on the Injective side.'); });
+    // history from escrow
+    if (c.noble_escrow) for (const k of Object.keys(targets)) { const h = S.heights.noble[k]; if (h) tasks.push(async () => { const r = await q.balance(noble, c.noble_escrow, 'uusdc', h); d.nEsc[k] = r.v; }); }
+    if (c.injective_escrow) {
+      tasks.push(async () => { const r = await q.balance(inj, c.injective_escrow, INJ); d.iEsc.now = r.v; });
+      for (const k of Object.keys(targets)) { const h = S.heights.injective[k]; if (h) tasks.push(async () => { const r = await q.balance(inj, c.injective_escrow, INJ, h); d.iEsc[k] = r.v; }); }
+    }
+    // XPLA direct channel, if the registry has one
+    if (c.usdc_inj_denom_direct && c.rest?.length) tasks.push(async () => { const r = await q.supply(c.rest, c.usdc_inj_denom_direct); d.injDirect = r.v; });
+  }
+  await pool(6, tasks);
+  // second pass: archive nodes behind load balancers sometimes miss; retry any history point still missing
+  const retry = [];
+  for (const c of cands) { const d = S.data[c.name];
+    if (c.noble_escrow) for (const k of Object.keys(targets)) { const h = S.heights.noble[k]; if (h && d.nEsc[k] == null) retry.push(async () => { await sleep(300 + Math.random() * 700); const r = await q.balance(noble, c.noble_escrow, 'uusdc', h); d.nEsc[k] = r.v; if (r.v == null) d.gaps.push(`Noble escrow at the ${k} height did not return after two attempts.`); }); }
+    if (c.injective_escrow) for (const k of Object.keys(targets)) { const h = S.heights.injective[k]; if (h && d.iEsc[k] == null) retry.push(async () => { await sleep(300 + Math.random() * 700); const r = await q.balance(inj, c.injective_escrow, INJ, h); d.iEsc[k] = r.v; if (r.v == null) d.gaps.push(`Injective escrow at the ${k} height did not return after two attempts (archive node answered pruned).`); }); }
+  }
+  await pool(3, retry);
+
+  // Injective itself: show USDC.n still sitting on Injective as a KPI (it has no migration row)
+  const injRow = S.data.injective; if (injRow) S.totals.usdcnOnInjective = injRow.n;
+
+  const measured = S.totals.nobleSupply != null || Object.values(S.data).some(d => d.n != null || d.nEsc?.now != null);
+  if (!measured) {
+    // Every endpoint failed: typically a host that blocks outbound requests (the claude.ai artifact sandbox) or no network. Keep the baseline rather than showing an empty page.
+    const keepSnaps = S.snapshots; applyBaseline(); S.snapshots = keepSnaps || S.snapshots; S.liveFailed = true;
+    S.gaps.push({ scope: 'global', chain: 'host', text: `No endpoint could be reached from this page's host, so every figure shown is the embedded baseline snapshot from ${BASELINE.date}. Open the same file locally or from GitHub Pages for live data; the claude.ai artifact sandbox blocks outbound requests.` });
+    S.done = true; setStatus('Live data blocked here; showing ' + BASELINE.date + ' baseline'); $('#refresh').disabled = false; setProg(1); render(); return;
+  }
+  S.liveFailed = false;
+  S.done = true; S.fetchedAt = now; setStatus('Updated ' + now.toLocaleTimeString()); $('#refresh').disabled = false; setProg(1);
+  render();
+}
+
+// ---------- derived values ----------
+// change in USDC (not micro) over the active window for a chain and asset; returns {delta, source} or null
+function change(c, asset) {
+  const d = S.data[c.name]; const k = S.win;
+  const esc = asset === 'n' ? d.nEsc : d.iEsc;
+  if (esc && esc.now != null && esc[k] != null) return { delta: usd(esc.now - esc[k]), source: 'escrow' };
+  // snapshot store fallback: compare today's on-chain figure with the earliest snapshot at/after the target date
+  const target = winTarget(k);
+  const s = snapshotAt(target); const cur = asset === 'n' ? d.n : d.inj;
+  if (s && s.chains?.[c.name] && cur != null) {
+    const prev = asset === 'n' ? s.chains[c.name].usdc_n : s.chains[c.name].usdc_inj;
+    if (prev != null && s.date !== new Date().toISOString().slice(0, 10)) return { delta: usd(cur - prev), source: 'snapshot ' + s.date };
+  }
+  return null;
+}
+function injStatus(c) {
+  const d = S.data[c.name];
+  if (c.name === 'xpla') {
+    const direct = c.injective_channel_direct ? 'registry also lists a direct channel ' + c.chain_channel_to_injective_direct : 'no direct channel in registry';
+    return { cls: 'good', label: 'Via Cosmos Hub', note: direct };
+  }
+  if (!c.injective_channel) return { cls: 'bad', label: 'No channel', note: 'No Injective IBC file in the chain registry' };
+  const a = d.chState, b = d.injState;
+  if (a === 'STATE_OPEN' && b === 'STATE_OPEN') return { cls: 'good', label: 'Open', note: `${c.chain_channel_to_injective} ↔ ${c.injective_channel}` };
+  if (a == null && b === 'STATE_OPEN') return { cls: 'warn', label: 'Open (Injective side only verified)', note: 'Chain endpoints did not answer' };
+  if (a == null && b == null) return { cls: 'warn', label: 'Unverified', note: 'Neither end answered' };
+  return { cls: 'bad', label: 'Not open', note: `chain: ${a || '?'} · injective: ${b || '?'}` };
+}
+
+// ---------- render ----------
+function deltaCell(ch, want) {
+  if (!ch) return `<td class="r faint">no data<span class="sub">see gaps</span></td>`;
+  const v = ch.delta; const cls = v > 0.5 ? 'up' : v < -0.5 ? 'down' : 'flat';
+  const sign = v > 0.5 ? '+' : '';
+  return `<td class="r"><span class="num d ${cls}${want ? ' want' : ''}">${sign}${fmt(v, 0)}</span><span class="sub">${ch.source === 'escrow' ? 'escrow' : ch.source}</span></td>`;
+}
+function winLabel() { return S.win === '24h' ? 'Δ 24h' : S.win === '7d' ? 'Δ 7d' : S.win === '30d' ? 'Δ 30d' : 'Δ since Sept 1'; }
+function winTarget(k = S.win) { return k === '24h' ? new Date(Date.now() - 864e5) : k === '7d' ? new Date(Date.now() - 7 * 864e5) : k === '30d' ? new Date(Date.now() - 30 * 864e5) : SEP1; }
+
+function render() {
+  document.querySelectorAll('[data-win]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.win === S.win)));
+  document.querySelectorAll('th[data-wl]').forEach(t => t.textContent = winLabel());
+  renderKPIs(); renderWhere(); renderPool(); renderLedger(); renderActions(); renderTrend(); renderGaps(); renderOthers();
+  $('#regcommit').textContent = (CONFIG.registry_commit || '').slice(0, 10) || 'see repo';
+}
+
+function kpiDelta(nowV, prevV, want) {
+  if (nowV == null || prevV == null) return `<span class="d flat">${winLabel().replace('Δ ', '')}: no archive data</span>`;
+  const v = usd(nowV - prevV); const cls = v > 0.5 ? 'up' : v < -0.5 ? 'down' : 'flat';
+  return `<span class="d ${cls}${want ? ' want' : ''} num">${v > 0.5 ? '+' : ''}${fmt(v, 0)} ${winLabel().replace('Δ ', '').toLowerCase()}</span>`;
+}
+function retiredTotal() {
+  const names = Object.keys(CONFIG.retired || {}); if (!names.length) return null;
+  let t = 0, any = false;
+  for (const n of names) { const d = S.data[n]; const v = d ? (d.nEsc?.now ?? d.n) : null; if (v != null) { t += usd(v); any = true; } }
+  return any ? t : null;
+}
+function nobleBreakdown() {
+  const T = S.totals; const supply = usd(T.nobleSupply), esc = usd(T.nobleEscrow?.now);
+  if (supply == null || esc == null) return null;
+  const retired = retiredTotal() ?? 0;
+  let known = 0; for (const c of CONFIG.chains) { const v = S.data[c.name]?.nEsc?.now; if (v != null && !isRetired(c) && c.name !== 'injective') known += usd(v); }
+  const onInj = usd(S.data.injective?.nEsc?.now) ?? 0;
+  const onNoble = Math.max(0, supply - esc);
+  const other = Math.max(0, esc - known - retired - onInj);
+  return { supply, onNoble, live: known, onInj, retired, other, recoverable: supply - retired };
+}
+function runway() {
+  const b = nobleBreakdown(); if (!b) return null;
+  const days = Math.max(0, (DEADLINE - Date.now()) / 864e5);
+  const T = S.totals; const now = T.nobleSupply;
+  const rate = k => { const p = T.nobleSupplyAt?.[k]; if (now == null || p == null) return null; const d = k === '7d' ? 7 : k === '30d' ? 30 : 1; return usd(p - now) / d; };
+  const r7 = rate('7d'), r30 = rate('30d');
+  const need = days > 0 ? b.recoverable / days : null;
+  const projected = r7 != null ? Math.max(0, b.recoverable - r7 * days) : null;
+  return { days, r7, r30, need, projected, recoverable: b.recoverable };
+}
+function renderWhere() {
+  const el = $('#where'); const b = nobleBreakdown();
+  if (!b) { el.innerHTML = '<h2>Where USDC.n sits</h2><div class="empty">Waiting for Noble totals.</div>'; return; }
+  const parts = [
+    ['Live Cosmos chains (tracked and small)', b.live, 'var(--n)'],
+    ['On Noble itself', b.onNoble, 'color-mix(in srgb, var(--n) 55%, var(--surface))'],
+    ['Parked on Injective, unmigrated', b.onInj, 'var(--inj)'],
+    ['Retired chains', b.retired, 'var(--bad)'],
+    ['Other channels not in registry', b.other, 'var(--line-strong)'],
+  ];
+  const tot = b.supply || 1;
+  el.innerHTML = `<h2>Where the ${fmt(b.supply, 0)} USDC.n sits <span class="faint">Noble total supply = escrow over IBC + balance on Noble</span></h2>
+  <div class="stack">${parts.map(p => `<i style="width:${(p[1] / tot * 100).toFixed(2)}%;background:${p[2]}" title="${p[0]}: ${fmt(p[1], 0)}"></i>`).join('')}</div>
+  <div class="rows">${parts.map(p => `<span class="sw" style="background:${p[2]}"></span><span>${p[0]}</span><span class="num r">${fmt(p[1], 0)}</span><span class="pct num">${(p[1] / tot * 100).toFixed(1)}%</span>`).join('')}</div>
+  <div class="sub-note">Public updates quote the Noble total supply (${fmt(b.supply, 0)}). The tracked table covers the escrow portion on live chains. Recoverable, excluding retired chains: <span class="num">${fmt(b.recoverable, 0)}</span>.</div>`;
+}
+async function loadPool() {
+  const r = await first(POOL.lcd, `/osmosis/poolmanager/v1beta1/pools/${POOL.id}/total_pool_liquidity`, {}, d => d.liquidity || null);
+  S.pool = { at: new Date(), liquidity: r.v, ep: r.ep, err: r.v ? null : (r.errs || []).slice(0, 2).join('; ') };
+  renderPool();
+}
+function renderPool() {
+  const el = $('#pool'); const osmo = CONFIG.chains.find(c => c.name === 'osmosis') || {};
+  const names = { [osmo.usdc_n_denom]: ['USDC.n', 'var(--n)'], [osmo.usdc_inj_denom]: ['USDC.inj', 'var(--inj)'], [POOL.axlusdc]: ['axlUSDC', 'var(--line-strong)'] };
+  const head = `<h2>Osmosis transmuter pool ${POOL.id} <span class="faint">1:1 one-shot conversion venue · refreshes every 5 min · <a href="${POOL.botUrl}" target="_blank" rel="noopener">rebalancer bot</a></span></h2>`;
+  if (!S.pool) { el.innerHTML = head + '<div class="empty">Loading pool balances…</div>'; return; }
+  if (!S.pool.liquidity) { el.innerHTML = head + `<div class="empty">${S.liveFailed ? 'This host blocks outbound requests, so the pool cannot be read here. It works when the page is opened locally or from GitHub Pages.' : 'Pool query failed: ' + S.pool.err}</div>`; return; }
+  const liq = S.pool.liquidity.map(l => ({ denom: l.denom, v: usd(Number(l.amount)), label: (names[l.denom] || [l.denom.slice(0, 12) + '…', 'var(--line-strong)'])[0], col: (names[l.denom] || [0, 'var(--line-strong)'])[1] }));
+  const tot = liq.reduce((a, l) => a + l.v, 0) || 1;
+  const injV = liq.find(l => l.label === 'USDC.inj')?.v ?? 0, nV = liq.find(l => l.label === 'USDC.n')?.v ?? 0;
+  const nShare = nV / tot * 100;
+  const band = nShare > 65 ? 'bad' : nShare > 40 ? 'warn' : 'good';
+  el.innerHTML = head + `<div class="stack">${liq.map(l => `<i style="width:${(l.v / tot * 100).toFixed(2)}%;background:${l.col}" title="${l.label}: ${fmt(l.v, 0)}"></i>`).join('')}</div>
+  <div class="rows">${liq.map(l => `<span class="sw" style="background:${l.col}"></span><span>${l.label}</span><span class="num r">${fmt(l.v, 0)}</span><span class="pct num">${(l.v / tot * 100).toFixed(1)}%</span>`).join('')}</div>
+  <div class="pool-share"><span>USDC.inj available for one-shot conversion: <strong class="num">${fmt(injV, 0)}</strong></span><span class="pill ${band}">USDC.n ${nShare.toFixed(1)}% of pool</span></div>
+  <div class="sub-note">Bot bands: it buys USDC.n when it passes 40% of the pool and stops at 38%; 65% is the ceiling. Last read ${S.pool.at.toLocaleTimeString()} from ${S.pool.ep}.</div>`;
+}
+function runwayKPI() {
+  const r = runway();
+  if (!r) return `<div class="kpi"><span class="eyebrow">Runway to Jan 12, 2027</span><span class="v num">${Math.ceil((DEADLINE - Date.now()) / 864e5)} days</span><span class="d flat">Waiting for Noble history</span></div>`;
+  const pace = r.r7 != null ? r.r7 : r.r30;
+  const ok = pace != null && r.need != null && pace >= r.need;
+  return `<div class="kpi"><span class="eyebrow">Runway to Jan 12, 2027</span><span class="v num">${Math.ceil(r.days)} days</span>
+    <span class="d ${pace == null ? 'flat' : ok ? 'down' : 'up'} num">${pace == null ? 'no 7d or 30d pace yet' : `${fmt(pace, 0)}/day ${r.r7 != null ? '7d' : '30d'} pace vs ${fmt(r.need, 0)}/day needed`}</span>
+    <span class="s">${r.r30 != null && r.r7 != null ? `30d pace ${fmt(r.r30, 0)}/day. ` : ''}${r.projected != null ? `At the 7d pace about <span class="num">${fmt(r.projected, 0)}</span> USDC.n would remain on the deadline.` : ''}</span></div>`;
+}
+function renderKPIs() {
+  const T = S.totals, k = S.win;
+  const cands = S.cands || [];
+  const missing = cands.filter(c => injStatus(c).cls !== 'good').length;
+  const injPrev = T.injSupply?.[k] ?? (snapshotAt(winTarget(k))?.totals?.injective_usdc_supply ?? null);
+  const html = [
+    `<div class="kpi n"><span class="eyebrow">USDC.n remaining (Noble supply)</span><span class="v num">${fmt(usd(T.nobleSupply), 0)}</span>${kpiDelta(T.nobleSupply, T.nobleSupplyAt?.[k], false)}<span class="s">Total uusdc on Noble, the figure used in public updates. Over IBC: <span class="num">${fmt(usd(T.nobleEscrow?.now), 0)}</span>${retiredTotal() != null ? `, of which <span class="num">${fmt(retiredTotal(), 0)}</span> on retired chains (${Object.keys(CONFIG.retired || {}).map(n => (CONFIG.chains.find(c => c.name === n) || {}).pretty || n).join(', ')}) is not counted as recoverable` : ''}</span></div>`,
+    runwayKPI(),
+    `<div class="kpi n" hidden><span class="eyebrow">USDC.n outstanding over IBC</span><span class="v num">${fmt(usd(T.nobleEscrow?.now), 0)}</span>${kpiDelta(T.nobleEscrow?.now, T.nobleEscrow?.[k], false)}<span class="s">Noble total escrow of uusdc across all channels (what still has to migrate or return)${retiredTotal() != null ? `. Of this, <span class="num">${fmt(retiredTotal(), 0)}</span> sits on retired chains (${Object.keys(CONFIG.retired || {}).map(n => (CONFIG.chains.find(c => c.name === n) || {}).pretty || n).join(', ')}) and is not counted as recoverable` : ''}</span></div>`,
+    `<div class="kpi inj"><span class="eyebrow">USDC.inj supply on Injective</span><span class="v num">${fmt(usd(T.injSupply?.now), 0)}</span>${kpiDelta(T.injSupply?.now, injPrev, true)}<span class="s">Native Injective USDC, all holders</span></div>`,
+    `<div class="kpi inj"><span class="eyebrow">USDC.inj exported over IBC</span><span class="v num">${fmt(usd(T.injEscrow?.now), 0)}</span>${kpiDelta(T.injEscrow?.now, T.injEscrow?.[k], true)}<span class="s">Injective total escrow of USDC.inj; the part of supply living on other chains</span></div>`,
+    `<div class="kpi n" hidden><span class="eyebrow">USDC.n parked on Injective</span><span class="v num">${fmt(usd(T.usdcnOnInjective), 0)}</span>${kpiDelta(S.data.injective?.nEsc?.now, S.data.injective?.nEsc?.[k], false)}<span class="s">Unmigrated Noble USDC already sitting on Injective</span></div>`,
+    `<div class="kpi"><span class="eyebrow">Chains tracked</span><span class="v num">${cands.length}</span><span class="d ${missing ? 'up' : 'flat'}">${missing} without a verified open Injective route</span><span class="s">Of ${CONFIG.chains.length - 1} Noble IBC counterparties in the registry, plus XPLA; ${Object.keys(CONFIG.retired || {}).length} retired chain${Object.keys(CONFIG.retired || {}).length === 1 ? '' : 's'} excluded</span></div>`,
+  ];
+  $('#kpis').innerHTML = html.join('');
+}
+
+function renderLedger() {
+  const cands = (S.cands || []).slice().sort((a, b) => (Math.max(usd(S.data[b.name].n) ?? 0, usd(S.data[b.name].nEsc.now) ?? 0)) - (Math.max(usd(S.data[a.name].n) ?? 0, usd(S.data[a.name].nEsc.now) ?? 0)));
+  const body = $('#ledger-body'); const open = new Set([...body.querySelectorAll('tr[aria-expanded="true"]')].map(r => r.dataset.chain));
+  if (!cands.length) { body.innerHTML = '<tr><td colspan="10" class="empty">No chain crossed the threshold, or no endpoint answered.</td></tr>'; return; }
+  body.innerHTML = cands.map(c => {
+    const d = S.data[c.name];
+    const n = usd(d.n), inj = usd(d.inj), nEsc = usd(d.nEsc.now), iEsc = usd(d.iEsc.now);
+    const nShow = n ?? nEsc, injShow = inj ?? iEsc;
+    const share = pct(injShow ?? 0, (nShow ?? 0) + (injShow ?? 0));
+    const st = injStatus(c);
+    const gapN = d.gaps.length;
+    const nSub = n == null && nEsc != null ? 'Noble escrow' : (nEsc != null && n != null && Math.abs(nEsc - n) > Math.max(1000, 0.05 * n) ? `escrow ${fmt(nEsc, 0)}` : '');
+    const injSub = inj == null && iEsc != null ? 'Injective escrow' : (c.name === 'xpla' ? 'via Hub' : '');
+    return `<tr class="row" data-chain="${c.name}" aria-expanded="${open.has(c.name)}" tabindex="0">
+      <td><span class="chev">›</span></td>
+      <td><strong>${c.pretty || c.name}</strong><span class="sub">${c.chain_id || ''}${skipLink(c) ? ` · <a href="${skipLink(c)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Skip:Go</a>` : ''}</span></td>
+      <td class="r"><span class="num">${fmt(nShow, 0)}</span>${nSub ? `<span class="sub">${nSub}</span>` : ''}</td>
+      <td class="r"><span class="num muted">${S.totals.nobleSupply && nShow != null ? (nShow / usd(S.totals.nobleSupply) * 100).toFixed(1) + '%' : '–'}</span><span class="sub">of remaining</span></td>
+      ${deltaCell(change(c, 'n'), false)}
+      <td class="r">${!c.usdc_inj_denom ? '<span class="faint">–</span><span class="sub">no channel</span>' : `<span class="num">${injShow == null ? '<span class="faint">no data</span>' : fmt(injShow, 0)}</span>${injSub ? `<span class="sub">${injSub}</span>` : ''}`}</td>
+      ${c.usdc_inj_denom ? deltaCell(change(c, 'inj'), true) : '<td class="r faint">n/a<span class="sub">no channel</span></td>'}
+      <td><div class="share"><div class="track"><b class="${share >= 0.999 ? 'full' : ''}" style="width:${Math.round((share ?? 0) * 100)}%"></b></div><span class="pct num">${share == null ? '–' : Math.round(share * 100) + '%'}</span></div></td>
+      <td><span class="pill ${st.cls}">${st.label}</span>${c.usdc_inj_denom && c.name !== 'injective' ? ` <span class="pill ${c.usdc_inj_listed ? 'good' : 'warn'}" title="USDC.inj in this chain's chain-registry assetlist">${c.usdc_inj_listed ? 'Listed' : 'Not in assetlist'}</span>` : ''}</td>
+      <td>${gapN ? `<span class="pill warn">${gapN} gap${gapN > 1 ? 's' : ''}</span>` : '<span class="faint">–</span>'}</td>
+    </tr>` + (open.has(c.name) ? detailRow(c) : '');
+  }).join('');
+  body.querySelectorAll('tr.row').forEach(r => { r.onclick = () => toggle(r); r.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(r); } }; });
+}
+function toggle(r) {
+  const open = r.getAttribute('aria-expanded') === 'true'; const c = CONFIG.chains.find(x => x.name === r.dataset.chain);
+  if (open) { r.setAttribute('aria-expanded', 'false'); const n = r.nextElementSibling; if (n && n.classList.contains('detail')) n.remove(); }
+  else { r.setAttribute('aria-expanded', 'true'); r.insertAdjacentHTML('afterend', detailRow(c)); }
+}
+function histTable(label, esc, denomLabel) {
+  const cells = ['now', '24h', '7d', '30d', 'sep1'].map(k => `<span class="num">${esc[k] == null ? '–' : fmt(usd(esc[k]), 0)}</span>`).join('');
+  return `<div class="hist"><span class="h"></span><span class="h">now</span><span class="h">24h ago</span><span class="h">7d ago</span><span class="h">30d ago</span><span class="h">Sept 1</span><span class="lbl">${label}</span>${cells}</div>`;
+}
+function detailRow(c) {
+  const d = S.data[c.name]; const st = injStatus(c);
+  const ex = c.explorer ? `<a href="${c.explorer}" target="_blank" rel="noopener">explorer</a>` : '';
+  return `<tr class="detail"><td colspan="10"><div class="dgrid">
+    <div><h4>USDC.n (from Noble)</h4><dl class="kv">
+      <dt>Path</dt><dd class="num">${c.usdc_n_path || '–'}</dd>
+      <dt>Denom</dt><dd class="num">${c.usdc_n_denom || '–'}</dd>
+      <dt>Noble ch.</dt><dd class="num">${c.noble_channel || '–'} → ${c.chain_channel_to_noble || '–'}</dd>
+      <dt>Escrow</dt><dd class="num">${c.noble_escrow || 'n/a (multi-hop)'}</dd>
+      <dt>Supply src</dt><dd class="num">${d.src.n || '–'}</dd>
+      <dt>Migrate</dt><dd>${skipLink(c) ? `<a href="${skipLink(c)}" target="_blank" rel="noopener">Skip:Go route, USDC.n on ${c.pretty || c.name} to USDC.inj</a>` : '–'}</dd></dl>
+      ${c.noble_escrow ? histTable('Noble escrow', d.nEsc) : ''}
+    </div>
+    <div><h4>USDC.inj (from Injective)</h4><dl class="kv">
+      <dt>Path</dt><dd class="num">${c.usdc_inj_path || '–'}</dd>
+      <dt>Denom</dt><dd class="num">${c.usdc_inj_denom || '–'}</dd>
+      <dt>Injective ch.</dt><dd class="num">${c.injective_channel ? c.injective_channel + ' → ' + c.chain_channel_to_injective : (c.name === 'xpla' ? 'Hub ' + CONFIG.hub_channel_to_injective + ' then XPLA' : 'none in registry')}</dd>
+      <dt>Status</dt><dd><span class="pill ${st.cls}">${st.label}</span> <span class="faint">${st.note}</span></dd>
+      <dt>Assetlist</dt><dd>${c.usdc_inj_denom ? (c.usdc_inj_listed ? 'USDC.inj is listed in this chain\'s registry assetlist' : 'USDC.inj is not yet in this chain\'s registry assetlist; wallets and explorers will show an unknown IBC denom until a PR lands') : '–'}</dd>
+      <dt>Escrow</dt><dd class="num">${c.injective_escrow || 'n/a'}</dd>
+      <dt>Supply src</dt><dd class="num">${d.src.inj || '–'}</dd>
+      ${d.injDirect != null ? `<dt>Direct denom</dt><dd class="num">${fmt(usd(d.injDirect), 0)} USDC via ${c.chain_channel_to_injective_direct}</dd>` : ''}</dl>
+      ${c.injective_escrow ? histTable('Injective escrow', d.iEsc) : ''}
+    </div>
+    <div><h4>Notes and gaps ${ex}</h4>${d.gaps.length ? `<ul class="gaps-list">${d.gaps.map(g => `<li>${g}</li>`).join('')}</ul>` : '<span class="faint">None for this chain.</span>'}</div>
+  </div></td></tr>`;
+}
+
+function renderActions() {
+  const cands = S.cands || [];
+  const items = cands.filter(c => injStatus(c).cls !== 'good').sort((a, b) => (usd(S.data[b.name].n) ?? usd(S.data[b.name].nEsc.now) ?? 0) - (usd(S.data[a.name].n) ?? usd(S.data[a.name].nEsc.now) ?? 0));
+  const el = $('#actions');
+  if (!S.done) return;
+  if (!items.length) { el.innerHTML = '<div class="empty">Every tracked chain has an open Injective transfer channel.</div>'; return; }
+  el.innerHTML = items.map(c => { const st = injStatus(c); const d = S.data[c.name]; const held = usd(d.n) ?? usd(d.nEsc.now);
+    const what = !c.injective_channel ? `No <code>${c.name}-injective</code> IBC file exists in the chain registry. A relayer needs to open a transfer channel and register it, after which USDC.inj can route here directly.` : st.cls === 'warn' ? `${st.note}. Registry channel ${c.chain_channel_to_injective} ↔ ${c.injective_channel}; verify state with a working endpoint.` : `Channel exists in the registry but is not OPEN on both ends (${st.note}).`;
+    return `<div class="card ${st.cls}"><h3>${c.pretty || c.name}<span class="pill ${st.cls}">${st.label}</span></h3><p><span class="num">${fmt(held, 0)}</span> USDC.n held. ${what}</p></div>`; }).join('');
+}
+
+function renderTrend() {
+  const el = $('#trend');
+  const pts = { n: [], inj: [] };
+  const push = (arr, date, v) => { if (v != null && !arr.some(p => p.date === date)) arr.push({ date, v: usd(v) }); };
+  // archive points
+  const now = S.fetchedAt || new Date();
+  const d = k => (k === 'now' ? now : k === '24h' ? new Date(now - 864e5) : k === '7d' ? new Date(now - 7 * 864e5) : k === '30d' ? new Date(now - 30 * 864e5) : SEP1).toISOString().slice(0, 10);
+  for (const k of ['sep1', '30d', '7d', '24h', 'now']) { push(pts.n, d(k), S.totals.nobleEscrow?.[k]); push(pts.inj, d(k), S.totals.injSupply?.[k]); }
+  for (const s of Object.values(S.snapshots)) { push(pts.n, s.date, s.totals?.noble_total_escrow); push(pts.inj, s.date, s.totals?.injective_usdc_supply); }
+  for (const a of Object.values(pts)) a.sort((x, y) => x.date < y.date ? -1 : 1);
+  if (pts.n.length < 2 && pts.inj.length < 2) { el.innerHTML = '<div class="empty">Not enough points yet.</div>'; return; }
+  const W = 900, H = 200, P = { l: 70, r: 20, t: 14, b: 26 };
+  const all = pts.n.concat(pts.inj); const dates = all.map(p => new Date(p.date).getTime());
+  const rw = runway(); const proj = (rw && rw.r7 != null && pts.n.length) ? { from: pts.n[pts.n.length - 1], to: { date: DEADLINE.toISOString().slice(0, 10), v: Math.max(0, pts.n[pts.n.length - 1].v - rw.r7 * rw.days) } } : null;
+  const x0 = Math.min(...dates), x1 = Math.max(...dates, proj ? DEADLINE.getTime() : 0, x0 + 1);
+  const vmax = Math.max(...all.map(p => p.v)) * 1.05;
+  const X = t => P.l + (new Date(t).getTime() - x0) / (x1 - x0) * (W - P.l - P.r);
+  const Y = v => P.t + (1 - v / vmax) * (H - P.t - P.b);
+  const line = (arr, col) => arr.length < 2 ? '' : `<path d="${arr.map((p, i) => (i ? 'L' : 'M') + X(p.date).toFixed(1) + ' ' + Y(p.v).toFixed(1)).join(' ')}" fill="none" stroke="${col}" stroke-width="2" stroke-linejoin="round"/>` + arr.map(p => `<circle cx="${X(p.date).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="3.5" fill="${col}" stroke="var(--surface)" stroke-width="2"><title>${p.date}: ${fmt(p.v, 0)} USDC</title></circle>`).join('');
+  const ticks = [0, 0.5, 1].map(f => { const v = vmax * f; return `<line x1="${P.l}" x2="${W - P.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${P.l - 8}" y="${Y(v) + 4}" text-anchor="end">${v >= 1e6 ? (v / 1e6).toFixed(1) + 'M' : Math.round(v / 1e3) + 'k'}</text>`; }).join('');
+  const xl = [...new Set(all.map(p => p.date).concat(proj ? [proj.to.date] : []))].sort(); const xt = [xl[0], xl[Math.floor(xl.length / 2)], xl[xl.length - 1]].filter((v, i, a) => a.indexOf(v) === i).map(dt => `<text x="${X(dt)}" y="${H - 6}" text-anchor="middle">${dt.slice(5)}</text>`).join('');
+  const end = (arr, col) => arr.length ? `<text x="${X(arr[arr.length - 1].date) - 6}" y="${Y(arr[arr.length - 1].v) - 8}" text-anchor="end" style="fill:${col};font-weight:500">${fmt(arr[arr.length - 1].v, 0)}</text>` : '';
+  el.innerHTML = `<div class="legend" style="margin-bottom:6px"><span><i style="background:var(--n)"></i>USDC.n outstanding over IBC (Noble escrow)</span><span><i style="background:var(--inj)"></i>USDC.inj supply on Injective</span></div>
+  <svg viewBox="0 0 ${W} ${H}" width="100%" height="auto" role="img" aria-label="Trend of USDC.n outstanding and USDC.inj supply">${ticks}${proj ? `<line x1="${X(proj.from.date)}" y1="${Y(proj.from.v)}" x2="${X(proj.to.date)}" y2="${Y(proj.to.v)}" stroke="var(--n)" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.7"/><text x="${X(proj.to.date) - 4}" y="${Y(proj.to.v) - 8}" text-anchor="end">Jan 12 at 7d pace: ${fmt(proj.to.v, 0)}</text>` : ''}${line(pts.n, 'var(--n)')}${line(pts.inj, 'var(--inj)')}${end(pts.n, 'var(--n)')}${end(pts.inj, 'var(--inj)')}${xt}</svg>
+  <div class="faint" style="font-size:12px;margin-top:6px">Points: archive heights (24h, 7d, Sept 1 where available) plus one snapshot per day committed to the repo by the scheduled GitHub Action. Earliest snapshot: ${Object.keys(S.snapshots).sort()[0] || '–'}. ${S.storeInfo || ''}</div>`;
+}
+
+function renderGaps() {
+  const el = $('#gaps'); const groups = [];
+  const global = [
+    { t: 'USDC.inj history before Sept 28', b: 'Injective\'s public REST nodes keep about one week of state and no key-free indexer exposes historical bank balances, so the since-Sept-1 change for USDC.inj is a change since the earliest stored snapshot (' + (Object.keys(S.snapshots).sort()[0] || 'none') + '), not since Sept 1. The Noble side has full archive history, so USDC.n windows are exact.' },
+    { t: 'Retired chains', b: Object.keys(CONFIG.retired || {}).length ? Object.entries(CONFIG.retired).map(([n, why]) => `<strong>${(CONFIG.chains.find(c => c.name === n) || {}).pretty || n}</strong>: ${why}`).join(' ') + ' Their balances appear in the counterparties table but are excluded from tracked chains, the action list and the recoverable total. The list lives in <code>data/retired.json</code>.' : 'None configured.' },
+    { t: 'Multi-hop USDC', b: 'Only the direct Noble channel (and, for XPLA, the Cosmos Hub route) is counted on each chain. USDC.n forwarded through a second chain shows up in the first chain\'s Noble escrow but not in its on-chain supply; a visible difference between the two in a row means tokens moved onward.' },
+    { t: 'Namada and Penumbra', b: 'Namada is a Noble counterparty with no Cosmos SDK REST surface in the registry, so only its Noble escrow is measured. Penumbra appears only as an Injective counterparty.' },
+    { t: 'Historical height resolution', b: 'Heights are found by binary search on block headers from the archive node and land within 90 seconds of the target time; a chain that returned no header for a window is listed below.' },
+  ];
+  S.gaps.forEach(g => global.push({ t: g.chain === 'noble' ? 'Noble archive' : 'Injective archive', b: g.text }));
+  S.errors.forEach(e => global.push({ t: 'Snapshot store', b: e }));
+  global.splice(0, 1, { t: 'USDC.inj history before Sept 28', b: 'Injective\'s public REST nodes keep about one week of state and no key-free indexer exposes historical bank balances, so the since-Sept-1 change for USDC.inj is a change since the earliest daily snapshot in the repo (' + (Object.keys(S.snapshots).sort()[0] || 'none') + '), not since Sept 1. The Noble side has full archive history, so USDC.n windows are exact.' });
+  groups.push({ title: 'Page-wide', items: global });
+  const chainGaps = CONFIG.chains.filter(c => (S.data[c.name]?.gaps || []).length).map(c => ({ t: c.pretty || c.name, b: `<ul>${S.data[c.name].gaps.map(g => `<li>${g}</li>`).join('')}</ul>`, cand: (S.cands || []).includes(c) }));
+  groups.push({ title: 'Tracked chains', items: chainGaps.filter(g => g.cand) });
+  groups.push({ title: 'Other counterparties', items: chainGaps.filter(g => !g.cand) });
+  el.innerHTML = groups.map((g, i) => `<details ${i === 0 ? 'open' : ''}><summary>${g.title} <span class="faint">${g.items.length} item${g.items.length === 1 ? '' : 's'}</span></summary><div class="body">${g.items.length ? `<ul>${g.items.map(it => `<li><strong>${it.t}.</strong> ${it.b}</li>`).join('')}</ul>` : '<span class="faint">None.</span>'}</div></details>`).join('');
+}
+
+function renderOthers() {
+  const size = c => Math.max(usd(S.data[c.name].n) ?? -1, usd(S.data[c.name].nEsc.now) ?? -1);
+  const rest = CONFIG.chains.filter(c => !(S.cands || []).includes(c) && c.name !== 'injective').sort((a, b) => (isRetired(b) - isRetired(a)) || (size(b) - size(a)));
+  $('#others-body').innerHTML = rest.map(c => { const d = S.data[c.name];
+    const note = isRetired(c) ? retiredNote(c) : d.n == null && d.nEsc.now == null ? 'Unmeasurable' : d.n == null ? 'Chain endpoints did not answer' : (d.gaps.length ? d.gaps.length + ' note' + (d.gaps.length > 1 ? 's' : '') : '');
+    return `<tr${isRetired(c) ? ' class="retired"' : ''}><td><strong>${c.pretty || c.name}</strong>${isRetired(c) ? ' <span class="pill bad">Retired</span>' : ''}<span class="sub">${c.chain_id || 'no chain.json'}</span></td><td class="r num">${d.n == null ? '<span class="faint">–</span>' : fmt(usd(d.n), 0)}</td><td class="r num">${d.nEsc.now == null ? '<span class="faint">–</span>' : fmt(usd(d.nEsc.now), 0)}</td><td>${c.injective_channel ? `<span class="pill gray">${c.chain_channel_to_injective} ↔ ${c.injective_channel}</span>` : '<span class="faint">none</span>'}</td><td class="${isRetired(c) ? 'muted' : 'faint'}" style="white-space:normal;min-width:28ch">${note}</td></tr>`; }).join('');
+}
+
+// ---------- wire up ----------
+document.querySelectorAll('[data-win]').forEach(b => b.addEventListener('click', () => { S.win = b.dataset.win; if (S.done) render(); else document.querySelectorAll('[data-win]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.win === S.win))); }));
+$('#refresh').addEventListener('click', () => run());
+loadPool().catch(() => {}); setInterval(() => loadPool().catch(() => {}), POOL.refreshMs);
+// Show the embedded baseline instantly, then replace with live data.
+function applyBaseline() {
+  S.snapshots = { [BASELINE.date]: BASELINE };
+  S.totals = { nobleEscrow: { now: BASELINE.totals.noble_total_escrow, '24h': BASELINE.totals.noble_total_escrow_24h, '7d': BASELINE.totals.noble_total_escrow_7d, sep1: BASELINE.totals.noble_total_escrow_sep1 }, injSupply: { now: BASELINE.totals.injective_usdc_supply, '24h': BASELINE.totals.injective_usdc_supply_24h }, injEscrow: { now: BASELINE.totals.injective_total_escrow }, nobleSupply: BASELINE.totals.noble_usdc_supply, nobleSupplyAt: { now: BASELINE.totals.noble_usdc_supply }, usdcnOnInjective: BASELINE.chains.injective?.usdc_n };
+  for (const c of CONFIG.chains) { const b = BASELINE.chains[c.name] || {}; S.data[c.name] = { n: b.usdc_n ?? null, inj: b.usdc_inj ?? null, nEsc: b.noble_escrow || {}, iEsc: b.injective_escrow || {}, chState: b.inj_channel_state_chain_side || null, injState: b.inj_channel_state_injective_side || null, gaps: [...(c.gaps || [])], src: {} }; }
+  const measureN = c => Math.max(usd(S.data[c.name].n) ?? -1, usd(S.data[c.name].nEsc.now) ?? -1);
+  S.cands = CONFIG.chains.filter(c => !isRetired(c) && (c.name === 'xpla' || (c.name !== 'injective' && measureN(c) > THRESHOLD)));
+  S.fetchedAt = new Date(BASELINE.at);
+}
+(function boot() {
+  applyBaseline(); S.done = true; render(); S.done = false;
+  setStatus('Baseline ' + BASELINE.date + ', refreshing');
+  run().catch(e => { setStatus('Refresh failed'); S.errors.push(String(e)); $('#refresh').disabled = false; S.done = true; render(); });
+})();
+</script>
+
+</body>
+</html>

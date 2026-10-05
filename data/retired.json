@@ -1,0 +1,4 @@
+{
+  "kujira": "Shut down. The chain is no longer operating, so USDC.n locked here is not part of the eligible recovery set.",
+  "sei": "IBC deprecated. Sei no longer supports IBC transfers, so USDC.n on Sei cannot be routed to Injective and is excluded from the eligible recovery set."
+}
