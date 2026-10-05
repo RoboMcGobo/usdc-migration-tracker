@@ -1,0 +1,1242 @@
+{
+ "fetched_at": "2026-10-05T18:20:14+00:00",
+ "heights": {
+  "noble": {
+   "24h": 60802981,
+   "7d": 60336147,
+   "sep1": 58251971
+  },
+  "injective": {
+   "24h": 185851723,
+   "7d": 184984195,
+   "sep1": null
+  }
+ },
+ "chains": {
+  "agoric": {
+   "errors": {},
+   "usdc_n": 23498642015,
+   "usdc_n_src": "https://rest.cosmos.directory/agoric",
+   "usdc_inj": 23919753,
+   "usdc_inj_src": "https://rest.cosmos.directory/agoric",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-454",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 87284868598,
+    "24h": 87184882490,
+    "7d": 87186882490,
+    "sep1": 88910780269
+   },
+   "injective_escrow": {
+    "now": 23919753,
+    "24h": 23919753,
+    "7d": 0
+   }
+  },
+  "amitis": {
+   "errors": {},
+   "usdc_n": 1000000,
+   "usdc_n_src": "https://rest.cosmos.directory/amitis",
+   "noble_escrow": {
+    "now": 1000000,
+    "24h": 1000000,
+    "7d": 1000000,
+    "sep1": 0
+   }
+  },
+  "archway": {
+   "errors": {},
+   "usdc_n": 33651688931,
+   "usdc_n_src": "https://rest.cosmos.directory/archway",
+   "noble_escrow": {
+    "now": 33649998018,
+    "24h": 33649998018,
+    "7d": 33657389991,
+    "sep1": 35748785541
+   }
+  },
+  "aura": {
+   "errors": {},
+   "usdc_n": 5856492,
+   "usdc_n_src": "https://rest.cosmos.directory/aura",
+   "noble_escrow": {
+    "now": 5856492,
+    "24h": 5856492,
+    "7d": 5856492,
+    "sep1": 5856492
+   }
+  },
+  "babylon": {
+   "errors": {},
+   "usdc_n": 510218349916,
+   "usdc_n_src": "https://rest.cosmos.directory/babylon",
+   "noble_escrow": {
+    "now": 510218349916,
+    "24h": 510223973631,
+    "7d": 510537822163,
+    "sep1": 512267428288
+   }
+  },
+  "beezee": {
+   "errors": {},
+   "usdc_n": 3441737212,
+   "usdc_n_src": "https://rest.cosmos.directory/beezee",
+   "usdc_inj": 80403,
+   "usdc_inj_src": "https://rest.cosmos.directory/beezee",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-496",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 3441737212,
+    "24h": 3435989207,
+    "7d": 3723602053,
+    "sep1": 4179920572
+   },
+   "injective_escrow": {
+    "now": 80403,
+    "24h": 80403,
+    "7d": 1
+   }
+  },
+  "bitbadges": {
+   "errors": {},
+   "usdc_n": 94186139,
+   "usdc_n_src": "https://rest.cosmos.directory/bitbadges",
+   "usdc_inj": 33305,
+   "usdc_inj_src": "https://rest.cosmos.directory/bitbadges",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-464",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 94184293,
+    "24h": 94184293,
+    "7d": 94184293,
+    "sep1": 94184293
+   },
+   "injective_escrow": {
+    "now": 33305,
+    "24h": 33305,
+    "7d": 33305
+   }
+  },
+  "bitway": {
+   "errors": {},
+   "usdc_n": 229157316,
+   "usdc_n_src": "https://bitway.api.kjnodes.com",
+   "noble_escrow": {
+    "now": 229157316,
+    "24h": 229157316,
+    "7d": 229157316,
+    "sep1": 229157316
+   }
+  },
+  "coreum": {
+   "errors": {},
+   "usdc_n": 55950386236,
+   "usdc_n_src": "https://rest.cosmos.directory/coreum",
+   "noble_escrow": {
+    "now": 55950386236,
+    "24h": 55947830356,
+    "7d": 56553236602,
+    "sep1": 56012932883
+   }
+  },
+  "cosmoshub": {
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 429: Too Many Requests"
+    ]
+   },
+   "usdc_n": 1792919461394,
+   "usdc_n_src": "https://rest.cosmos.directory/cosmoshub",
+   "usdc_inj": 529233139282,
+   "usdc_inj_src": "https://rest.cosmos.directory/cosmoshub",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-1",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 1792855939081,
+    "24h": 1794317991541,
+    "7d": 1800486110047,
+    "sep1": 2312826975976
+   },
+   "injective_escrow": {
+    "now": 529233139282,
+    "24h": 529083894108,
+    "7d": null
+   }
+  },
+  "crescent": {
+   "errors": {
+    "usdc_n": [
+     "https://rest.cosmos.directory/crescent: HTTPError HTTP Error 502: Bad Gateway",
+     "https://mainnet.crescent.network:1317: URLError <urlopen error timed out>",
+     "https://api-crescent.pupmos.network: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://crescent-api.polkachu.com: URLError <urlopen error [Errno -2] Name or service not know"
+    ],
+    "usdc_inj": [
+     "https://rest.cosmos.directory/crescent: HTTPError HTTP Error 502: Bad Gateway",
+     "https://mainnet.crescent.network:1317: URLError <urlopen error timed out>",
+     "https://api-crescent.pupmos.network: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://crescent-api.polkachu.com: URLError <urlopen error [Errno -2] Name or service not know"
+    ],
+    "chain_side_channel": [
+     "https://rest.cosmos.directory/crescent: HTTPError HTTP Error 502: Bad Gateway",
+     "https://mainnet.crescent.network:1317: URLError <urlopen error timed out>",
+     "https://api-crescent.pupmos.network: URLError <urlopen error [Errno -2] Name or service not know"
+    ]
+   },
+   "usdc_n": null,
+   "usdc_n_src": null,
+   "usdc_inj": null,
+   "usdc_inj_src": null,
+   "inj_channel_state_chain_side": null,
+   "inj_channel_counterparty": null,
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 216051639,
+    "24h": 216051639,
+    "7d": 216051639,
+    "sep1": 216051639
+   },
+   "injective_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": 0
+   }
+  },
+  "doravota": {
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
+   "usdc_n": 507428155,
+   "usdc_n_src": "https://rest.cosmos.directory/doravota",
+   "usdc_inj": 0,
+   "usdc_inj_src": "https://rest.cosmos.directory/doravota",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-182",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 507428155,
+    "24h": 507428155,
+    "7d": 507428155,
+    "sep1": 507428155
+   },
+   "injective_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": null
+   }
+  },
+  "dungeon": {
+   "errors": {},
+   "usdc_n": 626644184,
+   "usdc_n_src": "https://rest.cosmos.directory/dungeon",
+   "usdc_inj": 14390381513,
+   "usdc_inj_src": "https://rest.cosmos.directory/dungeon",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-490",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 626644184,
+    "24h": 626644184,
+    "7d": 710853251,
+    "sep1": 19947691017
+   },
+   "injective_escrow": {
+    "now": 14390381513,
+    "24h": 14370372906,
+    "7d": 14026041237
+   }
+  },
+  "dydx": {
+   "errors": {},
+   "usdc_n": 69706834847353,
+   "usdc_n_src": "https://rest.cosmos.directory/dydx",
+   "usdc_inj": 12821021987,
+   "usdc_inj_src": "https://rest.cosmos.directory/dydx",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-258",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 69706776658441,
+    "24h": 69766676066023,
+    "7d": 72924979222774,
+    "sep1": 73583894954695
+   },
+   "injective_escrow": {
+    "now": 12821021987,
+    "24h": 11693397980,
+    "7d": 2696566164
+   }
+  },
+  "dymension": {
+   "errors": {},
+   "usdc_n": 296233372646,
+   "usdc_n_src": "https://rest.cosmos.directory/dymension",
+   "noble_escrow": {
+    "now": 296233372646,
+    "24h": 294769686646,
+    "7d": 311622940178,
+    "sep1": 322799871942
+   }
+  },
+  "elys": {
+   "errors": {},
+   "usdc_n": 0,
+   "usdc_n_src": "https://elys-api.polkachu.com",
+   "noble_escrow": {
+    "now": 1064862133,
+    "24h": 1064862133,
+    "7d": 1064862133,
+    "sep1": 1064862133
+   }
+  },
+  "evmos": {
+   "errors": {
+    "usdc_n": [
+     "https://rest.cosmos.directory/evmos: HTTPError HTTP Error 404: Not Found",
+     "https://rest.bd.evmos.org:1317: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://rest.lavenderfive.com:443/evmos: HTTPError HTTP Error 503: Service Unavailable",
+     "https://evmos-api.polkachu.com: URLError <urlopen error [Errno -2] Name or service not know"
+    ],
+    "usdc_inj": [
+     "https://rest.cosmos.directory/evmos: HTTPError HTTP Error 404: Not Found",
+     "https://rest.bd.evmos.org:1317: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://rest.lavenderfive.com:443/evmos: HTTPError HTTP Error 503: Service Unavailable",
+     "https://evmos-api.polkachu.com: URLError <urlopen error [Errno -2] Name or service not know"
+    ],
+    "chain_side_channel": [
+     "https://rest.cosmos.directory/evmos: HTTPError HTTP Error 404: Not Found",
+     "https://rest.bd.evmos.org:1317: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://rest.lavenderfive.com:443/evmos: HTTPError HTTP Error 503: Service Unavailable"
+    ]
+   },
+   "usdc_n": null,
+   "usdc_n_src": null,
+   "usdc_inj": null,
+   "usdc_inj_src": null,
+   "inj_channel_state_chain_side": null,
+   "inj_channel_counterparty": null,
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 527550,
+    "24h": 527550,
+    "7d": 527550,
+    "sep1": 527550
+   },
+   "injective_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": 0
+   }
+  },
+  "furya": {
+   "errors": {
+    "usdc_n": [
+     "https://rest.cosmos.directory/furya: HTTPError HTTP Error 502: Bad Gateway",
+     "https://furya.api.nodeshub.online: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://rest.cosmos.directory/furya: HTTPError HTTP Error 502: Bad Gateway",
+     "https://furya.api.nodeshub.online: URLError <urlopen error [Errno -2] Name or service not know"
+    ]
+   },
+   "usdc_n": null,
+   "usdc_n_src": null,
+   "noble_escrow": {
+    "now": 370929822,
+    "24h": 370929822,
+    "7d": 370929822,
+    "sep1": 370929822
+   }
+  },
+  "gateway": {
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 429: Too Many Requests"
+    ]
+   },
+   "usdc_inj": 0,
+   "usdc_inj_src": "https://rest.cosmos.directory/gateway (full supply list)",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-183",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "injective_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": null
+   }
+  },
+  "haqq": {
+   "errors": {},
+   "usdc_n": 68769508250,
+   "usdc_n_src": "https://haqq-rest.publicnode.com",
+   "noble_escrow": {
+    "now": 68769508250,
+    "24h": 68769508250,
+    "7d": 68769508250,
+    "sep1": 68769508250
+   }
+  },
+  "hyve": {
+   "errors": {},
+   "usdc_n": 6978038,
+   "usdc_n_src": "https://rest.cosmos.directory/hyve",
+   "noble_escrow": {
+    "now": 6700000,
+    "24h": 6700000,
+    "7d": 7700000,
+    "sep1": 1000000
+   }
+  },
+  "impacthub": {
+   "errors": {},
+   "usdc_n": 76045695549,
+   "usdc_n_src": "https://rest.cosmos.directory/impacthub",
+   "noble_escrow": {
+    "now": 76045695549,
+    "24h": 98408255549,
+    "7d": 45918921202,
+    "sep1": 15875985091
+   }
+  },
+  "injective": {
+   "errors": {},
+   "usdc_n": 236010039360,
+   "usdc_n_src": "https://rest.cosmos.directory/injective",
+   "noble_escrow": {
+    "now": 236002806052,
+    "24h": 239053532029,
+    "7d": 237633607659,
+    "sep1": 947151169553
+   }
+  },
+  "int3face": {
+   "errors": {
+    "usdc_n": [
+     "https://rest.cosmos.directory/int3face: HTTPError HTTP Error 502: Bad Gateway",
+     "https://api.mainnet.int3face.zone: URLError <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING]",
+     "https://rest.cosmos.directory/int3face: HTTPError HTTP Error 502: Bad Gateway",
+     "https://api.mainnet.int3face.zone: URLError <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING]"
+    ]
+   },
+   "usdc_n": null,
+   "usdc_n_src": null,
+   "noble_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": 0,
+    "sep1": 0
+   }
+  },
+  "joltify": {
+   "errors": {
+    "usdc_n": [
+     "https://rest.cosmos.directory/joltify: HTTPError HTTP Error 502: Bad Gateway",
+     "https://lcd.joltify.io: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://joltify_mainnet_api.chain.whenmoonwhenlambo.money: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://rest.cosmos.directory/joltify: HTTPError HTTP Error 502: Bad Gateway"
+    ]
+   },
+   "usdc_n": null,
+   "usdc_n_src": null,
+   "noble_escrow": {
+    "now": 8502824291,
+    "24h": 8502824291,
+    "7d": 8502824291,
+    "sep1": 8502824291
+   }
+  },
+  "juno": {
+   "errors": {},
+   "usdc_n": 13581839031,
+   "usdc_n_src": "https://rest.cosmos.directory/juno",
+   "noble_escrow": {
+    "now": 13609420269,
+    "24h": 13609420269,
+    "7d": 13609420269,
+    "sep1": 13609420269
+   }
+  },
+  "kava": {
+   "errors": {},
+   "usdc_n": 225785082,
+   "usdc_n_src": "https://rest.cosmos.directory/kava",
+   "usdc_inj": 0,
+   "usdc_inj_src": "https://rest.cosmos.directory/kava",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-143",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 225785082,
+    "24h": 225785082,
+    "7d": 225785082,
+    "sep1": 225785082
+   },
+   "injective_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": 0
+   }
+  },
+  "kopi": {
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 429: Too Many Requests",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
+   "usdc_n": 528562432,
+   "usdc_n_src": "https://kopi-api.bluestake.net",
+   "usdc_inj": 0,
+   "usdc_inj_src": "https://kopi-api.bluestake.net",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-376",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 528562468,
+    "24h": 528562468,
+    "7d": 528562468,
+    "sep1": 528562468
+   },
+   "injective_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": null
+   }
+  },
+  "kujira": {
+   "errors": {
+    "usdc_n": [
+     "https://rest.cosmos.directory/kujira: HTTPError HTTP Error 502: Bad Gateway",
+     "https://lcd.kaiyo.kujira.setten.io: URLError <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] ce",
+     "https://rest.lavenderfive.com:443/kujira: HTTPError HTTP Error 503: Service Unavailable",
+     "https://kujira-lcd.wildsage.io: URLError <urlopen error [Errno -2] Name or service not know"
+    ],
+    "usdc_inj": [
+     "https://rest.cosmos.directory/kujira: HTTPError HTTP Error 502: Bad Gateway",
+     "https://lcd.kaiyo.kujira.setten.io: URLError <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] ce",
+     "https://rest.lavenderfive.com:443/kujira: HTTPError HTTP Error 503: Service Unavailable",
+     "https://kujira-lcd.wildsage.io: URLError <urlopen error [Errno -2] Name or service not know"
+    ],
+    "chain_side_channel": [
+     "https://rest.cosmos.directory/kujira: HTTPError HTTP Error 502: Bad Gateway",
+     "https://lcd.kaiyo.kujira.setten.io: URLError <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] ce",
+     "https://rest.lavenderfive.com:443/kujira: HTTPError HTTP Error 429: Too Many Requests"
+    ]
+   },
+   "usdc_n": null,
+   "usdc_n_src": null,
+   "usdc_inj": null,
+   "usdc_inj_src": null,
+   "inj_channel_state_chain_side": null,
+   "inj_channel_counterparty": null,
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 291733868978,
+    "24h": 291733868978,
+    "7d": 291733868978,
+    "sep1": 291733868978
+   },
+   "injective_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": 0
+   }
+  },
+  "lava": {
+   "errors": {},
+   "usdc_n": 17623806227,
+   "usdc_n_src": "https://rest.cosmos.directory/lava",
+   "noble_escrow": {
+    "now": 17623806227,
+    "24h": 17623812163,
+    "7d": 17625187672,
+    "sep1": 17648989245
+   }
+  },
+  "mantrachain": {
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 429: Too Many Requests"
+    ]
+   },
+   "usdc_n": 59621542603,
+   "usdc_n_src": "https://rest.cosmos.directory/mantrachain",
+   "usdc_inj": 0,
+   "usdc_inj_src": "https://rest.cosmos.directory/mantrachain",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-363",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 59705812603,
+    "24h": 59694891647,
+    "7d": 59750593107,
+    "sep1": 64936540366
+   },
+   "injective_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": null
+   }
+  },
+  "migaloo": {
+   "errors": {
+    "usdc_n": [
+     "https://rest.cosmos.directory/migaloo: HTTPError HTTP Error 502: Bad Gateway",
+     "https://migaloo-api.polkachu.com:443: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://migaloo-api.kleomedes.network:443: URLError <urlopen error [SSL: TLSV1_ALERT_INTERNAL_ERROR] t",
+     "https://migaloo-rest.publicnode.com: HTTPError HTTP Error 404: Not Found"
+    ],
+    "usdc_inj": [
+     "https://rest.cosmos.directory/migaloo: HTTPError HTTP Error 502: Bad Gateway",
+     "https://migaloo-api.polkachu.com:443: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://migaloo-api.kleomedes.network:443: URLError <urlopen error [SSL: TLSV1_ALERT_INTERNAL_ERROR] t",
+     "https://migaloo-rest.publicnode.com: HTTPError HTTP Error 404: Not Found"
+    ],
+    "chain_side_channel": [
+     "https://rest.cosmos.directory/migaloo: HTTPError HTTP Error 502: Bad Gateway",
+     "https://migaloo-api.polkachu.com:443: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://migaloo-api.kleomedes.network:443: URLError <urlopen error [SSL: TLSV1_ALERT_INTERNAL_ERROR] t"
+    ],
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 429: Too Many Requests",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 429: Too Many Requests"
+    ]
+   },
+   "usdc_n": null,
+   "usdc_n_src": null,
+   "usdc_inj": null,
+   "usdc_inj_src": null,
+   "inj_channel_state_chain_side": null,
+   "inj_channel_counterparty": null,
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 37476241,
+    "24h": 37476241,
+    "7d": 37476241,
+    "sep1": 37476241
+   },
+   "injective_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": null
+   }
+  },
+  "namada": {
+   "errors": {},
+   "noble_escrow": {
+    "now": 226609835,
+    "24h": 226609835,
+    "7d": 226609835,
+    "sep1": 226609835
+   }
+  },
+  "neutron": {
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 429: Too Many Requests",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
+   "usdc_n": 2084210147211,
+   "usdc_n_src": "https://rest.cosmos.directory/neutron",
+   "usdc_inj": 1298578880,
+   "usdc_inj_src": "https://rest.cosmos.directory/neutron",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-177",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 2085170517059,
+    "24h": 2085632630774,
+    "7d": 2142742668959,
+    "sep1": 3423104342275
+   },
+   "injective_escrow": {
+    "now": 1298578880,
+    "24h": 1291449617,
+    "7d": null
+   }
+  },
+  "nibiru": {
+   "errors": {},
+   "usdc_n": 5478236017,
+   "usdc_n_src": "https://rest.cosmos.directory/nibiru",
+   "noble_escrow": {
+    "now": 5478236017,
+    "24h": 5478236017,
+    "7d": 5478236017,
+    "sep1": 5478236017
+   }
+  },
+  "omniflixhub": {
+   "errors": {
+    "usdc_n": [
+     "https://rest.cosmos.directory/omniflixhub: HTTPError HTTP Error 404: Not Found",
+     "https://api.omniflix.nodestake.org: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://rest.lavenderfive.com:443/omniflixhub: HTTPError HTTP Error 503: Service Unavailable",
+     "https://api.omniflix.silentvalidator.com: URLError <urlopen error [Errno -2] Name or service not know"
+    ]
+   },
+   "usdc_n": null,
+   "usdc_n_src": null,
+   "noble_escrow": {
+    "now": 2161747315,
+    "24h": 2161747315,
+    "7d": 2161747315,
+    "sep1": 2161747315
+   }
+  },
+  "onex": {
+   "errors": {
+    "usdc_n": [
+     "https://rest.cosmos.directory/onex: HTTPError HTTP Error 404: Not Found",
+     "https://rest.mainnet.onex.onomy.io: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://rest.cosmos.directory/onex: HTTPError HTTP Error 404: Not Found",
+     "https://rest.mainnet.onex.onomy.io: URLError <urlopen error [Errno -2] Name or service not know"
+    ]
+   },
+   "usdc_n": null,
+   "usdc_n_src": null,
+   "noble_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": 0,
+    "sep1": 0
+   }
+  },
+  "oraichain": {
+   "errors": {},
+   "usdc_inj": 0,
+   "usdc_inj_src": "https://rest.cosmos.directory/oraichain",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-147",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "injective_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": 0
+   }
+  },
+  "osmosis": {
+   "errors": {},
+   "usdc_n": 8896140006473,
+   "usdc_n_src": "https://rest.cosmos.directory/osmosis",
+   "usdc_inj": 1477880870710,
+   "usdc_inj_src": "https://rest.cosmos.directory/osmosis",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-8",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 8896050228710,
+    "24h": 8979197053227,
+    "7d": 9707458317810,
+    "sep1": 12828632594869
+   },
+   "injective_escrow": {
+    "now": 1477880870710,
+    "24h": 1522523492943,
+    "7d": 953350969653
+   }
+  },
+  "paxi": {
+   "errors": {},
+   "usdc_n": 629361761,
+   "usdc_n_src": "https://rest.cosmos.directory/paxi",
+   "noble_escrow": {
+    "now": 629361761,
+    "24h": 629361761,
+    "7d": 629361761,
+    "sep1": 629361761
+   }
+  },
+  "persistence": {
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 429: Too Many Requests"
+    ]
+   },
+   "usdc_n": 2202038585,
+   "usdc_n_src": "https://rest.cosmos.directory/persistence",
+   "usdc_inj": 0,
+   "usdc_inj_src": "https://rest.cosmos.directory/persistence",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-82",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 2202029000,
+    "24h": 2250079344,
+    "7d": 2490457763,
+    "sep1": 2199666806
+   },
+   "injective_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": null
+   }
+  },
+  "planq": {
+   "errors": {
+    "usdc_n": [
+     "https://rest.cosmos.directory/planq: HTTPError HTTP Error 502: Bad Gateway",
+     "https://rest.planq.network: TimeoutError The read operation timed out",
+     "https://planq.api.m.stavr.tech: HTTPError HTTP Error 502: Bad Gateway",
+     "https://api.planq.nodestake.org: URLError <urlopen error [Errno 111] Connection refused>"
+    ]
+   },
+   "usdc_n": null,
+   "usdc_n_src": null,
+   "noble_escrow": {
+    "now": 524163045,
+    "24h": 524163045,
+    "7d": 524163045,
+    "sep1": 524163045
+   }
+  },
+  "provenance": {
+   "errors": {},
+   "usdc_n": 79191512,
+   "usdc_n_src": "https://rest.cosmos.directory/provenance",
+   "noble_escrow": {
+    "now": 79191512,
+    "24h": 79191512,
+    "7d": 79191512,
+    "sep1": 79191512
+   }
+  },
+  "pryzm": {
+   "errors": {
+    "usdc_n": [
+     "https://rest.cosmos.directory/pryzm: HTTPError HTTP Error 404: Not Found",
+     "https://api.pryzm.zone: URLError <urlopen error [Errno 111] Connection refused>",
+     "https://rest.lavenderfive.com:443/pryzm: HTTPError HTTP Error 503: Service Unavailable",
+     "https://pryzm-mainnet-lcd.autostake.com:443: HTTPError HTTP Error 404: Not Found"
+    ],
+    "usdc_inj": [
+     "https://rest.cosmos.directory/pryzm: HTTPError HTTP Error 404: Not Found",
+     "https://api.pryzm.zone: URLError <urlopen error [Errno 111] Connection refused>",
+     "https://rest.lavenderfive.com:443/pryzm: HTTPError HTTP Error 429: Too Many Requests",
+     "https://pryzm-mainnet-lcd.autostake.com:443: HTTPError HTTP Error 404: Not Found"
+    ],
+    "chain_side_channel": [
+     "https://rest.cosmos.directory/pryzm: HTTPError HTTP Error 404: Not Found",
+     "https://api.pryzm.zone: URLError <urlopen error [Errno 111] Connection refused>",
+     "https://rest.lavenderfive.com:443/pryzm: HTTPError HTTP Error 429: Too Many Requests"
+    ]
+   },
+   "usdc_n": null,
+   "usdc_n_src": null,
+   "usdc_inj": null,
+   "usdc_inj_src": null,
+   "inj_channel_state_chain_side": null,
+   "inj_channel_counterparty": null,
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": 0,
+    "sep1": 0
+   },
+   "injective_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": 0
+   }
+  },
+  "regen": {
+   "errors": {},
+   "usdc_n": 1,
+   "usdc_n_src": "https://rest.cosmos.directory/regen",
+   "noble_escrow": {
+    "now": 1,
+    "24h": 1,
+    "7d": 1,
+    "sep1": 1
+   }
+  },
+  "ritbit": {
+   "errors": {},
+   "usdc_n": 10000,
+   "usdc_n_src": "https://rest.cosmos.directory/ritbit",
+   "noble_escrow": {
+    "now": 10000,
+    "24h": 10000,
+    "7d": 10000,
+    "sep1": 10000
+   }
+  },
+  "routerchain": {
+   "errors": {
+    "usdc_n": [
+     "https://rest.cosmos.directory/routerchain: HTTPError HTTP Error 404: Not Found",
+     "https://sentry.lcd.routerprotocol.com: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://router-mainnet-lcd.autostake.com:443: HTTPError HTTP Error 404: Not Found",
+     "https://routerchain_mainnet_api.chain.whenmoonwhenlambo.money: URLError <urlopen error [Errno -2] Name or service not know"
+    ]
+   },
+   "usdc_n": null,
+   "usdc_n_src": null,
+   "noble_escrow": {
+    "now": 667332213,
+    "24h": 667332213,
+    "7d": 667332213,
+    "sep1": 667332213
+   }
+  },
+  "safrochain": {
+   "errors": {},
+   "usdc_n": 163051000,
+   "usdc_n_src": "https://rest.cosmos.directory/safrochain",
+   "usdc_inj": 49971273,
+   "usdc_inj_src": "https://rest.cosmos.directory/safrochain",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-495",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 163051000,
+    "24h": 163051000,
+    "7d": 190051000,
+    "sep1": 402051000
+   },
+   "injective_escrow": {
+    "now": 49971273,
+    "24h": 47971273,
+    "7d": 760
+   }
+  },
+  "saga": {
+   "errors": {},
+   "usdc_n": 2300003,
+   "usdc_n_src": "https://rest.cosmos.directory/saga",
+   "noble_escrow": {
+    "now": 2300003,
+    "24h": 2300003,
+    "7d": 2300003,
+    "sep1": 2300003
+   }
+  },
+  "secretnetwork": {
+   "errors": {},
+   "usdc_n": 0,
+   "usdc_n_src": "https://public.stakewolle.com/cosmos/secretnetwork/rest",
+   "usdc_inj": 0,
+   "usdc_inj_src": "https://rest.lavenderfive.com:443/secretnetwork",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-88",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 111557893619,
+    "24h": 111535926709,
+    "7d": 110529916177,
+    "sep1": 113476516047
+   },
+   "injective_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": 0
+   }
+  },
+  "sei": {
+   "errors": {},
+   "usdc_n": 343545833424,
+   "usdc_n_src": "https://rest.sei-apis.com (full supply list)",
+   "noble_escrow": {
+    "now": 343604833424,
+    "24h": 343604833424,
+    "7d": 343604833424,
+    "sep1": 343545833424
+   }
+  },
+  "shido": {
+   "errors": {},
+   "usdc_n": 3281445981,
+   "usdc_n_src": "https://rest.cosmos.directory/shido",
+   "noble_escrow": {
+    "now": 3281445981,
+    "24h": 3281445981,
+    "7d": 3281445981,
+    "sep1": 3281445981
+   }
+  },
+  "sidechain": {
+   "errors": {
+    "usdc_n": [
+     "https://rest.cosmos.directory/sidechain: HTTPError HTTP Error 502: Bad Gateway",
+     "https://rest.side.one: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://api.side.nodestake.org: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://side-api.synergynodes.com: URLError <urlopen error [Errno -2] Name or service not know"
+    ],
+    "usdc_inj": [
+     "https://rest.cosmos.directory/sidechain: HTTPError HTTP Error 502: Bad Gateway",
+     "https://rest.side.one: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://api.side.nodestake.org: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://side-api.synergynodes.com: URLError <urlopen error [Errno -2] Name or service not know"
+    ],
+    "chain_side_channel": [
+     "https://rest.cosmos.directory/sidechain: HTTPError HTTP Error 502: Bad Gateway",
+     "https://rest.side.one: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://api.side.nodestake.org: URLError <urlopen error [Errno -2] Name or service not know"
+    ]
+   },
+   "usdc_n": null,
+   "usdc_n_src": null,
+   "usdc_inj": null,
+   "usdc_inj_src": null,
+   "inj_channel_state_chain_side": null,
+   "inj_channel_counterparty": null,
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 29329320,
+    "24h": 29329320,
+    "7d": 29329320,
+    "sep1": 29329320
+   },
+   "injective_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": 0
+   }
+  },
+  "stargaze": {
+   "errors": {
+    "usdc_n": [
+     "https://rest.cosmos.directory/stargaze: HTTPError HTTP Error 404: Not Found",
+     "https://rest.stargaze-apis.com: URLError <urlopen error [Errno -5] No address associated wi",
+     "https://api-stargaze.pupmos.network: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://api-stargaze.ezstaking.dev: HTTPError HTTP Error 521: <none>"
+    ]
+   },
+   "usdc_n": null,
+   "usdc_n_src": null,
+   "noble_escrow": {
+    "now": 15947871798,
+    "24h": 15947871798,
+    "7d": 15947871798,
+    "sep1": 15947871798
+   }
+  },
+  "sunrise": {
+   "errors": {},
+   "usdc_n": 0,
+   "usdc_n_src": "https://a.consensus.sunrise-1.sunriselayer.io:1318",
+   "noble_escrow": {
+    "now": 0,
+    "24h": 12737624128,
+    "7d": 12948131846,
+    "sep1": 13865453484
+   }
+  },
+  "teritori": {
+   "errors": {},
+   "usdc_n": 283927,
+   "usdc_n_src": "https://teritori-api.bluestake.net",
+   "noble_escrow": {
+    "now": 283927,
+    "24h": 283927,
+    "7d": 283927,
+    "sep1": 283927
+   }
+  },
+  "terra": {
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
+   "usdc_n": 82869093818,
+   "usdc_n_src": "https://rest.cosmos.directory/terra",
+   "usdc_inj": 32063123042,
+   "usdc_inj_src": "https://rest.cosmos.directory/terra",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-497",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 83500835426,
+    "24h": 83962711283,
+    "7d": 106607861180,
+    "sep1": 118389684861
+   },
+   "injective_escrow": {
+    "now": 32063123042,
+    "24h": 32013988681,
+    "7d": null
+   }
+  },
+  "terra2": {
+   "errors": {},
+   "usdc_n": 861055441983,
+   "usdc_n_src": "https://rest.cosmos.directory/terra2",
+   "usdc_inj": 1176168911410,
+   "usdc_inj_src": "https://rest.cosmos.directory/terra2",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-151",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 862054962904,
+    "24h": 1041566413206,
+    "7d": 1211136799606,
+    "sep1": 1839130784167
+   },
+   "injective_escrow": {
+    "now": 1176168911410,
+    "24h": 990502019856,
+    "7d": 908023508488
+   }
+  },
+  "titan": {
+   "errors": {
+    "usdc_n": [
+     "https://rest.cosmos.directory/titan: HTTPError HTTP Error 502: Bad Gateway",
+     "https://titan-lcd.titanlab.io:443: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://titan-lcd-tokyo.titanlab.io:443: URLError <urlopen error [Errno -2] Name or service not know",
+     "https://titan-lcd-seoul.titanlab.io:443: URLError <urlopen error [Errno -2] Name or service not know"
+    ]
+   },
+   "usdc_n": null,
+   "usdc_n_src": null,
+   "noble_escrow": {
+    "now": 812128589,
+    "24h": 812128589,
+    "7d": 812128589,
+    "sep1": 812128589
+   }
+  },
+  "umee": {
+   "errors": {
+    "usdc_n": [
+     "https://rest.cosmos.directory/umee: HTTPError HTTP Error 404: Not Found",
+     "https://umee.api.m.stavr.tech: HTTPError HTTP Error 502: Bad Gateway",
+     "https://umee-mainnet-lcd.autostake.com:443: HTTPError HTTP Error 404: Not Found",
+     "https://umee-api.polkachu.com: URLError <urlopen error [Errno -2] Name or service not know"
+    ],
+    "usdc_inj": [
+     "https://rest.cosmos.directory/umee: HTTPError HTTP Error 404: Not Found",
+     "https://umee.api.m.stavr.tech: HTTPError HTTP Error 502: Bad Gateway",
+     "https://umee-mainnet-lcd.autostake.com:443: HTTPError HTTP Error 404: Not Found",
+     "https://umee-api.polkachu.com: URLError <urlopen error [Errno -2] Name or service not know"
+    ],
+    "chain_side_channel": [
+     "https://rest.cosmos.directory/umee: HTTPError HTTP Error 404: Not Found",
+     "https://umee.api.m.stavr.tech: HTTPError HTTP Error 502: Bad Gateway",
+     "https://umee-mainnet-lcd.autostake.com:443: HTTPError HTTP Error 404: Not Found"
+    ]
+   },
+   "usdc_n": null,
+   "usdc_n_src": null,
+   "usdc_inj": null,
+   "usdc_inj_src": null,
+   "inj_channel_state_chain_side": null,
+   "inj_channel_counterparty": null,
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 2316641292,
+    "24h": 2316641292,
+    "7d": 2316641292,
+    "sep1": 2316641292
+   },
+   "injective_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": 0
+   }
+  },
+  "xion": {
+   "errors": {},
+   "usdc_n": 66830713078,
+   "usdc_n_src": "https://rest.cosmos.directory/xion",
+   "usdc_inj": 0,
+   "usdc_inj_src": "https://rest.cosmos.directory/xion",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-387",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 66830713078,
+    "24h": 66880251078,
+    "7d": 67118640617,
+    "sep1": 68268366381
+   },
+   "injective_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": 0
+   }
+  },
+  "xrplevm": {
+   "errors": {},
+   "usdc_n": 28101109,
+   "usdc_n_src": "https://rest.cosmos.directory/xrplevm",
+   "usdc_inj": 0,
+   "usdc_inj_src": "https://rest.cosmos.directory/xrplevm",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-436",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 54761941,
+    "24h": 54761941,
+    "7d": 54761941,
+    "sep1": 54761941
+   },
+   "injective_escrow": {
+    "now": 0,
+    "24h": 0,
+    "7d": 0
+   }
+  },
+  "zigchain": {
+   "errors": {},
+   "usdc_n": 207275722805,
+   "usdc_n_src": "https://rest.cosmos.directory/zigchain",
+   "usdc_inj": 637385535,
+   "usdc_inj_src": "https://rest.cosmos.directory/zigchain",
+   "inj_channel_state_chain_side": "STATE_OPEN",
+   "inj_channel_counterparty": "channel-456",
+   "inj_channel_state_injective_side": "STATE_OPEN",
+   "noble_escrow": {
+    "now": 207275722805,
+    "24h": 260835059578,
+    "7d": 362573063601,
+    "sep1": 309191057304
+   },
+   "injective_escrow": {
+    "now": 637385535,
+    "24h": 633062260,
+    "7d": 6534795
+   }
+  },
+  "xpla": {
+   "errors": {},
+   "usdc_n": 0,
+   "usdc_n_src": "https://rest.cosmos.directory/xpla",
+   "usdc_inj": 27096293795,
+   "usdc_inj_src": "https://rest.cosmos.directory/xpla"
+  }
+ },
+ "totals": {
+  "noble_total_escrow": 86944252935666,
+  "noble_usdc_supply": 97496974754621,
+  "injective_usdc_supply": 10162675640807,
+  "injective_total_escrow": 3263836883544,
+  "noble_total_escrow_24h": 87358109989791,
+  "injective_usdc_supply_24h": 9487770690430,
+  "noble_total_escrow_7d": 91457212575230,
+  "injective_usdc_supply_7d": 9991084839544,
+  "noble_total_escrow_sep1": 98404949971037
+ }
+}
