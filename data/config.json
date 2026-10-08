@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-10-07T13:14:15+00:00",
- "registry_commit": "c9d65b60bc0229c06d49ded805ba528f316bd9c7",
+ "generated_at": "2026-10-08T13:20:52+00:00",
+ "registry_commit": "e8f91c8b96b0761a314f8a35fcebe89ae06208a4",
  "inj_usdc_base": "erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a",
  "noble_rest": [
   "https://rest.cosmos.directory/noble",
@@ -912,7 +912,9 @@
   },
   {
    "name": "impacthub",
-   "gaps": [],
+   "gaps": [
+    "USDC.inj is not yet listed in this chain's registry assetlist (wallets/explorers may show it as an unknown IBC denom)."
+   ],
    "pretty": "Impact Hub",
    "chain_id": "ixo-5",
    "bech32": "ixo",
@@ -936,9 +938,13 @@
    "usdc_n_path": "transfer/channel-26/uusdc",
    "usdc_n_denom": "ibc/6BBE9BD4246F8E04948D5A4EEE7164B2630263B9EBB5E7DC5F0A46C62A2FF97B",
    "noble_escrow": "noble186mpcj53q3hgfnzdu9wkteczs236vdclxm264k",
-   "injective_registry_file": null,
-   "injective_channel": null,
-   "usdc_inj_denom": null,
+   "injective_registry_file": "impacthub-injective.json",
+   "injective_channel": "channel-502",
+   "chain_channel_to_injective": "channel-31",
+   "injective_channel_status_registry": "ACTIVE",
+   "usdc_inj_path": "transfer/channel-31/erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a",
+   "usdc_inj_denom": "ibc/77C12480BD8C29BF0ACEC2143736C15BAF8CD232CA27BAE09336677B828955E6",
+   "injective_escrow": "inj1hjhstk57wg6h36rfcapxrvm5t44xx5e2qnj9nh",
    "usdc_inj_listed": false,
    "registry_usdc_assets": []
   },
@@ -998,7 +1004,7 @@
    "pretty": "Int3face",
    "chain_id": "int3face-1",
    "bech32": "int3",
-   "status": "live",
+   "status": "killed",
    "network_type": "mainnet",
    "rest": [
     "https://rest.cosmos.directory/int3face",
