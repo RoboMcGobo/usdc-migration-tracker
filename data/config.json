@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-10-08T13:20:52+00:00",
- "registry_commit": "e8f91c8b96b0761a314f8a35fcebe89ae06208a4",
+ "generated_at": "2026-10-09T13:09:15+00:00",
+ "registry_commit": "22bfbee4884034e842506f1ec857a9917568b687",
  "inj_usdc_base": "erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a",
  "noble_rest": [
   "https://rest.cosmos.directory/noble",
@@ -1925,21 +1925,16 @@
    "network_type": "mainnet",
    "rest": [
     "https://rest.cosmos.directory/provenance",
-    "https://api-provenance.takeshi.team",
-    "https://provenance-mainnet-lcd.autostake.com:443",
     "https://api.provenance.io",
     "https://provenance.api.m.stavr.tech",
     "https://provenance.ibs.team:443/api",
     "https://provenance-api.highstakes.ch",
     "https://provenance-api.panthea.eu",
-    "https://provenance_mainnet_api.chain.whenmoonwhenlambo.money",
-    "https://api.pio-mainnet-1.provenance.aviaone.com",
-    "https://provenance-mainnet-api.shazoes.xyz",
     "https://provenance.api.pocket.network",
     "https://provenance-api.polkachu.com",
     "https://provenance-api.kleomedes.network"
    ],
-   "explorer": "https://explorer.provenance.io",
+   "explorer": "https://zonescan.io/provenance",
    "route": "direct",
    "noble_channel": "channel-20",
    "chain_channel_to_noble": "channel-10",
