@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-10-18T10:57:35+00:00",
- "registry_commit": "473011290198e168197830ce21092ff5d6b81074",
+ "generated_at": "2026-10-19T13:00:45+00:00",
+ "registry_commit": "f4c4a2c19c66dc5d20a3d0dc4f8c047418e1770e",
  "inj_usdc_base": "erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a",
  "noble_rest": [
   "https://rest.cosmos.directory/noble",
@@ -353,6 +353,32 @@
      "from_denom": "uusdc"
     }
    ]
+  },
+  {
+   "name": "blg24",
+   "gaps": [],
+   "pretty": "BLG24",
+   "chain_id": "BLG24",
+   "bech32": "blg24",
+   "status": "live",
+   "network_type": "mainnet",
+   "rest": [
+    "https://rest.cosmos.directory/blg24",
+    "https://api.gold24coin.com"
+   ],
+   "explorer": "https://blg24scan.com",
+   "route": "direct",
+   "noble_channel": "channel-637",
+   "chain_channel_to_noble": "channel-3",
+   "noble_channel_status_registry": "ACTIVE",
+   "usdc_n_path": "transfer/channel-3/uusdc",
+   "usdc_n_denom": "ibc/6490A7EAB61059BFC1CDDEB05917DD70BDF3A611654162A1A47DB930D40D8AF4",
+   "noble_escrow": "noble1wcj5tsvc9zp8g33dkg447ykufzgxa3grjshzl5",
+   "injective_registry_file": null,
+   "injective_channel": null,
+   "usdc_inj_denom": null,
+   "usdc_inj_listed": false,
+   "registry_usdc_assets": []
   },
   {
    "name": "coreum",
