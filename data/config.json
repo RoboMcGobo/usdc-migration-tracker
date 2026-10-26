@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-10-25T11:17:25+00:00",
- "registry_commit": "6907efb5f5481aa3bed8a784dc754e229ebb643a",
+ "generated_at": "2026-10-26T12:50:46+00:00",
+ "registry_commit": "cb68eb8d343b3d1dfda2313883c05f4796552338",
  "inj_usdc_base": "erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a",
  "noble_rest": [
   "https://rest.cosmos.directory/noble",
@@ -2929,7 +2929,7 @@
    "gaps": [
     "XPLA has no direct Noble channel; USDC.n and USDC.inj are measured on the multi-hop path through the Cosmos Hub. No per-chain escrow history exists for a multi-hop route, so 24h/7d/since-Sept-1 come from the snapshot store only."
    ],
-   "pretty": "XPLA",
+   "pretty": "CONX",
    "chain_id": "dimension_37-1",
    "bech32": "xpla",
    "status": "live",
@@ -2943,7 +2943,7 @@
     "https://xpla-rest.publicnode.com",
     "https://xpla-api.polkachu.com"
    ],
-   "explorer": "https://explorer.xpla.io/mainnet",
+   "explorer": "https://explorer.conx.xyz/mainnet",
    "route": "via-cosmoshub",
    "noble_channel": null,
    "usdc_n_path": "transfer/channel-6/transfer/channel-536/uusdc",
