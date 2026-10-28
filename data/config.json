@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-10-27T12:02:12+00:00",
- "registry_commit": "6e56fd24dcb4266aa5982dd0ffddcc2ea54b7ea9",
+ "generated_at": "2026-10-28T12:43:36+00:00",
+ "registry_commit": "4b78771c44d620098e3c9756779641d84983d9c0",
  "inj_usdc_base": "erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a",
  "noble_rest": [
   "https://rest.cosmos.directory/noble",
@@ -1360,6 +1360,40 @@
    "usdc_inj_denom": null,
    "usdc_inj_listed": false,
    "registry_usdc_assets": []
+  },
+  {
+   "name": "luxa",
+   "gaps": [],
+   "pretty": "LUXA Network",
+   "chain_id": "luxa-1",
+   "bech32": "luxa",
+   "status": "live",
+   "network_type": "mainnet",
+   "rest": [
+    "https://rest.cosmos.directory/luxa",
+    "https://api.luxaecosystem.xyz",
+    "https://api.nodesafe-app.xyz/luxa"
+   ],
+   "explorer": "https://explorer.luxaecosystem.xyz/luxa",
+   "route": "direct",
+   "noble_channel": "channel-640",
+   "chain_channel_to_noble": "channel-4",
+   "noble_channel_status_registry": "ACTIVE",
+   "usdc_n_path": "transfer/channel-4/uusdc",
+   "usdc_n_denom": "ibc/BFF0D3805B50D93E2FA5C0B2DDF7E0B30A631076CD80BC12A48C0E95404B4A41",
+   "noble_escrow": "noble1pn7ve5nhrm3evxzetyjnc90nu3nl6qujqjyzcv",
+   "injective_registry_file": null,
+   "injective_channel": null,
+   "usdc_inj_denom": null,
+   "usdc_inj_listed": false,
+   "registry_usdc_assets": [
+    {
+     "symbol": "USDC.n",
+     "base": "ibc/BFF0D3805B50D93E2FA5C0B2DDF7E0B30A631076CD80BC12A48C0E95404B4A41",
+     "from": "noble",
+     "from_denom": "uusdc"
+    }
+   ]
   },
   {
    "name": "mantrachain",
