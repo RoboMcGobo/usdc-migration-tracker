@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-11-01T13:13:32+00:00",
- "registry_commit": "4be26a231a945f153a62d045da1e5db4fe58665f",
+ "generated_at": "2026-11-02T15:39:58+00:00",
+ "registry_commit": "3629dcec718047646a26109003767e3f17299ea9",
  "inj_usdc_base": "erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a",
  "noble_rest": [
   "https://rest.cosmos.directory/noble",
@@ -1372,6 +1372,7 @@
    "rest": [
     "https://rest.cosmos.directory/luxa",
     "https://api.luxaecosystem.xyz",
+    "https://luxa-api.onenov.xyz",
     "https://api.nodesafe-app.xyz/luxa"
    ],
    "explorer": "https://explorer.luxaecosystem.xyz/luxa",
