@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-11-03T14:03:46+00:00",
- "registry_commit": "2af5aa3a36e92c7ae340f90f38d197a7568ef303",
+ "generated_at": "2026-11-04T14:24:00+00:00",
+ "registry_commit": "39724ed102e787431fa9228c02491270d32cb5a2",
  "inj_usdc_base": "erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a",
  "noble_rest": [
   "https://rest.cosmos.directory/noble",
@@ -956,7 +956,7 @@
     "https://ixo-api.bluestake.net",
     "https://impacthub_mainnet_api.chain.whenmoonwhenlambo.money"
    ],
-   "explorer": "https://staking-explorer.com/explorer/impacthub",
+   "explorer": "https://explorer.ixo.earth/ixo",
    "route": "direct",
    "noble_channel": "channel-15",
    "chain_channel_to_noble": "channel-26",
