@@ -1,14 +1,14 @@
 {
- "fetched_at": "2026-11-04T14:24:00+00:00",
+ "fetched_at": "2026-11-05T14:32:10+00:00",
  "heights": {
   "noble": {
-   "24h": 63096029,
-   "7d": 62630655,
-   "sep1": 58251985
+   "24h": 63175135,
+   "7d": 62707769,
+   "sep1": 58251974
   },
   "injective": {
-   "24h": 190168179,
-   "7d": 189302240,
+   "24h": 190313096,
+   "7d": 189447684,
    "sep1": null
   }
  },
@@ -51,8 +51,8 @@
    "usdc_n_src": "https://rest.cosmos.directory/archway",
    "noble_escrow": {
     "now": 30640053034,
-    "24h": 30641553034,
-    "7d": 33621448005,
+    "24h": 30640053034,
+    "7d": 33613205296,
     "sep1": 35748785541
    }
   },
@@ -69,34 +69,34 @@
   },
   "babylon": {
    "errors": {},
-   "usdc_n": 506072663212,
+   "usdc_n": 506032663212,
    "usdc_n_src": "https://rest.cosmos.directory/babylon",
    "noble_escrow": {
-    "now": 506072663212,
-    "24h": 506008561395,
-    "7d": 508195390816,
+    "now": 506032663212,
+    "24h": 506072663212,
+    "7d": 508153733406,
     "sep1": 512267428288
    }
   },
   "beezee": {
    "errors": {},
-   "usdc_n": 2349596286,
+   "usdc_n": 2325470511,
    "usdc_n_src": "https://rest.cosmos.directory/beezee",
-   "usdc_inj": 3042758997,
+   "usdc_inj": 3075316503,
    "usdc_inj_src": "https://rest.cosmos.directory/beezee",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-496",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 2349596286,
-    "24h": 2355863636,
-    "7d": 2467321646,
+    "now": 2325470511,
+    "24h": 2349596286,
+    "7d": 2461643733,
     "sep1": 4179920572
    },
    "injective_escrow": {
-    "now": 3042758997,
-    "24h": 2986703072,
-    "7d": 1912111157
+    "now": 3075316503,
+    "24h": 3042758997,
+    "7d": 2413745533
    }
   },
   "bitbadges": {
@@ -144,10 +144,10 @@
   },
   "coreum": {
    "errors": {},
-   "usdc_n": 54848560565,
+   "usdc_n": 55082094953,
    "usdc_n_src": "https://rest.cosmos.directory/coreum",
    "noble_escrow": {
-    "now": 54848560565,
+    "now": 55082094953,
     "24h": 54848560565,
     "7d": 55010018689,
     "sep1": 56012932883
@@ -155,23 +155,23 @@
   },
   "cosmoshub": {
    "errors": {},
-   "usdc_n": 424815577917,
+   "usdc_n": 422700701839,
    "usdc_n_src": "https://rest.cosmos.directory/cosmoshub",
-   "usdc_inj": 866405104379,
+   "usdc_inj": 867885253939,
    "usdc_inj_src": "https://rest.cosmos.directory/cosmoshub",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-1",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 424752055604,
-    "24h": 990819860769,
-    "7d": 1476202623646,
+    "now": 422637179526,
+    "24h": 424752055604,
+    "7d": 1476201633878,
     "sep1": 2312826975976
    },
    "injective_escrow": {
-    "now": 866405104379,
-    "24h": 300339247004,
-    "7d": 499582859413
+    "now": 867885253939,
+    "24h": 866405104379,
+    "7d": 499579764559
    }
   },
   "crescent": {
@@ -236,54 +236,54 @@
   },
   "dungeon": {
    "errors": {},
-   "usdc_n": 361153597,
+   "usdc_n": 350609089,
    "usdc_n_src": "https://rest.cosmos.directory/dungeon",
-   "usdc_inj": 10983879623,
+   "usdc_inj": 10933879623,
    "usdc_inj_src": "https://rest.cosmos.directory/dungeon",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-490",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 361153597,
+    "now": 350609089,
     "24h": 361153597,
-    "7d": 360891532,
+    "7d": 366585852,
     "sep1": 19947691017
    },
    "injective_escrow": {
-    "now": 10983879623,
-    "24h": 11350986039,
-    "7d": 10148222634
+    "now": 10933879623,
+    "24h": 10983879623,
+    "7d": 9989380615
    }
   },
   "dydx": {
    "errors": {},
-   "usdc_n": 69488270563661,
+   "usdc_n": 70669035563667,
    "usdc_n_src": "https://rest.cosmos.directory/dydx",
-   "usdc_inj": 14326552956,
+   "usdc_inj": 14392579312,
    "usdc_inj_src": "https://rest.cosmos.directory/dydx",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-258",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 69488212374749,
-    "24h": 69381133210523,
-    "7d": 68952919497762,
+    "now": 70668977374755,
+    "24h": 69488212374749,
+    "7d": 68847635104573,
     "sep1": 73583894954695
    },
    "injective_escrow": {
-    "now": 14326552956,
-    "24h": 14300563754,
-    "7d": 14096959770
+    "now": 14392579312,
+    "24h": 14326552956,
+    "7d": 14105699297
    }
   },
   "dymension": {
    "errors": {},
-   "usdc_n": 274454926567,
+   "usdc_n": 274429071744,
    "usdc_n_src": "https://rest.cosmos.directory/dymension",
    "noble_escrow": {
-    "now": 274454926567,
-    "24h": 274490616115,
-    "7d": 274691820959,
+    "now": 274429071744,
+    "24h": 274454926567,
+    "7d": 274640161074,
     "sep1": 322799871942
    }
   },
@@ -392,33 +392,33 @@
   },
   "impacthub": {
    "errors": {},
-   "usdc_n": 15228081715,
+   "usdc_n": 15032231715,
    "usdc_n_src": "https://rest.cosmos.directory/impacthub",
-   "usdc_inj": 21976624547,
+   "usdc_inj": 21907972697,
    "usdc_inj_src": "https://rest.cosmos.directory/impacthub",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-502",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 15228081715,
-    "24h": 15325041715,
-    "7d": 50993848449,
+    "now": 15032231715,
+    "24h": 15211161715,
+    "7d": 49442988448,
     "sep1": 15875985091
    },
    "injective_escrow": {
-    "now": 21976624547,
-    "24h": 22841291790,
-    "7d": 13288063
+    "now": 21907972697,
+    "24h": 21993544547,
+    "7d": 344688370
    }
   },
   "injective": {
    "errors": {},
-   "usdc_n": 190451897259,
+   "usdc_n": 1180393829296,
    "usdc_n_src": "https://rest.cosmos.directory/injective",
    "noble_escrow": {
-    "now": 190446812846,
-    "24h": 192782917269,
-    "7d": 214142467664,
+    "now": 1180386595988,
+    "24h": 190446812846,
+    "7d": 213933239692,
     "sep1": 947151169553
    }
   },
@@ -552,11 +552,11 @@
   },
   "lava": {
    "errors": {},
-   "usdc_n": 17549807407,
+   "usdc_n": 17549805387,
    "usdc_n_src": "https://rest.cosmos.directory/lava",
    "noble_escrow": {
-    "now": 17549807407,
-    "24h": 17550209603,
+    "now": 17549805387,
+    "24h": 17549807407,
     "7d": 17613551372,
     "sep1": 17648989245
    }
@@ -574,7 +574,7 @@
   },
   "mantrachain": {
    "errors": {},
-   "usdc_n": 56667974633,
+   "usdc_n": 56674391582,
    "usdc_n_src": "https://rest.cosmos.directory/mantrachain",
    "usdc_inj": 0,
    "usdc_inj_src": "https://rest.cosmos.directory/mantrachain",
@@ -582,9 +582,9 @@
    "inj_channel_counterparty": "channel-363",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 56667974633,
-    "24h": 56669306728,
-    "7d": 56949453538,
+    "now": 56674391582,
+    "24h": 56667974633,
+    "7d": 56939752245,
     "sep1": 64936540366
    },
    "injective_escrow": {
@@ -643,23 +643,23 @@
   },
   "neutron": {
    "errors": {},
-   "usdc_n": 2052232864961,
+   "usdc_n": 2034089379609,
    "usdc_n_src": "https://rest.cosmos.directory/neutron",
-   "usdc_inj": 1280402812,
+   "usdc_inj": 1280476728,
    "usdc_inj_src": "https://rest.cosmos.directory/neutron",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-177",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 2053193234809,
-    "24h": 2054359038463,
-    "7d": 2058236958507,
+    "now": 2035049749457,
+    "24h": 2053193234809,
+    "7d": 2058049043881,
     "sep1": 3423104342275
    },
    "injective_escrow": {
-    "now": 1280402812,
+    "now": 1280476728,
     "24h": 1280402812,
-    "7d": 1238890415
+    "7d": 1238996248
    }
   },
   "nibiru": {
@@ -724,23 +724,23 @@
   },
   "osmosis": {
    "errors": {},
-   "usdc_n": 7013117287075,
+   "usdc_n": 7116440483273,
    "usdc_n_src": "https://rest.cosmos.directory/osmosis",
-   "usdc_inj": 2223377069963,
+   "usdc_inj": 2212195276164,
    "usdc_inj_src": "https://rest.cosmos.directory/osmosis",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-8",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 7013027509312,
-    "24h": 7196258106704,
-    "7d": 7485064719740,
+    "now": 7116350705510,
+    "24h": 7013046389312,
+    "7d": 7587114103224,
     "sep1": 12828632594869
    },
    "injective_escrow": {
-    "now": 2223377069963,
-    "24h": 1987343503386,
-    "7d": 2172286351461
+    "now": 2212203624682,
+    "24h": 2223360549963,
+    "7d": 2162568661468
    }
   },
   "paxi": {
@@ -756,7 +756,7 @@
   },
   "persistence": {
    "errors": {},
-   "usdc_n": 1510969830,
+   "usdc_n": 1508712087,
    "usdc_n_src": "https://rest.cosmos.directory/persistence",
    "usdc_inj": 0,
    "usdc_inj_src": "https://rest.cosmos.directory/persistence",
@@ -764,9 +764,9 @@
    "inj_channel_counterparty": "channel-82",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 1510960245,
-    "24h": 1511276569,
-    "7d": 1567607476,
+    "now": 1508702502,
+    "24h": 1510960245,
+    "7d": 1537353460,
     "sep1": 2199666806
    },
    "injective_escrow": {
@@ -887,7 +887,7 @@
    "errors": {},
    "usdc_n": 155051000,
    "usdc_n_src": "https://rest.cosmos.directory/safrochain",
-   "usdc_inj": 322493462,
+   "usdc_inj": 330503462,
    "usdc_inj_src": "https://rest.cosmos.directory/safrochain",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-495",
@@ -899,7 +899,7 @@
     "sep1": 402051000
    },
    "injective_escrow": {
-    "now": 322493462,
+    "now": 330503462,
     "24h": 322493462,
     "7d": 99003462
    }
@@ -917,7 +917,7 @@
   },
   "secretnetwork": {
    "errors": {},
-   "usdc_n": 112988715363,
+   "usdc_n": 112959793727,
    "usdc_n_src": "https://rest.lavenderfive.com:443/secretnetwork",
    "usdc_inj": 0,
    "usdc_inj_src": "https://rest.lavenderfive.com:443/secretnetwork",
@@ -925,9 +925,9 @@
    "inj_channel_counterparty": "channel-88",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 112988715363,
-    "24h": 112771861428,
-    "7d": 124597009085,
+    "now": 112959793727,
+    "24h": 112993795363,
+    "7d": 116596009085,
     "sep1": 113476516047
    },
    "injective_escrow": {
@@ -1046,44 +1046,44 @@
   },
   "terra": {
    "errors": {},
-   "usdc_n": 5682971659,
+   "usdc_n": 5629454744,
    "usdc_n_src": "https://rest.cosmos.directory/terra",
-   "usdc_inj": 95295831806,
+   "usdc_inj": 95504286902,
    "usdc_inj_src": "https://rest.cosmos.directory/terra",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-497",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 6314713267,
-    "24h": 6356862162,
-    "7d": 6499830331,
+    "now": 6261196352,
+    "24h": 6314713267,
+    "7d": 6510047694,
     "sep1": 118389684861
    },
    "injective_escrow": {
-    "now": 95295831806,
-    "24h": 95137981806,
-    "7d": 103943956817
+    "now": 95504286902,
+    "24h": 95295831806,
+    "7d": 104589657716
    }
   },
   "terra2": {
    "errors": {},
-   "usdc_n": 188678876282,
+   "usdc_n": 180520861776,
    "usdc_n_src": "https://rest.cosmos.directory/terra2",
-   "usdc_inj": 1734541483209,
+   "usdc_inj": 1738271368121,
    "usdc_inj_src": "https://rest.cosmos.directory/terra2",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-151",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 189678397203,
-    "24h": 178284358401,
-    "7d": 304587868658,
+    "now": 181522337188,
+    "24h": 189678397203,
+    "7d": 304746454036,
     "sep1": 1839130784167
    },
    "injective_escrow": {
-    "now": 1734541483209,
-    "24h": 1744035463188,
-    "7d": 1650337625686
+    "now": 1738279716639,
+    "24h": 1734541483209,
+    "7d": 1631242785055
    }
   },
   "titan": {
@@ -1145,7 +1145,7 @@
   },
   "xion": {
    "errors": {},
-   "usdc_n": 66780417989,
+   "usdc_n": 66735917989,
    "usdc_n_src": "https://rest.cosmos.directory/xion",
    "usdc_inj": 0,
    "usdc_inj_src": "https://rest.cosmos.directory/xion",
@@ -1153,9 +1153,9 @@
    "inj_channel_counterparty": "channel-387",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 66780417989,
-    "24h": 66785417989,
-    "7d": 67310985450,
+    "now": 66735917989,
+    "24h": 66780417989,
+    "7d": 67489601450,
     "sep1": 68268366381
    },
    "injective_escrow": {
@@ -1187,42 +1187,42 @@
   },
   "zigchain": {
    "errors": {},
-   "usdc_n": 62315496440,
+   "usdc_n": 59058219081,
    "usdc_n_src": "https://rest.cosmos.directory/zigchain",
-   "usdc_inj": 85556438875,
+   "usdc_inj": 85302059808,
    "usdc_inj_src": "https://rest.cosmos.directory/zigchain",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-456",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 62315496440,
-    "24h": 60863149681,
-    "7d": 64112479388,
+    "now": 59058219081,
+    "24h": 62315496440,
+    "7d": 63792506268,
     "sep1": 309191057304
    },
    "injective_escrow": {
-    "now": 85556438875,
-    "24h": 35735589189,
-    "7d": 34257540574
+    "now": 85302059808,
+    "24h": 85556438875,
+    "7d": 34215540574
    }
   },
   "xpla": {
    "errors": {},
    "usdc_n": 0,
    "usdc_n_src": "https://rest.cosmos.directory/xpla",
-   "usdc_inj": 44435719168,
+   "usdc_inj": 44387739168,
    "usdc_inj_src": "https://rest.cosmos.directory/xpla"
   }
  },
  "totals": {
-  "noble_total_escrow": 81369565431960,
-  "noble_usdc_supply": 85583800173806,
-  "injective_usdc_supply": 11863709253286,
-  "injective_total_escrow": 5285318623922,
-  "noble_total_escrow_24h": 82007746463558,
-  "injective_usdc_supply_24h": 10774908909094,
-  "noble_total_escrow_7d": 82667057356920,
-  "injective_usdc_supply_7d": 11071174021019,
+  "noble_total_escrow": 83601144348172,
+  "noble_usdc_supply": 87779565794067,
+  "injective_usdc_supply": 11910780741510,
+  "injective_total_escrow": 5303985373672,
+  "noble_total_escrow_24h": 81369572471960,
+  "injective_usdc_supply_24h": 11867036253286,
+  "noble_total_escrow_7d": 82653758401563,
+  "injective_usdc_supply_7d": 11068714422440,
   "noble_total_escrow_sep1": 98404949971037
  }
 }
