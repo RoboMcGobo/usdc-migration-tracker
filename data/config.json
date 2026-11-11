@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-11-10T14:46:52+00:00",
- "registry_commit": "244b495db521a6bbf46a8eb0cfca018176f5b386",
+ "generated_at": "2026-11-11T14:09:38+00:00",
+ "registry_commit": "22752ac5ae6593e165a0d93567ce8b77bb051ab2",
  "inj_usdc_base": "erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a",
  "noble_rest": [
   "https://rest.cosmos.directory/noble",
@@ -2892,7 +2892,8 @@
     "https://rest.cosmos.directory/xrplevm",
     "https://cosmos-api.xrplevm.org",
     "https://api.xrpl.cumulo.org.es",
-    "https://xrp-api.polkachu.com"
+    "https://xrp-api.polkachu.com",
+    "https://api.xrpl.archive.cumulo.me"
    ],
    "explorer": "https://explorer.xrplevm.org",
    "route": "direct",
