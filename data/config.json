@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-11-15T13:51:57+00:00",
- "registry_commit": "204a68934dde734c789f5cbb748a026c4bc85875",
+ "generated_at": "2026-11-16T15:35:19+00:00",
+ "registry_commit": "aa4b1f58e427c969b0719d77e04e82cd2aeaa76d",
  "inj_usdc_base": "erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a",
  "noble_rest": [
   "https://rest.cosmos.directory/noble",
@@ -1371,11 +1371,12 @@
    "network_type": "mainnet",
    "rest": [
     "https://rest.cosmos.directory/luxa",
-    "https://api.luxaecosystem.xyz",
+    "https://luxa-api.validatorsg.com",
     "https://luxa-api.onenov.xyz",
-    "https://api.nodesafe-app.xyz/luxa"
+    "https://api.nodesafe-app.xyz/luxa",
+    "https://luxa.api.m.anode.team"
    ],
-   "explorer": "https://explorer.luxaecosystem.xyz/luxa",
+   "explorer": "https://explorer.onenov.xyz/luxa",
    "route": "direct",
    "noble_channel": "channel-640",
    "chain_channel_to_noble": "channel-4",
@@ -1898,7 +1899,6 @@
     "https://rest.core.persistence.one",
     "https://persistence.api.m.stavr.tech",
     "https://persistence-api.polkachu.com",
-    "https://persistence-api.kleomedes.network",
     "https://rest-persistence.architectnodes.com",
     "https://persistence-mainnet-lcd.autostake.com:443",
     "https://persistence-mainnet-rest.cosmonautstakes.com",
