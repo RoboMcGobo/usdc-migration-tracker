@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-11-16T15:35:19+00:00",
- "registry_commit": "aa4b1f58e427c969b0719d77e04e82cd2aeaa76d",
+ "generated_at": "2026-11-17T15:54:11+00:00",
+ "registry_commit": "7f034ab5adebae46fcf27da43ce2951c3257ea3c",
  "inj_usdc_base": "erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a",
  "noble_rest": [
   "https://rest.cosmos.directory/noble",
