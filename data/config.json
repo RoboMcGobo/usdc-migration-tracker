@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-11-18T15:32:25+00:00",
- "registry_commit": "b6a3783ebb2c0e922a23d898bc3e872ef65b9a52",
+ "generated_at": "2026-11-19T15:39:23+00:00",
+ "registry_commit": "4e25007e694db45291c77c1b491d2880eede15be",
  "inj_usdc_base": "erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a",
  "noble_rest": [
   "https://rest.cosmos.directory/noble",
@@ -1757,7 +1757,8 @@
     "https://osmosis-api.highstakes.ch",
     "https://api.osmosis.citizenweb3.com",
     "https://osmosis.api.pocket.network",
-    "https://osmosis.rpc.uquad.org:443"
+    "https://osmosis.rpc.uquad.org:443",
+    "https://osmosis-mainnet-api.crouton.digital"
    ],
    "explorer": "https://ezstaking.app/osmosis",
    "route": "direct",
