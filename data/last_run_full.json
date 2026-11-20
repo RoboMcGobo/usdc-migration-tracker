@@ -1,20 +1,26 @@
 {
- "fetched_at": "2026-11-19T15:39:23+00:00",
+ "fetched_at": "2026-11-20T15:20:48+00:00",
  "heights": {
   "noble": {
-   "24h": 64266571,
-   "7d": 63798636,
-   "sep1": 58251973
+   "24h": 64343765,
+   "7d": 63874448,
+   "sep1": 58251972
   },
   "injective": {
-   "24h": 192285848,
-   "7d": 191428754,
+   "24h": 192427680,
+   "7d": 191570701,
    "sep1": null
   }
  },
  "chains": {
   "agoric": {
-   "errors": {},
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
    "usdc_n": 23402379875,
    "usdc_n_src": "https://rest.cosmos.directory/agoric",
    "usdc_inj": 23919753,
@@ -31,7 +37,7 @@
    "injective_escrow": {
     "now": 23919753,
     "24h": 23919753,
-    "7d": 23919753
+    "7d": null
    }
   },
   "amitis": {
@@ -51,7 +57,7 @@
    "usdc_n_src": "https://rest.cosmos.directory/archway",
    "noble_escrow": {
     "now": 30623479898,
-    "24h": 30627085748,
+    "24h": 30623479898,
     "7d": 30627213182,
     "sep1": 35748785541
    }
@@ -69,38 +75,50 @@
   },
   "babylon": {
    "errors": {},
-   "usdc_n": 505045714934,
+   "usdc_n": 505053667853,
    "usdc_n_src": "https://rest.cosmos.directory/babylon",
    "noble_escrow": {
-    "now": 505045714934,
-    "24h": 505056876934,
-    "7d": 505755871362,
+    "now": 505053667853,
+    "24h": 505045714934,
+    "7d": 505668039611,
     "sep1": 512267428288
    }
   },
   "beezee": {
-   "errors": {},
-   "usdc_n": 2111923209,
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
+   "usdc_n": 2103616843,
    "usdc_n_src": "https://rest.cosmos.directory/beezee",
-   "usdc_inj": 4494661383,
+   "usdc_inj": 4466035473,
    "usdc_inj_src": "https://rest.cosmos.directory/beezee",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-496",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 2111923209,
-    "24h": 2114709021,
-    "7d": 2183616666,
+    "now": 2103616843,
+    "24h": 2111923209,
+    "7d": 2173616666,
     "sep1": 4179920572
    },
    "injective_escrow": {
-    "now": 4494661383,
+    "now": 4466035473,
     "24h": 4494661383,
-    "7d": 3607849366
+    "7d": null
    }
   },
   "bitbadges": {
-   "errors": {},
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
    "usdc_n": 94186139,
    "usdc_n_src": "https://rest.cosmos.directory/bitbadges",
    "usdc_inj": 33305,
@@ -117,7 +135,7 @@
    "injective_escrow": {
     "now": 33305,
     "24h": 33305,
-    "7d": 33305
+    "7d": null
    }
   },
   "bitway": {
@@ -144,34 +162,40 @@
   },
   "coreum": {
    "errors": {},
-   "usdc_n": 54387653341,
+   "usdc_n": 54322515048,
    "usdc_n_src": "https://rest.cosmos.directory/coreum",
    "noble_escrow": {
-    "now": 54387653341,
-    "24h": 54210432361,
-    "7d": 54591367480,
+    "now": 54322515048,
+    "24h": 54387653341,
+    "7d": 54735003071,
     "sep1": 56012932883
    }
   },
   "cosmoshub": {
-   "errors": {},
-   "usdc_n": 415011277596,
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
+   "usdc_n": 414795915124,
    "usdc_n_src": "https://rest.cosmos.directory/cosmoshub",
-   "usdc_inj": 863793297603,
+   "usdc_inj": 863123759027,
    "usdc_inj_src": "https://rest.cosmos.directory/cosmoshub",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-1",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 414947755283,
-    "24h": 414954366195,
-    "7d": 415109743175,
+    "now": 414732392811,
+    "24h": 414947755283,
+    "7d": 415109323175,
     "sep1": 2312826975976
    },
    "injective_escrow": {
-    "now": 863793297603,
-    "24h": 864136357603,
-    "7d": 868870059398
+    "now": 863123759027,
+    "24h": 863793297603,
+    "7d": null
    }
   },
   "crescent": {
@@ -192,6 +216,11 @@
      "https://rest.cosmos.directory/crescent: HTTPError HTTP Error 502: Bad Gateway",
      "https://mainnet.crescent.network:1317: URLError <urlopen error timed out>",
      "https://api-crescent.pupmos.network: URLError <urlopen error [Errno -2] Name or service not know"
+    ],
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
     ]
    },
    "usdc_n": null,
@@ -210,11 +239,17 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": 0
+    "7d": null
    }
   },
   "doravota": {
-   "errors": {},
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
    "usdc_n": 507428155,
    "usdc_n_src": "https://rest.cosmos.directory/doravota",
    "usdc_inj": 0,
@@ -231,59 +266,71 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": 0
+    "7d": null
    }
   },
   "dungeon": {
-   "errors": {},
-   "usdc_n": 335893924,
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
+   "usdc_n": 339061465,
    "usdc_n_src": "https://rest.cosmos.directory/dungeon",
-   "usdc_inj": 7538294141,
+   "usdc_inj": 7477222531,
    "usdc_inj_src": "https://rest.cosmos.directory/dungeon",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-490",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 335893924,
+    "now": 339061465,
     "24h": 335893924,
-    "7d": 288222792,
+    "7d": 326232792,
     "sep1": 19947691017
    },
    "injective_escrow": {
-    "now": 7538294141,
-    "24h": 7607986383,
-    "7d": 7336384874
+    "now": 7477222531,
+    "24h": 7546294141,
+    "7d": null
    }
   },
   "dydx": {
-   "errors": {},
-   "usdc_n": 65948421889804,
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
+   "usdc_n": 65965381139147,
    "usdc_n_src": "https://rest.cosmos.directory/dydx",
-   "usdc_inj": 27073581210968,
+   "usdc_inj": 36897905518032,
    "usdc_inj_src": "https://rest.cosmos.directory/dydx",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-258",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 38889729623688,
-    "24h": 49766439666423,
-    "7d": 70387901386110,
+    "now": 29082364565967,
+    "24h": 39021274720464,
+    "7d": 68316756278168,
     "sep1": 73583894954695
    },
    "injective_escrow": {
-    "now": 27084543195740,
-    "24h": 16400662159111,
-    "7d": 14719108984
+    "now": 36897905518032,
+    "24h": 26942037114192,
+    "7d": null
    }
   },
   "dymension": {
    "errors": {},
-   "usdc_n": 272996670888,
+   "usdc_n": 272987613968,
    "usdc_n_src": "https://rest.cosmos.directory/dymension",
    "noble_escrow": {
-    "now": 272996670888,
-    "24h": 273073198481,
-    "7d": 273536281413,
+    "now": 272987613968,
+    "24h": 272996670888,
+    "7d": 273529929061,
     "sep1": 322799871942
    }
   },
@@ -316,6 +363,11 @@
      "https://rest.cosmos.directory/evmos: HTTPError HTTP Error 404: Not Found",
      "https://rest.bd.evmos.org:1317: URLError <urlopen error [Errno -2] Name or service not know",
      "https://rest.lavenderfive.com:443/evmos: HTTPError HTTP Error 503: Service Unavailable"
+    ],
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
     ]
    },
    "usdc_n": null,
@@ -334,7 +386,7 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": 0
+    "7d": null
    }
   },
   "furya": {
@@ -356,7 +408,13 @@
    }
   },
   "gateway": {
-   "errors": {},
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
    "usdc_inj": 0,
    "usdc_inj_src": "https://rest.cosmos.directory/gateway (full supply list)",
    "inj_channel_state_chain_side": "STATE_OPEN",
@@ -365,7 +423,7 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": 0
+    "7d": null
    }
   },
   "haqq": {
@@ -391,34 +449,40 @@
    }
   },
   "impacthub": {
-   "errors": {},
-   "usdc_n": 8277478353,
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
+   "usdc_n": 8270478353,
    "usdc_n_src": "https://rest.cosmos.directory/impacthub",
-   "usdc_inj": 15566603664,
+   "usdc_inj": 15417483664,
    "usdc_inj_src": "https://rest.cosmos.directory/impacthub",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-502",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 8277478353,
-    "24h": 8279478353,
-    "7d": 9590784547,
+    "now": 8270478353,
+    "24h": 8277478353,
+    "7d": 9183514547,
     "sep1": 15875985091
    },
    "injective_escrow": {
-    "now": 15566603664,
-    "24h": 16469235893,
-    "7d": 22678130741
+    "now": 15417483664,
+    "24h": 15566603664,
+    "7d": null
    }
   },
   "injective": {
    "errors": {},
-   "usdc_n": 192109468078,
+   "usdc_n": 192229269994,
    "usdc_n_src": "https://rest.cosmos.directory/injective",
    "noble_escrow": {
-    "now": 192102494770,
-    "24h": 192106131500,
-    "7d": 186623086993,
+    "now": 192222036686,
+    "24h": 192102494770,
+    "7d": 187287899840,
     "sep1": 947151169553
    }
   },
@@ -470,11 +534,17 @@
    }
   },
   "kava": {
-   "errors": {},
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
    "usdc_n": 225785082,
-   "usdc_n_src": "https://api.data.kava.io",
+   "usdc_n_src": "https://rest.cosmos.directory/kava",
    "usdc_inj": 0,
-   "usdc_inj_src": "https://api.data.kava.io",
+   "usdc_inj_src": "https://rest.cosmos.directory/kava",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-143",
    "inj_channel_state_injective_side": "STATE_OPEN",
@@ -487,11 +557,17 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": 0
+    "7d": null
    }
   },
   "kopi": {
-   "errors": {},
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
    "usdc_n": 528562432,
    "usdc_n_src": "https://kopi-api.bluestake.net",
    "usdc_inj": 0,
@@ -508,7 +584,7 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": 0
+    "7d": null
    }
   },
   "kujira": {
@@ -529,6 +605,11 @@
      "https://rest.cosmos.directory/kujira: HTTPError HTTP Error 502: Bad Gateway",
      "https://lcd.kaiyo.kujira.setten.io: URLError <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] ce",
      "https://rest.lavenderfive.com:443/kujira: HTTPError HTTP Error 503: Service Unavailable"
+    ],
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
     ]
    },
    "usdc_n": null,
@@ -547,16 +628,16 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": 0
+    "7d": null
    }
   },
   "lava": {
    "errors": {},
-   "usdc_n": 17526572391,
+   "usdc_n": 17522080084,
    "usdc_n_src": "https://rest.cosmos.directory/lava",
    "noble_escrow": {
-    "now": 17526572391,
-    "24h": 17533766204,
+    "now": 17522080084,
+    "24h": 17526572391,
     "7d": 17549790385,
     "sep1": 17648989245
    }
@@ -573,8 +654,14 @@
    }
   },
   "mantrachain": {
-   "errors": {},
-   "usdc_n": 55701295481,
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
+   "usdc_n": 55425059583,
    "usdc_n_src": "https://rest.cosmos.directory/mantrachain",
    "usdc_inj": 0,
    "usdc_inj_src": "https://rest.cosmos.directory/mantrachain",
@@ -582,15 +669,15 @@
    "inj_channel_counterparty": "channel-363",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 55701295481,
-    "24h": 55691383736,
+    "now": 55425059583,
+    "24h": 55701295481,
     "7d": 55754797332,
     "sep1": 64936540366
    },
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": 0
+    "7d": null
    }
   },
   "migaloo": {
@@ -611,6 +698,11 @@
      "https://rest.cosmos.directory/migaloo: HTTPError HTTP Error 502: Bad Gateway",
      "https://migaloo-api.polkachu.com:443: URLError <urlopen error [Errno -2] Name or service not know",
      "https://migaloo-api.kleomedes.network:443: HTTPError HTTP Error 525: <none>"
+    ],
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
     ]
    },
    "usdc_n": null,
@@ -629,7 +721,7 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": 0
+    "7d": null
    }
   },
   "namada": {
@@ -642,8 +734,14 @@
    }
   },
   "neutron": {
-   "errors": {},
-   "usdc_n": 1424186898724,
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
+   "usdc_n": 1423970646799,
    "usdc_n_src": "https://rest.cosmos.directory/neutron",
    "usdc_inj": 610184242001,
    "usdc_inj_src": "https://rest.cosmos.directory/neutron",
@@ -651,15 +749,15 @@
    "inj_channel_counterparty": "channel-177",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 1425147268572,
-    "24h": 1425289514525,
-    "7d": 2034688783169,
+    "now": 1424931016647,
+    "24h": 1425163927374,
+    "7d": 2034697476461,
     "sep1": 3423104342275
    },
    "injective_escrow": {
     "now": 610184242001,
-    "24h": 610062768728,
-    "7d": 1268776736
+    "24h": 610184242001,
+    "7d": null
    }
   },
   "nibiru": {
@@ -710,7 +808,13 @@
    }
   },
   "oraichain": {
-   "errors": {},
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
    "usdc_inj": 0,
    "usdc_inj_src": "https://rest.cosmos.directory/oraichain",
    "inj_channel_state_chain_side": "STATE_OPEN",
@@ -719,28 +823,34 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": 0
+    "7d": null
    }
   },
   "osmosis": {
-   "errors": {},
-   "usdc_n": 6379450658723,
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
+   "usdc_n": 6362449336475,
    "usdc_n_src": "https://rest.cosmos.directory/osmosis",
-   "usdc_inj": 1744603409965,
+   "usdc_inj": 1597867214779,
    "usdc_inj_src": "https://rest.cosmos.directory/osmosis",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-8",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 6379360880960,
-    "24h": 6695214402508,
-    "7d": 6622321714679,
+    "now": 6362359558712,
+    "24h": 6379345322158,
+    "7d": 6577132493168,
     "sep1": 12828632594869
    },
    "injective_escrow": {
-    "now": 1744603409965,
-    "24h": 1553980105638,
-    "7d": 2032511908758
+    "now": 1597867214779,
+    "24h": 1745246597628,
+    "7d": null
    }
   },
   "paxi": {
@@ -755,8 +865,14 @@
    }
   },
   "persistence": {
-   "errors": {},
-   "usdc_n": 1331177596,
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
+   "usdc_n": 1310887598,
    "usdc_n_src": "https://rest.cosmos.directory/persistence",
    "usdc_inj": 0,
    "usdc_inj_src": "https://rest.cosmos.directory/persistence",
@@ -764,15 +880,15 @@
    "inj_channel_counterparty": "channel-82",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 1331168011,
-    "24h": 1267487431,
-    "7d": 1333781377,
+    "now": 1310878013,
+    "24h": 1331168011,
+    "7d": 1330986448,
     "sep1": 2199666806
    },
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": 0
+    "7d": null
    }
   },
   "planq": {
@@ -822,6 +938,11 @@
      "https://rest.cosmos.directory/pryzm: HTTPError HTTP Error 404: Not Found",
      "https://api.pryzm.zone: URLError <urlopen error [Errno -2] Name or service not know",
      "https://rest.lavenderfive.com:443/pryzm: HTTPError HTTP Error 503: Service Unavailable"
+    ],
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
     ]
    },
    "usdc_n": null,
@@ -840,7 +961,7 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": 0
+    "7d": null
    }
   },
   "regen": {
@@ -884,7 +1005,13 @@
    }
   },
   "safrochain": {
-   "errors": {},
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
    "usdc_n": 155051000,
    "usdc_n_src": "https://rest.cosmos.directory/safrochain",
    "usdc_inj": 65617078,
@@ -900,8 +1027,8 @@
    },
    "injective_escrow": {
     "now": 65617078,
-    "24h": 198597078,
-    "7d": 60500760
+    "24h": 65617078,
+    "7d": null
    }
   },
   "saga": {
@@ -916,7 +1043,13 @@
    }
   },
   "secretnetwork": {
-   "errors": {},
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
    "usdc_n": 99201283575,
    "usdc_n_src": "https://rest.lavenderfive.com:443/secretnetwork",
    "usdc_inj": 0,
@@ -927,13 +1060,13 @@
    "noble_escrow": {
     "now": 99201283575,
     "24h": 99201283575,
-    "7d": 108456441857,
+    "7d": 102340013053,
     "sep1": 113476516047
    },
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": 0
+    "7d": null
    }
   },
   "sei": {
@@ -983,6 +1116,11 @@
      "https://rest.cosmos.directory/sidechain: HTTPError HTTP Error 502: Bad Gateway",
      "https://rest.side.one: URLError <urlopen error [Errno -2] Name or service not know",
      "https://api.side.nodestake.org: URLError <urlopen error [Errno -2] Name or service not know"
+    ],
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
     ]
    },
    "usdc_n": null,
@@ -1001,7 +1139,7 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": 0
+    "7d": null
    }
   },
   "stargaze": {
@@ -1052,45 +1190,57 @@
    }
   },
   "terra": {
-   "errors": {},
-   "usdc_n": 5418029620,
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
+   "usdc_n": 5414862079,
    "usdc_n_src": "https://rest.cosmos.directory/terra",
-   "usdc_inj": 98719831883,
+   "usdc_inj": 101243591369,
    "usdc_inj_src": "https://rest.cosmos.directory/terra",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-497",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 6049771228,
-    "24h": 5981259228,
-    "7d": 6047332240,
+    "now": 6046603687,
+    "24h": 6049771228,
+    "7d": 6037332240,
     "sep1": 118389684861
    },
    "injective_escrow": {
-    "now": 98869831883,
-    "24h": 91872546599,
-    "7d": 91773188672
+    "now": 101243591369,
+    "24h": 98869831883,
+    "7d": null
    }
   },
   "terra2": {
-   "errors": {},
-   "usdc_n": 93358958658,
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
+   "usdc_n": 94457366803,
    "usdc_n_src": "https://rest.cosmos.directory/terra2",
-   "usdc_inj": 1667897038742,
+   "usdc_inj": 1628580910867,
    "usdc_inj_src": "https://rest.cosmos.directory/terra2",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-151",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 94368439579,
-    "24h": 93350824306,
-    "7d": 180950095845,
+    "now": 95456887724,
+    "24h": 94368439579,
+    "7d": 179985932891,
     "sep1": 1839130784167
    },
    "injective_escrow": {
-    "now": 1667897038742,
-    "24h": 1650629499459,
-    "7d": 1651089653568
+    "now": 1628580910867,
+    "24h": 1667917080682,
+    "7d": null
    }
   },
   "titan": {
@@ -1129,6 +1279,11 @@
      "https://rest.cosmos.directory/umee: HTTPError HTTP Error 404: Not Found",
      "https://umee.api.m.stavr.tech: HTTPError HTTP Error 502: Bad Gateway",
      "https://umee-mainnet-lcd.autostake.com:443: HTTPError HTTP Error 404: Not Found"
+    ],
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
     ]
    },
    "usdc_n": null,
@@ -1147,12 +1302,18 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": 0
+    "7d": null
    }
   },
   "xion": {
-   "errors": {},
-   "usdc_n": 65422723531,
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
+   "usdc_n": 65322723531,
    "usdc_n_src": "https://rest.cosmos.directory/xion",
    "usdc_inj": 0,
    "usdc_inj_src": "https://rest.cosmos.directory/xion",
@@ -1160,7 +1321,7 @@
    "inj_channel_counterparty": "channel-387",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 65422723531,
+    "now": 65322723531,
     "24h": 65422723531,
     "7d": 66029507494,
     "sep1": 68268366381
@@ -1168,11 +1329,17 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": 0
+    "7d": null
    }
   },
   "xrplevm": {
-   "errors": {},
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
    "usdc_n": 28101109,
    "usdc_n_src": "https://rest.cosmos.directory/xrplevm",
    "usdc_inj": 0,
@@ -1189,47 +1356,53 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": 0
+    "7d": null
    }
   },
   "zigchain": {
-   "errors": {},
-   "usdc_n": 16180199542,
+   "errors": {
+    "injective_escrow_7d": [
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 500: Internal Server Error",
+     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
+    ]
+   },
+   "usdc_n": 16141083112,
    "usdc_n_src": "https://rest.cosmos.directory/zigchain",
-   "usdc_inj": 32713327927,
+   "usdc_inj": 31815496016,
    "usdc_inj_src": "https://rest.cosmos.directory/zigchain",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-456",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 16180199542,
-    "24h": 16529667244,
-    "7d": 27967456108,
+    "now": 16141083112,
+    "24h": 16180199542,
+    "7d": 22526393323,
     "sep1": 309191057304
    },
    "injective_escrow": {
-    "now": 32713327927,
-    "24h": 33159311211,
-    "7d": 37727614486
+    "now": 31815496016,
+    "24h": 32713327927,
+    "7d": null
    }
   },
   "xpla": {
    "errors": {},
    "usdc_n": 0,
    "usdc_n_src": "https://rest.cosmos.directory/xpla",
-   "usdc_inj": 41116955590,
+   "usdc_inj": 40893945590,
    "usdc_inj_src": "https://rest.cosmos.directory/xpla"
   }
  },
  "totals": {
-  "noble_total_escrow": 48676574627854,
-  "noble_usdc_supply": 52735965213172,
-  "injective_usdc_supply": 39341245223038,
-  "injective_total_escrow": 32852488766923,
-  "noble_total_escrow_24h": 59868405387924,
-  "injective_usdc_supply_24h": 28530108721785,
-  "noble_total_escrow_7d": 81135035313581,
-  "injective_usdc_supply_7d": 11375672378721,
+  "noble_total_escrow": 38691485714379,
+  "noble_usdc_supply": 42477345099416,
+  "injective_usdc_supply": 51095526209804,
+  "injective_total_escrow": 44616223765775,
+  "noble_total_escrow_24h": 48808119724630,
+  "injective_usdc_supply_24h": 39204430937832,
+  "noble_total_escrow_7d": 79006509812283,
+  "injective_usdc_supply_7d": null,
   "noble_total_escrow_sep1": 98404949971037
  }
 }
