@@ -1,26 +1,20 @@
 {
- "fetched_at": "2026-11-25T17:06:08+00:00",
+ "fetched_at": "2026-11-26T16:47:05+00:00",
  "heights": {
   "noble": {
-   "24h": 64734049,
-   "7d": 64271273,
-   "sep1": 58251962
+   "24h": 64810612,
+   "7d": 64348439,
+   "sep1": 58251971
   },
   "injective": {
-   "24h": 193157161,
-   "7d": 192294516,
+   "24h": 193299037,
+   "7d": 192436360,
    "sep1": null
   }
  },
  "chains": {
   "agoric": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
+   "errors": {},
    "usdc_n": 23402379875,
    "usdc_n_src": "https://rest.cosmos.directory/agoric",
    "usdc_inj": 23919753,
@@ -37,7 +31,7 @@
    "injective_escrow": {
     "now": 23919753,
     "24h": 23919753,
-    "7d": null
+    "7d": 23919753
    }
   },
   "amitis": {
@@ -58,7 +52,7 @@
    "noble_escrow": {
     "now": 30468490288,
     "24h": 30468490288,
-    "7d": 30627085748,
+    "7d": 30623479898,
     "sep1": 35748785541
    }
   },
@@ -75,26 +69,20 @@
   },
   "babylon": {
    "errors": {},
-   "usdc_n": 504708233615,
+   "usdc_n": 504691894536,
    "usdc_n_src": "https://rest.cosmos.directory/babylon",
    "noble_escrow": {
-    "now": 504708233615,
-    "24h": 504728233615,
-    "7d": 505056876934,
+    "now": 504691894536,
+    "24h": 504708233615,
+    "7d": 505045714934,
     "sep1": 512267428288
    }
   },
   "beezee": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
+   "errors": {},
    "usdc_n": 2062856908,
    "usdc_n_src": "https://rest.cosmos.directory/beezee",
-   "usdc_inj": 4452010810,
+   "usdc_inj": 4560144881,
    "usdc_inj_src": "https://rest.cosmos.directory/beezee",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-496",
@@ -102,23 +90,17 @@
    "noble_escrow": {
     "now": 2062856908,
     "24h": 2062856908,
-    "7d": 2111923209,
+    "7d": 2109150876,
     "sep1": 4179920572
    },
    "injective_escrow": {
-    "now": 4452010810,
-    "24h": 4466172624,
-    "7d": null
+    "now": 4560144881,
+    "24h": 4452010810,
+    "7d": 4494661383
    }
   },
   "bitbadges": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
+   "errors": {},
    "usdc_n": 87379691,
    "usdc_n_src": "https://rest.cosmos.directory/bitbadges",
    "usdc_inj": 33305,
@@ -135,7 +117,7 @@
    "injective_escrow": {
     "now": 33305,
     "24h": 33305,
-    "7d": null
+    "7d": 33305
    }
   },
   "bitway": {
@@ -162,40 +144,34 @@
   },
   "coreum": {
    "errors": {},
-   "usdc_n": 53821405275,
+   "usdc_n": 53822322751,
    "usdc_n_src": "https://rest.cosmos.directory/coreum",
    "noble_escrow": {
-    "now": 53821405275,
-    "24h": 54257847591,
-    "7d": 54210432361,
+    "now": 53822322751,
+    "24h": 53821405275,
+    "7d": 54376633359,
     "sep1": 56012932883
    }
   },
   "cosmoshub": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
-   "usdc_n": 411496818655,
+   "errors": {},
+   "usdc_n": 411496621268,
    "usdc_n_src": "https://rest.cosmos.directory/cosmoshub",
-   "usdc_inj": 865444974331,
+   "usdc_inj": 865444813595,
    "usdc_inj_src": "https://rest.cosmos.directory/cosmoshub",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-1",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 411433296342,
-    "24h": 413099319342,
-    "7d": 414954366195,
+    "now": 411433098955,
+    "24h": 411433296342,
+    "7d": 414947755283,
     "sep1": 2312826975976
    },
    "injective_escrow": {
-    "now": 865444974331,
-    "24h": 865474536747,
-    "7d": null
+    "now": 865444813595,
+    "24h": 865444974331,
+    "7d": 863793297603
    }
   },
   "crescent": {
@@ -216,11 +192,6 @@
      "https://rest.cosmos.directory/crescent: HTTPError HTTP Error 502: Bad Gateway",
      "https://mainnet.crescent.network:1317: URLError <urlopen error timed out>",
      "https://api-crescent.pupmos.network: URLError <urlopen error [Errno -2] Name or service not know"
-    ],
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
     ]
    },
    "usdc_n": null,
@@ -239,17 +210,11 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": null
+    "7d": 0
    }
   },
   "doravota": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
+   "errors": {},
    "usdc_n": 507428155,
    "usdc_n_src": "https://rest.cosmos.directory/doravota",
    "usdc_inj": 0,
@@ -266,47 +231,35 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": null
+    "7d": 0
    }
   },
   "dungeon": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
+   "errors": {},
    "usdc_n": 326729087,
    "usdc_n_src": "https://rest.cosmos.directory/dungeon",
-   "usdc_inj": 7069742221,
+   "usdc_inj": 6775557521,
    "usdc_inj_src": "https://rest.cosmos.directory/dungeon",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-490",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
     "now": 326729087,
-    "24h": 330740489,
+    "24h": 326729087,
     "7d": 335893924,
     "sep1": 19947691017
    },
    "injective_escrow": {
-    "now": 7069742221,
-    "24h": 7133301405,
-    "7d": null
+    "now": 6775557521,
+    "24h": 7069742221,
+    "7d": 7538294141
    }
   },
   "dydx": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
-   "usdc_n": 62371364709896,
+   "errors": {},
+   "usdc_n": 62352316868228,
    "usdc_n_src": "https://rest.cosmos.directory/dydx",
-   "usdc_inj": 62386106403279,
+   "usdc_inj": 62367058366423,
    "usdc_inj_src": "https://rest.cosmos.directory/dydx",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-258",
@@ -314,23 +267,23 @@
    "noble_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": 48547955046747,
+    "7d": 38429170048806,
     "sep1": 73583894954695
    },
    "injective_escrow": {
-    "now": 62386106403279,
-    "24h": 61921077758318,
-    "7d": null
+    "now": 62367058366423,
+    "24h": 62369534357624,
+    "7d": 27548873186573
    }
   },
   "dymension": {
    "errors": {},
-   "usdc_n": 271043782690,
+   "usdc_n": 270994644535,
    "usdc_n_src": "https://rest.cosmos.directory/dymension",
    "noble_escrow": {
-    "now": 271043782690,
-    "24h": 271069007602,
-    "7d": 273073198481,
+    "now": 270994644535,
+    "24h": 271043782690,
+    "7d": 272996670888,
     "sep1": 322799871942
    }
   },
@@ -363,11 +316,6 @@
      "https://rest.cosmos.directory/evmos: HTTPError HTTP Error 404: Not Found",
      "https://rest.bd.evmos.org:1317: URLError <urlopen error [Errno -2] Name or service not know",
      "https://rest.lavenderfive.com:443/evmos: HTTPError HTTP Error 503: Service Unavailable"
-    ],
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
     ]
    },
    "usdc_n": null,
@@ -386,7 +334,7 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": null
+    "7d": 0
    }
   },
   "furya": {
@@ -408,13 +356,7 @@
    }
   },
   "gateway": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
+   "errors": {},
    "usdc_inj": 0,
    "usdc_inj_src": "https://rest.cosmos.directory/gateway (full supply list)",
    "inj_channel_state_chain_side": "STATE_OPEN",
@@ -423,7 +365,7 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": null
+    "7d": 0
    }
   },
   "haqq": {
@@ -449,16 +391,10 @@
    }
   },
   "impacthub": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
+   "errors": {},
    "usdc_n": 8270478353,
    "usdc_n_src": "https://rest.cosmos.directory/impacthub",
-   "usdc_inj": 15379438173,
+   "usdc_inj": 15362438173,
    "usdc_inj_src": "https://rest.cosmos.directory/impacthub",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-502",
@@ -466,23 +402,23 @@
    "noble_escrow": {
     "now": 8270478353,
     "24h": 8270478353,
-    "7d": 8279478353,
+    "7d": 8277478353,
     "sep1": 15875985091
    },
    "injective_escrow": {
-    "now": 15379438173,
-    "24h": 14774499582,
-    "7d": null
+    "now": 15362438173,
+    "24h": 15379438173,
+    "7d": 15537783664
    }
   },
   "injective": {
    "errors": {},
-   "usdc_n": 202132749033,
+   "usdc_n": 202111359131,
    "usdc_n_src": "https://rest.cosmos.directory/injective",
    "noble_escrow": {
-    "now": 204823312491,
-    "24h": 202573059210,
-    "7d": 192106131500,
+    "now": 204857710997,
+    "24h": 204823312491,
+    "7d": 192102494770,
     "sep1": 947151169553
    }
   },
@@ -534,17 +470,11 @@
    }
   },
   "kava": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
+   "errors": {},
    "usdc_n": 225785082,
-   "usdc_n_src": "https://api.data.kava.io",
+   "usdc_n_src": "https://rest.cosmos.directory/kava",
    "usdc_inj": 0,
-   "usdc_inj_src": "https://api.data.kava.io",
+   "usdc_inj_src": "https://rest.cosmos.directory/kava",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-143",
    "inj_channel_state_injective_side": "STATE_OPEN",
@@ -557,17 +487,11 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": null
+    "7d": 0
    }
   },
   "kopi": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
+   "errors": {},
    "usdc_n": 528562432,
    "usdc_n_src": "https://kopi-api.bluestake.net",
    "usdc_inj": 0,
@@ -584,7 +508,7 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": null
+    "7d": 0
    }
   },
   "kujira": {
@@ -605,11 +529,6 @@
      "https://rest.cosmos.directory/kujira: HTTPError HTTP Error 502: Bad Gateway",
      "https://lcd.kaiyo.kujira.setten.io: URLError <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] ce",
      "https://rest.lavenderfive.com:443/kujira: HTTPError HTTP Error 503: Service Unavailable"
-    ],
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
     ]
    },
    "usdc_n": null,
@@ -628,7 +547,7 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": null
+    "7d": 0
    }
   },
   "lava": {
@@ -638,7 +557,7 @@
    "noble_escrow": {
     "now": 17522080084,
     "24h": 17522080084,
-    "7d": 17533766204,
+    "7d": 17526572391,
     "sep1": 17648989245
    }
   },
@@ -654,14 +573,8 @@
    }
   },
   "mantrachain": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
-   "usdc_n": 55374617299,
+   "errors": {},
+   "usdc_n": 55367341927,
    "usdc_n_src": "https://rest.cosmos.directory/mantrachain",
    "usdc_inj": 0,
    "usdc_inj_src": "https://rest.cosmos.directory/mantrachain",
@@ -669,15 +582,15 @@
    "inj_channel_counterparty": "channel-363",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 55374617299,
-    "24h": 55379180686,
+    "now": 55367341927,
+    "24h": 55374617299,
     "7d": 55701295481,
     "sep1": 64936540366
    },
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": null
+    "7d": 0
    }
   },
   "migaloo": {
@@ -698,11 +611,6 @@
      "https://rest.cosmos.directory/migaloo: HTTPError HTTP Error 502: Bad Gateway",
      "https://migaloo-api.polkachu.com:443: URLError <urlopen error [Errno -2] Name or service not know",
      "https://migaloo-api.kleomedes.network:443: HTTPError HTTP Error 525: <none>"
-    ],
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
     ]
    },
    "usdc_n": null,
@@ -721,7 +629,7 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": null
+    "7d": 0
    }
   },
   "namada": {
@@ -734,30 +642,24 @@
    }
   },
   "neutron": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
-   "usdc_n": 661796399779,
+   "errors": {},
+   "usdc_n": 661551707362,
    "usdc_n_src": "https://rest.cosmos.directory/neutron",
-   "usdc_inj": 1358225571417,
+   "usdc_inj": 1358226313319,
    "usdc_inj_src": "https://rest.cosmos.directory/neutron",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-177",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 662756769627,
-    "24h": 926360602902,
-    "7d": 1425281660476,
+    "now": 662512077210,
+    "24h": 662756769627,
+    "7d": 1425091534826,
     "sep1": 3423104342275
    },
    "injective_escrow": {
-    "now": 1358225571417,
-    "24h": 1108196142234,
-    "7d": null
+    "now": 1358226313319,
+    "24h": 1358225571417,
+    "7d": 610184242001
    }
   },
   "nibiru": {
@@ -808,13 +710,7 @@
    }
   },
   "oraichain": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
+   "errors": {},
    "usdc_inj": 0,
    "usdc_inj_src": "https://rest.cosmos.directory/oraichain",
    "inj_channel_state_chain_side": "STATE_OPEN",
@@ -823,34 +719,28 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": null
+    "7d": 0
    }
   },
   "osmosis": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
-   "usdc_n": 5756991858835,
+   "errors": {},
+   "usdc_n": 5723322103752,
    "usdc_n_src": "https://rest.cosmos.directory/osmosis",
-   "usdc_inj": 2130432543186,
+   "usdc_inj": 2180930835095,
    "usdc_inj_src": "https://rest.cosmos.directory/osmosis",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-8",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 5756902081072,
-    "24h": 5768517874130,
-    "7d": 6693627861849,
+    "now": 5723232325989,
+    "24h": 5756987234830,
+    "7d": 6379578530185,
     "sep1": 12828632594869
    },
    "injective_escrow": {
-    "now": 2130432543186,
-    "24h": 2120287073650,
-    "7d": null
+    "now": 2180930835095,
+    "24h": 2129968489933,
+    "7d": 1744473737264
    }
   },
   "paxi": {
@@ -865,14 +755,8 @@
    }
   },
   "persistence": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
-   "usdc_n": 1305594347,
+   "errors": {},
+   "usdc_n": 1346387254,
    "usdc_n_src": "https://rest.cosmos.directory/persistence",
    "usdc_inj": 0,
    "usdc_inj_src": "https://rest.cosmos.directory/persistence",
@@ -880,15 +764,15 @@
    "inj_channel_counterparty": "channel-82",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 1305584762,
-    "24h": 1297511026,
-    "7d": 1267487431,
+    "now": 1346377669,
+    "24h": 1305584762,
+    "7d": 1331168011,
     "sep1": 2199666806
    },
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": null
+    "7d": 0
    }
   },
   "planq": {
@@ -938,11 +822,6 @@
      "https://rest.cosmos.directory/pryzm: HTTPError HTTP Error 404: Not Found",
      "https://api.pryzm.zone: URLError <urlopen error [Errno -2] Name or service not know",
      "https://rest.lavenderfive.com:443/pryzm: HTTPError HTTP Error 503: Service Unavailable"
-    ],
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
     ]
    },
    "usdc_n": null,
@@ -961,7 +840,7 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": null
+    "7d": 0
    }
   },
   "regen": {
@@ -1005,13 +884,7 @@
    }
   },
   "safrochain": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
+   "errors": {},
    "usdc_n": 155051000,
    "usdc_n_src": "https://rest.cosmos.directory/safrochain",
    "usdc_inj": 20617078,
@@ -1028,7 +901,7 @@
    "injective_escrow": {
     "now": 20617078,
     "24h": 20617078,
-    "7d": null
+    "7d": 65617078
    }
   },
   "saga": {
@@ -1043,14 +916,8 @@
    }
   },
   "secretnetwork": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
-   "usdc_n": 98989241770,
+   "errors": {},
+   "usdc_n": 98989007253,
    "usdc_n_src": "https://rest.lavenderfive.com:443/secretnetwork",
    "usdc_inj": 0,
    "usdc_inj_src": "https://rest.lavenderfive.com:443/secretnetwork",
@@ -1058,15 +925,15 @@
    "inj_channel_counterparty": "channel-88",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 98989390799,
-    "24h": 98989890398,
+    "now": 98989156282,
+    "24h": 98989390799,
     "7d": 99201283575,
     "sep1": 113476516047
    },
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": null
+    "7d": 0
    }
   },
   "sei": {
@@ -1116,11 +983,6 @@
      "https://rest.cosmos.directory/sidechain: HTTPError HTTP Error 502: Bad Gateway",
      "https://rest.side.one: URLError <urlopen error [Errno -2] Name or service not know",
      "https://api.side.nodestake.org: URLError <urlopen error [Errno -2] Name or service not know"
-    ],
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
     ]
    },
    "usdc_n": null,
@@ -1139,7 +1001,7 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": null
+    "7d": 0
    }
   },
   "stargaze": {
@@ -1190,57 +1052,45 @@
    }
   },
   "terra": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
-   "usdc_n": 5381127986,
+   "errors": {},
+   "usdc_n": 4399670559,
    "usdc_n_src": "https://rest.cosmos.directory/terra",
-   "usdc_inj": 100119141357,
+   "usdc_inj": 99821110730,
    "usdc_inj_src": "https://rest.cosmos.directory/terra",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-497",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 6012869594,
-    "24h": 6012208122,
-    "7d": 5981259228,
+    "now": 5031412167,
+    "24h": 6012869594,
+    "7d": 6049771228,
     "sep1": 118389684861
    },
    "injective_escrow": {
-    "now": 100119141357,
-    "24h": 100171647542,
-    "7d": null
+    "now": 99821110730,
+    "24h": 100119141357,
+    "7d": 98719831883
    }
   },
   "terra2": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
-   "usdc_n": 78260105273,
+   "errors": {},
+   "usdc_n": 79208474444,
    "usdc_n_src": "https://rest.cosmos.directory/terra2",
-   "usdc_inj": 1607454960076,
+   "usdc_inj": 1545737220995,
    "usdc_inj_src": "https://rest.cosmos.directory/terra2",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-151",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 79259626194,
-    "24h": 76247793218,
-    "7d": 93355620362,
+    "now": 80207995365,
+    "24h": 79182353094,
+    "7d": 94366232053,
     "sep1": 1839130784167
    },
    "injective_escrow": {
-    "now": 1607454960076,
-    "24h": 1629495865896,
-    "7d": null
+    "now": 1545737220995,
+    "24h": 1605837633038,
+    "7d": 1667901631177
    }
   },
   "titan": {
@@ -1279,11 +1129,6 @@
      "https://rest.cosmos.directory/umee: HTTPError HTTP Error 404: Not Found",
      "https://umee.api.m.stavr.tech: HTTPError HTTP Error 502: Bad Gateway",
      "https://umee-mainnet-lcd.autostake.com:443: HTTPError HTTP Error 404: Not Found"
-    ],
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
     ]
    },
    "usdc_n": null,
@@ -1302,18 +1147,12 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": null
+    "7d": 0
    }
   },
   "xion": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
-   "usdc_n": 65679188230,
+   "errors": {},
+   "usdc_n": 65630251285,
    "usdc_n_src": "https://rest.cosmos.directory/xion",
    "usdc_inj": 0,
    "usdc_inj_src": "https://rest.cosmos.directory/xion",
@@ -1321,25 +1160,19 @@
    "inj_channel_counterparty": "channel-387",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 65679188230,
-    "24h": 66444763798,
+    "now": 65630251285,
+    "24h": 65679188230,
     "7d": 65422723531,
     "sep1": 68268366381
    },
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": null
+    "7d": 0
    }
   },
   "xrplevm": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
+   "errors": {},
    "usdc_n": 28101109,
    "usdc_n_src": "https://rest.cosmos.directory/xrplevm",
    "usdc_inj": 0,
@@ -1356,34 +1189,28 @@
    "injective_escrow": {
     "now": 0,
     "24h": 0,
-    "7d": null
+    "7d": 0
    }
   },
   "zigchain": {
-   "errors": {
-    "injective_escrow_7d": [
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://public.stakewolle.com/cosmos/injective/rest: HTTPError HTTP Error 502: Bad Gateway",
-     "https://rest.cosmos.directory/injective: HTTPError HTTP Error 500: Internal Server Error"
-    ]
-   },
-   "usdc_n": 16137642909,
+   "errors": {},
+   "usdc_n": 16198998657,
    "usdc_n_src": "https://rest.cosmos.directory/zigchain",
-   "usdc_inj": 74523029253,
+   "usdc_inj": 33935795628,
    "usdc_inj_src": "https://rest.cosmos.directory/zigchain",
    "inj_channel_state_chain_side": "STATE_OPEN",
    "inj_channel_counterparty": "channel-456",
    "inj_channel_state_injective_side": "STATE_OPEN",
    "noble_escrow": {
-    "now": 16137642909,
-    "24h": 16132875604,
-    "7d": 16353401975,
+    "now": 16198998657,
+    "24h": 16137580670,
+    "7d": 16180199542,
     "sep1": 309191057304
    },
    "injective_escrow": {
-    "now": 74523029253,
-    "24h": 74804434021,
-    "7d": null
+    "now": 33935795628,
+    "24h": 74539605432,
+    "7d": 32713327927
    }
   },
   "xpla": {
@@ -1395,14 +1222,14 @@
   }
  },
  "totals": {
-  "noble_total_escrow": 8010545585192,
-  "noble_usdc_supply": 11680061716937,
-  "injective_usdc_supply": 77158019886489,
-  "injective_total_escrow": 71120177465689,
-  "noble_total_escrow_24h": 8283493561581,
-  "injective_usdc_supply_24h": 76748075401939,
-  "noble_total_escrow_7d": 58648162030260,
-  "injective_usdc_supply_7d": null,
+  "noble_total_escrow": 7976690519407,
+  "noble_usdc_supply": 11645941965133,
+  "injective_usdc_supply": 76953069635037,
+  "injective_total_escrow": 70988081257634,
+  "noble_total_escrow_24h": 8010630738950,
+  "injective_usdc_supply_24h": 77142227054946,
+  "noble_total_escrow_7d": 48216159868610,
+  "injective_usdc_supply_7d": 39802355175203,
   "noble_total_escrow_sep1": 98404949971037
  }
 }
